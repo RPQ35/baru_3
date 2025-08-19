@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Kiosk;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AccountController extends Controller
+class KioskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,19 +28,7 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required||min:3',
-            'email' => 'required||email||unique:User',
-            'password' => 'required||min:6',
-            'role' => 'required||exists:roles,name',
-        ]);
-
-        $user = User::Create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-        ]);
-        $user->assignRole($request->input('role'));
+        //
     }
 
     /**

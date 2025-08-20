@@ -12,7 +12,7 @@ class ServicesController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.services.index_services');
     }
 
     /**
@@ -20,7 +20,7 @@ class ServicesController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.services.new_services');
     }
 
     /**

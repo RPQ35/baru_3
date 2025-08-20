@@ -33,19 +33,27 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::controller(AccountController::class)->group(function () {
-
+            Route::get('/account', 'index')->name('index.account');
+            Route::get('/account/create', 'create')->name('create.account');
+            Route::post('/account/store', 'store')->name('account.store');
         });
         Route::controller(LocketController::class)->group(function () {
-
+            Route::get('/locket', 'index')->name('index.admin.locket');
+            Route::get('locket/create', 'create')->name('admin.locket.create');
+            Route::get('locket/store', 'store')->name('admin.locket.store');
         });
         Route::controller(ServicesController::class)->group(function () {
-
+            Route::get('/services', 'index')->name('index.services');
+            Route::get('/services/create', 'create')->name('create.services');
+            Route::get('/services/store', 'store')->name('services.store');
         });
         Route::controller(RunningTextController::class)->group(function () {
-
+            Route::get('/running_text', 'index')->name('index.runningtext');
+            Route::post('/running_text/store', 'store')->name('running_text.store');
         });
         Route::controller(VideoController::class)->group(function () {
-
+            Route::get('/video', 'index')->name('video.index');
+            Route::post('/video/store')->name('video.store');
         });
     });
 });

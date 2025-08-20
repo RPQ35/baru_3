@@ -12,7 +12,7 @@ class LocketController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.locket.index_locket');
     }
 
     /**
@@ -20,7 +20,7 @@ class LocketController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.locket.new_locket');
     }
 
     /**

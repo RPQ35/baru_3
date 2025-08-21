@@ -44,25 +44,41 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::controller(AccountController::class)->group(function () {
+            /** ouput var list
+             *   index  => $data , $page_count
+             */
             Route::get('/account/{p}', 'index')->name('index.account');
             Route::get('/account/create', 'create')->name('create.account');
             Route::post('/account/store', 'store')->name('account.store');
         });
         Route::controller(LocketController::class)->group(function () {
+            /** ouput var list
+             *   index  => $data
+             *   create => $services_list
+             */
             Route::get('/locket', 'index')->name('admin.locket.index');
             Route::get('locket/create', 'create')->name('admin.locket.create');
             Route::get('locket/store', 'store')->name('admin.locket.store');
         });
         Route::controller(ServicesController::class)->group(function () {
+            /** output var list
+             *   index => $data
+             */
             Route::get('/services', 'index')->name('services.index');
             Route::get('/services/create', 'create')->name('services.create');
             Route::get('/services/store', 'store')->name('services.store');
         });
         Route::controller(RunningTextController::class)->group(function () {
+            /** output var list
+             *   index => $data (isinya cuman column texts)
+             */
             Route::get('/running_text', 'index')->name('runningtext.index');
             Route::post('/running_text/store', 'store')->name('running_text.store');
         });
         Route::controller(VideoController::class)->group(function () {
+            /** output var lsit
+             *   index => $video
+             */
             Route::get('/video', 'index')->name('video.index');
             Route::post('/video/store')->name('video.store');
         });

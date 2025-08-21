@@ -20,7 +20,7 @@ class AccountController extends Controller
 
 
         return view('admin.account.index_account', compact([
-            'Account' => $Account,
+            'data' => $Account,
             'page_count' => $page_count,
         ]));
     }

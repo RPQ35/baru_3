@@ -15,32 +15,17 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $x = 15;
-        $x = intval(ceil($x / 5));
-        $y = [];
-        $mx = 5;
-        $d = 2;
-        // dd($x);
-        for ($i = 0; $i < $x; $i++) {
-            if (count($y) < $mx) {
-                if ($x == 1) {$y[]=1;
-                } else {
-                    count($y) == 2 ? $d += 1 : '';
-                    count($y) == 2 ? $y[] = $x : '';
-                    count($y) > 2 ? $y[] = $x + $d : (0 == $x - $d ? '' : $y[] = $x - $d);
-                    count($y) > 2 ? $d += 1 : (0 == $x - 1 ? $d = 0 : $d -= 1);
-                }
-            }
-        }
-        dd($y);
 
+        /**
+         * having and showing only 1 data / file
+         */
         $video = Video::first();
         if ($video) {
             $video->file_path = explode('/', $video->file_path);
             $video->file_path = url('/') . '/' . "video/" . $video->file_path[1];
             // dd($video->file_path);
         }
-        ;
+        
         return view('admin.video.index_video', compact('video'));
     }
 
@@ -61,7 +46,7 @@ class VideoController extends Controller
             $request->validate([
                 'video' => 'mimetypes:video/mp4,video/quicktime,video/webm',
             ]);
-            $path = $request->file('video')->store('sementara', 'public');
+            $path = $request->file('video')->store('videos', 'public');
             $update = false;
 
             if ($request->id !== null) {
@@ -75,7 +60,7 @@ class VideoController extends Controller
 
             } else {
                 Video::create([
-                    'title' => 'asa',
+                    'title' => 'video file',
                     'file_path' => $path,
                     'status' => 0,
                 ]);
@@ -88,11 +73,12 @@ class VideoController extends Controller
 
     /**
      * Display the specified resource.
+     * custom route for video
      */
     public function show($filename)
     {
         // Corrected path to include 'public'
-        $path = storage_path('app/public/sementara/' . $filename);
+        $path = storage_path('app/public/videos/' . $filename);
 
         if (!file_exists($path)) {
             abort(404);
@@ -130,3 +116,26 @@ class VideoController extends Controller
         //
     }
 }
+
+/**
+ * ignore - just experiment
+ */
+
+// $x = 15;
+// $x = intval(ceil($x / 5));
+// $y = [];
+// $mx = 5;
+// $d = 2;
+// // dd($x);
+// for ($i = 0; $i < $x; $i++) {
+//     if (count($y) < $mx) {
+//         if ($x == 1) {$y[]=1;
+//         } else {
+//             count($y) == 2 ? $d += 1 : '';
+//             count($y) == 2 ? $y[] = $x : '';
+//             count($y) > 2 ? $y[] = $x + $d : (0 == $x - $d ? '' : $y[] = $x - $d);
+//             count($y) > 2 ? $d += 1 : (0 == $x - 1 ? $d = 0 : $d -= 1);
+//         }
+//     }
+// }
+// dd($y);

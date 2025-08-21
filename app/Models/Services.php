@@ -17,6 +17,10 @@ class Services extends Model
     // app/Models/Service.php
     public function lockets()
     {
-        return $this->belongsToMany(Lockets ::class);
+        return $this->belongsToMany(Lockets::class);
+    }
+    public function queues()
+    {
+        return $this->hasMany(Queues::class, 'services_id');
     }
 }

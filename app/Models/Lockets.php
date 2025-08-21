@@ -15,12 +15,16 @@ class Lockets extends Model
     // app/Models/Locket.php
     public function services()
     {
-    return $this->belongsToMany(Services::class);
+        return $this->belongsToMany(Services::class);
     }
     // In Locket.php
     public function locketservices()
     {
         return $this->hasMany(LocketServices::class, 'locket_id');
+    }
+    public function queues()
+    {
+        return $this->belongsToMany(Queues::class, 'que_locket');
     }
 }
 

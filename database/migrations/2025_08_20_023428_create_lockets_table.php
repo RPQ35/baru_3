@@ -12,9 +12,9 @@ return new class extends Migration {
     {
         Schema::create('lockets', function (Blueprint $table) {
             $table->id();
-            $table->string('nama')->unique();
+            $table->string('name')->unique();
             $table->timestamps();
-            
+
         });
     }
 

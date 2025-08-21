@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lockets;
+use App\Models\LocketServices;
+use App\Models\Loket;
 use Illuminate\Http\Request;
 
 class LocketController extends Controller
@@ -12,6 +15,15 @@ class LocketController extends Controller
      */
     public function index()
     {
+        // Use the correct relationship name 'services'
+        $lockets = Lockets::with('services')->get();
+
+        $data = [];
+        foreach ($lockets as $locket) {
+            $data[] = [
+                $locket->name => $locket->services->toArray()
+            ];
+        }
         return view('admin.locket.index_locket');
     }
 
@@ -29,6 +41,10 @@ class LocketController extends Controller
     public function store(Request $request)
     {
         //
+        $newlocket=Lockets::create([
+            'name'=>$request->name,
+        ]);
+        $newlocket->services()->attach($request->services);
     }
 
     /**

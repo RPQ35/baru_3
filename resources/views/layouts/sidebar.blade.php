@@ -4,8 +4,14 @@
             <div class="nav">
 
                 <div class="sb-sidenav-menu-heading">Core</div>
-                <a class="nav-link" href="index.html">
-                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <a class="nav-link" href="/dashboard">
+                    <div class="sb-nav-link-icon">
+                        @if (Request::is('dashboard'))
+                            <i class="fas fa-tachometer-alt" style=" color: cornflowerblue;"></i>
+                        @else
+                            <i class="fas fa-tachometer-alt"></i>
+                        @endif
+                    </div>
                     Dashboard
                 </a>
 

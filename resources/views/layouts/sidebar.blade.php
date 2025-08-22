@@ -29,8 +29,10 @@
 
 
 
+                {{-- ============================== --}}
+                {{-- |  sidebar dengan dropdown   | --}}
+                {{-- ============================== --}}
 
-                {{-- |  sidebar dengan dropdown    | --}}
                 {{-- <div class="sb-sidenav-menu-heading">Interface</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                     data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
@@ -44,16 +46,25 @@
                         <a class="nav-link" href="layout-static.html">Static Navigation</a>
                         <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
                     </nav>
-                </div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                </div> --}}
+
+
+
+                {{-- ==================================== --}}
+                {{-- |   drop down with more drop down  | --}}
+                {{-- ==================================== --}}
+
+                {{-- button to open dropdown --}}
+
+                {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
                     aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                     Pages
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a> --}}
 
+                {{-- drop down --}}
 
-                {{-- |   belum tau ini apa  | --}}
                 {{-- <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
@@ -86,6 +97,10 @@
                         </div>
                     </nav>
                 </div> --}}
+
+                {{-- ======================= --}}
+                {{-- |       Addons        | --}}
+                {{-- ======================= --}}
 
                 {{-- <div class="sb-sidenav-menu-heading">Addons</div>
                 <a class="nav-link" href="charts.html">

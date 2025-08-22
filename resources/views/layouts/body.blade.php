@@ -19,11 +19,11 @@
     <body class="sb-nav-fixed">
 
         {{-- top nav --}}
-        @include('components.top-nav')
+        @include('layouts.top-nav')
 
         <div id="layoutSidenav">
             {{-- side nav --}}
-            @include('components.sidebar')
+            @include('layouts.sidebar')
             {{-- =================== --}}
             <div id="layoutSidenav_content">
                 {{-- main --}}
@@ -55,7 +55,7 @@
     <script src="{{ asset('demo/chart-bar-demo.js') }}"></script>
     <script src="{{ asset('demo/chart-pie-demo.js') }}"></script>
     <script src="{{ asset('demo/datatables-demo.js') }}"></script>
-    
+
     {{-- script sisanya --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>

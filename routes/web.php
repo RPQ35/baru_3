@@ -118,3 +118,4 @@ Route::controller(SignageController::class)->group(function () {
 Route::get('/video/{filename}', [VideoController::class, 'SignageController@show']);
 
 
+Route::get('test',function(){return view('layouts.main');});

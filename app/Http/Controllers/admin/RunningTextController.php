@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Running_text;
 use Illuminate\Http\Request;
 
 class RunningTextController extends Controller
@@ -12,7 +13,14 @@ class RunningTextController extends Controller
      */
     public function index()
     {
-        return view('admin.video.index_video');
+        $running_text = Running_text::all()->first();
+        if (!$running_text) {
+            $running_text = ' ';
+        } else {
+            $running_text = $running_text->texts;
+        }
+        $data = $running_text;
+        return view('admin.video.index_video', compact('data'));
     }
 
     /**
@@ -28,7 +36,25 @@ class RunningTextController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'text' => 'required',
+        ]);
+        $hasData = Running_text::whereNotNull('texts')
+            ->where('texts', '!=', '')
+            ->exists();
+
+        if ($hasData) {
+            $update = Running_text::findOrFail(1);
+            $update->texts = $request->text;
+            $update->save();
+        } else {
+            Running_text::create([
+                'texts' => $request->text,
+                'status' => '0',
+            ]);
+        }
+
+        return back();
     }
 
     /**

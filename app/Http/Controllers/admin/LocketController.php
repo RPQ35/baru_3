@@ -3,6 +3,12 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lockets;
+use App\Models\LocketServices;
+use App\Models\Loket;
+use App\Models\Services;
+use App\Rules\HtmlSpecialChars;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
 class LocketController extends Controller
@@ -12,7 +18,16 @@ class LocketController extends Controller
      */
     public function index()
     {
-        return view('admin.locket.index_locket');
+
+        $lockets = Lockets::with('services')->get();
+
+        $data = [];
+        foreach ($lockets as $locket) {
+            $data[] = [
+                $locket->name => $locket->services->toArray()
+            ];
+        }
+        return view('admin.locket.index_locket', compact('data'));
     }
 
     /**
@@ -20,7 +35,8 @@ class LocketController extends Controller
      */
     public function create()
     {
-        return view('admin.locket.new_locket');
+        $services_list = Services::all();
+        return view('admin.locket.new_locket', compact('services_list'));
     }
 
     /**
@@ -28,7 +44,17 @@ class LocketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', new HtmlSpecialChars],
+            'services' => 'required',
+        ]);
+
+        $newlocket = Lockets::create([
+            'name' => $request->name,
+        ]);
+        $newlocket->services()->attach($request->services);
+
+        return back();
     }
 
     /**

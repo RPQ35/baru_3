@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <title>Caller</title>
+    </head>
+    <body>
+        <button onclick="play(0)">0</button>
+        <button onclick="play(1)">1</button>
+        <button onclick="play(2)">2</button>
+        <button onclick="play(3)">3</button>
+        <button onclick="play(4)">4</button>
+        <button onclick="play(5)">5</button>
+        <button onclick="play(6)">6</button>
+        <button onclick="play(7)">7</button>
+        <button onclick="play(8)">8</button>
+        <button onclick="play(9)">9</button>
+
+        <div>
+        <p>List antrian: <span id="list_antrian">[]</span></p>
+        <script>
+            const audioMap = {
+                '0': 'angka/0.mp3',
+                '1': 'angka/1.mp3',
+                '2': 'angka/2.mp3',
+                '3': 'angka/3.mp3',
+                '4': 'angka/4.mp3',
+                '5': 'angka/5.mp3',
+                '6': 'angka/6.mp3',
+                '7': 'angka/7.mp3',
+                '8': 'angka/8.mp3',
+                '9': 'angka/9.mp3',
+            }
+
+            const main = new LocketAudio();
+
+            function play(num) {
+                main.playAudio(num);
+            }
+
+            function LocketAudio() {
+                this.queue = [];
+
+                this.playAudio = function(num) {
+                    let self = this;
+                    self.queue.push(num);
+                    document.getElementById("list_antrian").innerHTML = JSON.stringify(self.queue);
+                    if (self.queue.length === 1) {
+                        self._call();
+                    }
+                }
+
+                this._call = function() {
+                    let self = this;
+
+                    // if (self.queue.length) {
+
+                        setTimeout(function(){
+                            var loket = new Audio('start.mp3');
+                            loket.play();
+                        }, 0);
+
+                        setTimeout(function(){
+                            var loket = new Audio('Nomor.mp3');
+                            loket.play();
+                        }, 3000);
+
+                        setTimeout(function(){
+                            var loket = new Audio('Antrian.mp3');
+                            loket.play();
+                        }, 4000);
+
+                        setTimeout(function(){
+                            var audio = new Audio(audioMap[self.queue[0]]);
+                            audio.play();
+                            // self.queue.shift();
+                            // document.getElementById("list_antrian").innerHTML = JSON.stringify(self.queue);
+                            // audio.onended = function() {
+                                // self._call();
+                            // };
+                        }, 5000);
+
+                        setTimeout(function(){
+                            var loket = new Audio('Silahkan.mp3');
+                            loket.play();
+                        }, 6000);
+
+                        setTimeout(function(){
+                            var loket = new Audio('Menuju.mp3');
+                            loket.play();
+                        }, 7000);
+
+                        setTimeout(function(){
+                            var loket = new Audio('Loket.mp3');
+                            loket.play();
+                        }, 8000);
+
+                        setTimeout(function(){
+                            var loket = new Audio('angka/1.mp3');
+                            loket.play();
+                        }, 9000);
+
+                        setTimeout(function(){
+                            var loket = new Audio('end.mp3');
+                            loket.play();
+                        }, 10000);
+                    // }
+                }
+            }
+        </script>
+    </body>
+</html>

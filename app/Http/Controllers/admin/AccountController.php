@@ -13,7 +13,16 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return view('admin.account.index_account');
+        $Account = User::paginate(20);
+
+        $page_count = User::count('name');
+        $page_count = $page_count ? ceil($page_count / 20) : 1;
+
+
+        return view('admin.account.index_account', compact([
+            'data' => $Account,
+            'page_count' => $page_count,
+        ]));
     }
 
     /**
@@ -26,7 +35,7 @@ class AccountController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     */
+     **/
     public function store(Request $request)
     {
         $request->validate([
@@ -75,6 +84,10 @@ class AccountController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        intval($id);
+        $input = User::findOrFail($id);
+        $input->delete();
+
+        return back();
     }
 }

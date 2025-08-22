@@ -1,21 +1,31 @@
 @props(['form'])
-<head>
-</head>
-<div class="row mb-3">
-  <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Email</label>
-  <div class="col-sm-10">
-    <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
+
+<form class="row g-3">
+  <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">Email</label>
+    <input type="email" class="form-control" id="inputEmail4">
   </div>
-</div>
-<div class="row mb-3">
-  <label for="colFormLabel" class="col-sm-2 col-form-label">Email</label>
-  <div class="col-sm-10">
-    <input type="email" class="form-control" id="colFormLabel" placeholder="col-form-label">
+  <div class="col-md-6">
+    <label for="inputPassword4" class="form-label">Password</label>
+    <input type="password" class="form-control" id="inputPassword4">
   </div>
-</div>
-<div class="row">
-  <label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Email</label>
-  <div class="col-sm-10">
-    <input type="email" class="form-control form-control-lg" id="colFormLabelLg" placeholder="col-form-label-lg">
+  <div class="col-12">
+    <label for="inputAddress" class="form-label">Address</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
   </div>
-</div>
+  <div class="col-md-6">
+    <label for="inputCity" class="form-label">City</label>
+    <input type="text" class="form-control" id="inputCity">
+  </div>
+  <div class="col-12">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Check me out
+      </label>
+    </div>
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Sign in</button>
+  </div>
+</form>

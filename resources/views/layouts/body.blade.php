@@ -19,11 +19,11 @@
     <body class="sb-nav-fixed">
 
         {{-- top nav --}}
-        @include('components.top-nav')
+        @include('layouts.top-nav')
 
         <div id="layoutSidenav">
             {{-- side nav --}}
-            @include('components.sidebar')
+            @include('layouts.sidebar')
             {{-- =================== --}}
             <div id="layoutSidenav_content">
                 {{-- main --}}

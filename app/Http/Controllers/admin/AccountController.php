@@ -13,16 +13,16 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $Account = User::paginate(20);
+        $data = User::all();
 
         $page_count = User::count('name');
-        $page_count = $page_count ? ceil($page_count / 20) : 1;
+        $page_count = strval($page_count ? ceil($page_count / 20) : 1);
 
 
-        return view('admin.account.index_account', compact([
-            'data' => $Account,
-            'page_count' => $page_count,
-        ]));
+        return view('admin.account.index_account', compact(
+            'data',
+            'page_count'
+        ));
     }
 
     /**

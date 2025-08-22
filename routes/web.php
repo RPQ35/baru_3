@@ -47,7 +47,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
             /** ouput var list
              *   index  => $data , $page_count
              */
-            Route::get('/account/{p}', 'index')->name('index.account');
+            Route::get('/account', 'index')->name('index.account');
             Route::get('/account/create', 'create')->name('create.account');
             Route::post('/account/store', 'store')->name('account.store');
         });

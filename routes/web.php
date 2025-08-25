@@ -78,6 +78,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         Route::controller(VideoController::class)->group(function () {
             /** output var lsit
              *   index => $video
+             *          catatan : video->fil_path tidak perlu di panggil dengan asset
              */
             Route::get('/video', 'index')->name('video.index');
             Route::post('/video/store')->name('video.store');

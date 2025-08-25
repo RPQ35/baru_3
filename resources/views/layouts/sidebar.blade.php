@@ -17,10 +17,10 @@
 
                 <a class="nav-link" href="/admin/account">
                     <div class="sb-nav-link-icon">
-                        @if (Request::is('admin/account'))
-                            <i class="fas fa-tachometer-alt" style=" color: cornflowerblue;"></i>
+                        @if (Request::is('admin/account') || Request::is('admin/account/create'))
+                            <i class="fa-solid fa-user"style=" color: cornflowerblue;"></i>
                         @else
-                            <i class="fas fa-tachometer-alt"></i>
+                            <i class="fa-solid fa-user"></i>
                         @endif
                     </div>
                     account
@@ -50,22 +50,35 @@
                     Layouts
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
-                    data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                    </nav>
-                </div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+
+
+
+                {{-- ============================== --}}
+                {{-- |  sidebar dengan dropdown   | --}}
+                {{-- ============================== --}}
+                {{-- <div class="sb-sidenav-menu-heading">Interface</div>
+                <x-sidebar-with-dropdown>
+                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                </x-sidebar-with-dropdown> --}}
+
+
+
+                {{-- ==================================== --}}
+                {{-- |   drop down with more drop down  | --}}
+                {{-- ==================================== --}}
+
+                {{-- button to open dropdown --}}
+
+                {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
                     aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                     Pages
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a> --}}
 
+                {{-- drop down --}}
 
-                {{-- |   belum tau ini apa  | --}}
                 {{-- <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
@@ -99,6 +112,10 @@
                     </nav>
                 </div> --}}
 
+                {{-- ======================= --}}
+                {{-- |       Addons        | --}}
+                {{-- ======================= --}}
+
                 {{-- <div class="sb-sidenav-menu-heading">Addons</div>
                 <a class="nav-link" href="charts.html">
                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
@@ -112,7 +129,7 @@
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
-            Start Bootstrap
+            {{ Auth::user()->name }}
         </div>
     </nav>
 </div>

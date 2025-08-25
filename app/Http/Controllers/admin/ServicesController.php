@@ -14,8 +14,8 @@ class ServicesController extends Controller
      */
     public function index()
     {
-        $data = Services::all();
-        return view('admin.services.index_services', compact('data'));
+        $servi = Services::all();
+        return view('admin.services.index_services', compact('servi'));
     }
 
     /**
@@ -32,8 +32,8 @@ class ServicesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'services_name' => ['required|unique:services,services_name|', new HtmlSpecialChars],
-            'code' => ['required|min:1|string', new HtmlSpecialChars],
+            'services_name' => ['required', 'unique:services,services_name', new HtmlSpecialChars],
+            'code' => ['required', 'string', 'min:1', new HtmlSpecialChars],
             'logo' => 'image|mimes:jpeg,jpg,png',
         ]);
 
@@ -45,7 +45,6 @@ class ServicesController extends Controller
             'logo_path' => $logo_path,
         ]);
         return back();
-
     }
 
     /**

@@ -74,6 +74,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
              */
             Route::get('/running_text', 'index')->name('runningtext.index');
             Route::post('/running_text/store', 'store')->name('running_text.store');
+
         });
         Route::controller(VideoController::class)->group(function () {
             /** output var lsit

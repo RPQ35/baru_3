@@ -20,7 +20,7 @@ class RunningTextController extends Controller
             $running_text = $running_text->texts;
         }
         $data = $running_text;
-        return view('admin.video.index_video', compact('data'));
+        return view('admin.running_text.index_text', compact('data'));
     }
 
     /**

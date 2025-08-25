@@ -3,10 +3,10 @@
 @section('main')
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Account</h1>
-            <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
+            <x-breadcrumb   title="Locket"
+            breadcrumb="account/data"
+            href="/admin/account/create"
+            button="create account"></x-breadcrumb>
 
             {{-- data table --}}
             <x-table title='title'>

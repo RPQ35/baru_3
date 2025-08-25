@@ -53,16 +53,8 @@
             {{-- =========== --}}
 
 
-<<<<<<< HEAD
 
-            {{-- form --}}
-            {{-- <x-form>
-                <x-form-input></x-form-input>
-            </x-form> --}}
-            {{-- ========== --}}
-            <x-services></x-services>
-=======
->>>>>>> 891a414a299e7b53e1b602f17e01e84a5a61c03e
+           
         </div>
     </main>
 @endsection

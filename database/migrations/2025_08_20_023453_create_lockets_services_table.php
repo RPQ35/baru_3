@@ -10,11 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('locket_services', function (Blueprint $table) {
+        Schema::create('lockets_services', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('locket_id')->unique()->nullable();
-            $table->unsignedBigInteger('services_id')->unique()->nullable();
-            $table->foreign('locket_id')->references('id')->on('lockets')->onDelete('cascade');
+            $table->unsignedBigInteger('lockets_id')->nullable();
+            $table->unsignedBigInteger('services_id')->nullable();
+            $table->foreign('lockets_id')->references('id')->on('lockets')->onDelete('cascade');
             $table->foreign('services_id')->references('id')->on('services')->onDelete('cascade');
             $table->timestamps();
         });

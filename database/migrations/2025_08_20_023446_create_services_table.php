@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
+            $table->string('services_name');
+            $table->string('code');
+            $table->string('logo_path')->nullable()->default('-');
             $table->timestamps();
         });
     }

@@ -24,9 +24,11 @@ class LocketController extends Controller
         $data = [];
         foreach ($lockets as $locket) {
             $data[] = [
-                $locket->name => $locket->services->toArray()
+                'name'=>$locket->name,
+                'service'=> $locket->services->toArray()
             ];
         }
+        // dd($data);
         return view('admin.locket.index_locket', compact('data'));
     }
 
@@ -44,16 +46,18 @@ class LocketController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $request->validate([
             'name' => ['required', new HtmlSpecialChars],
-            'services' => 'required',
+            // 'services' => 'required',
         ]);
 
         $newlocket = Lockets::create([
             'name' => $request->name,
         ]);
-        $newlocket->services()->attach($request->services);
-
+        foreach ($request->services as $item) {
+            $newlocket->services()->attach($item);
+        }
         return back();
     }
 

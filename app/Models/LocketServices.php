@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class LocketServices extends Model
 {
-    //
-    protected $table = 'locket_services';
+
+    protected $table = 'lockets_services';
     protected $fillable = [
-        'locket_id',
+        'lockets_id',
         'services_id',
     ];
 }

@@ -9,7 +9,7 @@ class Lockets extends Model
 {
     protected $table = 'lockets';
     protected $fillable = [
-        'nama',
+        'name',
     ];
 
     // app/Models/Locket.php

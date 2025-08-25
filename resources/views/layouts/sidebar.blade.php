@@ -27,6 +27,18 @@
                 </a>
 
 
+<a class="nav-link" href="/admin/running_text">
+                    <div class="sb-nav-link-icon">
+                        @if (Request::is('admin/running_text'))
+                            <i class="fas fa-tachometer-alt" style=" color: cornflowerblue;"></i>
+                        @else
+                            <i class="fas fa-tachometer-alt"></i>
+                        @endif
+                    </div>
+                    Running Text
+                </a>
+
+
 
 
 

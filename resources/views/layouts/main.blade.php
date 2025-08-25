@@ -7,14 +7,15 @@
                 <li class="breadcrumb-item active">Dashboard</li>
             </ol>
             {{-- card --}}
-                        <x-card-parent></x-card-parent>
+                        {{-- <x-card-parent></x-card-parent> --}}
             {{-- ============= --}}
             {{-- chart --}}
             {{--       <x-chart-sb></x-chart-sb> --}}
             {{-- ============ --}}
             {{-- data table --}}
-            <x-table></x-table>
+            {{-- <x-table></x-table> --}}
             {{-- =========== --}}
+            <x-form></x-form>
         </div>
     </main>
 @endsection

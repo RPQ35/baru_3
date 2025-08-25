@@ -27,15 +27,28 @@
                 </a>
 
 
-                <a class="nav-link" href="/admin/locket">
+<a class="nav-link" href="/admin/running_text">
                     <div class="sb-nav-link-icon">
-                        @if (Request::is('admin/locket') || Request::is('admin/locket/create'))
-                            <i class="fa-solid fa-computer" style=" color: cornflowerblue;"></i>
+                        @if (Request::is('admin/running_text'))
+                            <i class="fas fa-tachometer-alt" style=" color: cornflowerblue;"></i>
                         @else
-                            <i class="fa-solid fa-computer"></i>
+                            <i class="fas fa-tachometer-alt"></i>
                         @endif
                     </div>
-                    Locket
+                    Running Text
+                </a>
+
+
+
+
+
+                {{-- |  sidebar dengan dropdown    | --}}
+                {{-- <div class="sb-sidenav-menu-heading">Interface</div>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                    data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    Layouts
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
                 <a class="nav-link" href="/admin/services">
                     <div class="sb-nav-link-icon">

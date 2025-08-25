@@ -1,9 +1,11 @@
 @props([
     'title' => 'input',
     'name' => 'name',
+    'type' => 'text',
 ])
 
 <div class="col-md-12">
-    <label for="inputEmail4" class="form-label">{{ $title }}</label>
-    <input type="email" class="form-control" id="inputEmail4" name="{{ $name }}">
+    <label for="{{ $name }}" class="form-label">{{ $title }}</label>
+    <input type="{{ $type }}" class="form-control" id="{{ $name }}" name="{{ $name }}"
+        value="{{ old($name) }}">
 </div>

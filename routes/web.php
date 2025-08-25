@@ -66,7 +66,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
              */
             Route::get('/services', 'index')->name('services.index');
             Route::get('/services/create', 'create')->name('services.create');
-            Route::get('/services/store', 'store')->name('services.store');
+            Route::post('/services/store', 'store')->name('services.store');
+            Route::delete('/services/{id}', 'destroy')->name('services.destroy');
         });
         Route::controller(RunningTextController::class)->group(function () {
             /** output var list
@@ -120,8 +121,9 @@ Route::get('/video/{filename}', [VideoController::class, 'SignageController@show
 
 
 
-Route::get('form', function() {
-    return view('undefined');
-}
-)
-;
+Route::get(
+    'form',
+    function () {
+        return view('undefined');
+    }
+);

@@ -34,7 +34,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div class="text-muted">Copyright &copy; Your Website 2025</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
@@ -48,13 +48,13 @@
         </div>
 
     </body>
-    {{-- script untuk js dan demos js --}}
+    {{-- script untuk js dan demos js
     <script src="{{ asset('js/script.js') }}"></script>
     <script src="{{ asset('js/datatables-simple-demo.js') }}"></script>
     <script src="{{ asset('demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('demo/chart-bar-demo.js') }}"></script>
     <script src="{{ asset('demo/chart-pie-demo.js') }}"></script>
-    <script src="{{ asset('demo/datatables-demo.js') }}"></script>
+    <script src="{{ asset('demo/datatables-demo.js') }}"></script> --}}
 
     {{-- script sisanya --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">

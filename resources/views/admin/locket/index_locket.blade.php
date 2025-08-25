@@ -20,12 +20,13 @@
             {{-- =========== --}}
 
 
-            
+
             {{-- form --}}
             {{-- <x-form>
                 <x-form-input></x-form-input>
             </x-form> --}}
             {{-- ========== --}}
+            <x-services></x-services>
         </div>
     </main>
 @endsection

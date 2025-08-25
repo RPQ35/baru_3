@@ -37,7 +37,16 @@
                     </div>
                     Locket
                 </a>
-
+                <a class="nav-link" href="/admin/services">
+                    <div class="sb-nav-link-icon">
+                        @if(Request::is("admin/services") || Request::is('admin/services/create'))
+                            <i class="fa-solid fa-computer" style="color: cornflowerblue"></i>
+                        @else
+                            <i class="fa-solid fa-computer"></i>
+                        @endif
+                    </div>
+                    services
+                </a>
 
                 {{-- ============================== --}}
                 {{-- |  sidebar dengan dropdown   | --}}

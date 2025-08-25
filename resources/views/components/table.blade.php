@@ -1,7 +1,7 @@
 {{--
 structur nya --
 
-        <x-table>
+        <x-table title='title'>
             <x-slot name="thead">
                 </x-slot>
 
@@ -11,11 +11,14 @@ structur nya --
 
 --}}
 
+@props([
+    'title'=>"DataTable Example",
+])
 
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table me-1"></i>
-        DataTable Example
+        {{ $title }}
     </div>
     <div class="card-body">
         <table id="datatablesSimple">

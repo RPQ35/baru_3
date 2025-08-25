@@ -4,28 +4,46 @@
     <main>
         <div class="container-fluid px-4">
             <h1 class="mt-4">Locket</h1>
-            <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item active">locket/data</li>
+            <ol class="breadcrumb mb-4 d-flex justify-content-between">
+                <li class="breadcrumb-item active  ">locket/data</li>
+                <button type="button" class="btn btn-primary " onclick="window.location.href='locket/create';">create locket</button>
+
             </ol>
+
             {{-- data table --}}
             <x-table>
-                {{-- |==slot untuk thead table==| --}}
+
                 <x-slot name="thead">
+                    <tr>
+                        <th>nama</th>
+                        <th>layanan</th>
+                    </tr>
                 </x-slot>
 
-                {{-- |==slot untuk body table==| --}}
+
                 <x-slot name="tbody">
+                    @if (isset($data) )
+                        @foreach ($data as $item)
+                            <tr>
+                                <td>{{ $item['name'] }}</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    @foreach ($item['service'] as $val )
+                                    @php
+                                    $loop->iteration ==1 ?$color='btn-danger':($loop->iteration == 2?$color='btn-success':($loop->iteration == 3?$color='btn-warning':($loop->iteration == 4?$color='btn-info':($loop->iteration == 5?$color='btn-primary':''))));
+                                    @endphp
+                                        <button type="button" class="btn {{ $color }}">{{ $val['services_name'] }}</button>
+                                        @endforeach
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </x-slot>
             </x-table>
             {{-- =========== --}}
 
 
-            
-            {{-- form --}}
-            {{-- <x-form>
-                <x-form-input></x-form-input>
-            </x-form> --}}
-            {{-- ========== --}}
         </div>
     </main>
 @endsection

@@ -58,7 +58,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
              */
             Route::get('/locket', 'index')->name('admin.locket.index');
             Route::get('locket/create', 'create')->name('admin.locket.create');
-            Route::get('locket/store', 'store')->name('admin.locket.store');
+            Route::post('locket/store', 'store')->name('admin.locket.store');
         });
         Route::controller(ServicesController::class)->group(function () {
             /** output var list

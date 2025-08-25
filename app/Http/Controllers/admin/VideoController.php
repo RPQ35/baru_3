@@ -49,16 +49,14 @@ class VideoController extends Controller
             $path = $request->file('video')->store('videos', 'public');
             $update = false;
 
-
-
+            $check = Video::count();
+            if ($check > 0) {
                 $update = Video::findOrFail(1);
                 if ($update) {
                     $update->file_path = $path;
                     $update->save();
                 }
-
-
-            else {
+            } else {
                 Video::create([
                     'title' => 'video file',
                     'file_path' => $path,
@@ -67,7 +65,7 @@ class VideoController extends Controller
             }
             return back()->with('success', 'success');
         } else {
-            session()->put('success','failed to upload');
+            session()->put('success', 'failed to upload');
             return back()->withErrors('No file uploaded.');
         }
     }

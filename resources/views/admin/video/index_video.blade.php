@@ -4,13 +4,12 @@
 
         @if (session('success'))
             <x-toast>
-                @if (session('success')=='success')
-                <p class="text-success">Video uploaded!</p>
+                @if (session('success') == 'success')
+                    <p class="text-success">Video uploaded!</p>
                 @else
-                <p class="text-danger">{{ session('success') }}</p>
+                    <p class="text-danger">{{ session('success') }}</p>
                 @endif
             </x-toast>
-
         @endif
         <div class="container-fluid px-4">
 
@@ -35,7 +34,7 @@
 
 <script>
     // Wait for the document to be ready
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // Find the toast element
         var toastElement = document.querySelector('.toast');
 

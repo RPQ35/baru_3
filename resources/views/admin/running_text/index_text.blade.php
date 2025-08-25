@@ -17,7 +17,7 @@
 @endif
 
         {{-- Panggil component (popup modal) --}}
-        <x-running-text-form :data="$data" />
+        <x-modal-form route="{{ route('running_text.store') }}" :data="$data" />
 
     </div>
 </main>

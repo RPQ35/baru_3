@@ -31,6 +31,8 @@
 
                 <x-sidebar_item title="Video" href='admin/video' icon="fa-solid fa-video"></x-sidebar_item>
 
+                <x-sidebar_item title="Runing text" href='admin/running_text' icon="fa-solid fa-sign-hanging"></x-sidebar_item>
+
                 {{-- ============================== --}}
                 {{-- |  sidebar dengan dropdown   | --}}
                 {{-- ============================== --}}

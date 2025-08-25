@@ -25,7 +25,7 @@ class VideoController extends Controller
             $video->file_path = url('/') . '/' . "video/" . $video->file_path[1];
             // dd($video->file_path);
         }
-        
+
         return view('admin.video.index_video', compact('video'));
     }
 
@@ -49,24 +49,25 @@ class VideoController extends Controller
             $path = $request->file('video')->store('videos', 'public');
             $update = false;
 
-            if ($request->id !== null) {
-                $ids = $request->id;
-                $update = Video::findOrFail($ids);
+
+
+                $update = Video::findOrFail(1);
                 if ($update) {
                     $update->file_path = $path;
                     $update->save();
                 }
 
 
-            } else {
+            else {
                 Video::create([
                     'title' => 'video file',
                     'file_path' => $path,
                     'status' => 0,
                 ]);
             }
-            return back()->with('success', 'Video uploaded!');
+            return back()->with('success', 'success');
         } else {
+            session()->put('success','failed to upload');
             return back()->withErrors('No file uploaded.');
         }
     }

@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 
 //  =========================
-//  |   breeeze dashboard   |
+//  |   breeeze dashboar                                                                                                                                                                                                                                                                      d   |
 //  =========================
 Route::get('/dashboard', function () {
     return view('dashboard');

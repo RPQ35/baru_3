@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AccountController;
+use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\LocketController;
 use App\Http\Controllers\admin\RunningTextController;
 use App\Http\Controllers\admin\ServicesController;
@@ -23,9 +24,7 @@ Route::get('/', function () {
 //  =========================
 //  |   breeeze dashboar                                                                                                                                                                                                                                                                      d   |
 //  =========================
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 
 //  =========================
@@ -83,7 +82,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
              *          catatan : video->file_path tidak perlu di panggil dengan asset
              */
             Route::get('/video', 'index')->name('video.index');
-            Route::post('/video/store','store')->name('video.store');
+            Route::post('/video/store', 'store')->name('video.store');
         });
     });
 });

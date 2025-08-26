@@ -58,6 +58,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
             Route::get('/locket', 'index')->name('admin.locket.index');
             Route::get('locket/create', 'create')->name('admin.locket.create');
             Route::post('locket/store', 'store')->name('admin.locket.store');
+            Route::delete('locket/destroy/{id}','destroy')->name('admin.destroy.locket');
+            Route::post('locket/update','update')->name('admin.locket.update');
         });
         Route::controller(ServicesController::class)->group(function () {
             /** output var list

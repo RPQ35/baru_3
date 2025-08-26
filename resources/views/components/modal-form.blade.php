@@ -26,10 +26,14 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="modalinp" class="form-label">{{ ltrim($title, 'Edit') }}</label>
-                        @if ($file == 'true')
-                            <input type="file" name="{{ $name }}">
+                        @if (isset($slot))
+                            {{ $slot }}
                         @else
-                            <textarea name="{{ $name }}" id="modalinp" class="form-control" rows="3" required>{{ $data }}</textarea>
+                            @if ($file == 'true')
+                                <input type="file" name="{{ $name }}">
+                            @else
+                                <textarea name="{{ $name }}" id="modalinp" class="form-control" rows="3" required>{{ $data }}</textarea>
+                            @endif
                         @endif
                     </div>
                 </div>

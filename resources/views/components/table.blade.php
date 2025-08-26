@@ -25,12 +25,16 @@ structur nya --
             <thead>
                     {{ $thead }}
 
+
             </thead>
             <tfoot>
                     {{ $thead }}
+
+
             </tfoot>
             <tbody>
                     {{ $tbody }}
+
             </tbody>
         </table>
     </div>

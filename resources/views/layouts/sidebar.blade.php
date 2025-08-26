@@ -25,50 +25,13 @@
                     </div>
                     account
                 </a>
-                <a class="nav-link" href="/admin/services">
-                    <div class="sb-nav-link-icon">
-                        @if (Request::is('admin/services'))
-                            <i class="fas fa-tachometer-alt" style=" color: cornflowerblue;"></i>
-                        @else
-                            <i class="fas fa-tachometer-alt"></i>
-                        @endif
-                    </div>
-                    Services
-                </a>
-
-                <a class="nav-link" href="/admin/running_text">
-                    <div class="sb-nav-link-icon">
-                        @if (Request::is('admin/running_text'))
-                            <i class="fas fa-tachometer-alt" style=" color: cornflowerblue;"></i>
-                        @else
-                            <i class="fas fa-tachometer-alt"></i>
-                        @endif
-                    </div>
-                    Running Text
-                </a>
 
 
+                <x-sidebar_item title="Locket" href='admin/locket' icon="fa-solid fa-computer"></x-sidebar_item>
 
+                <x-sidebar_item title="Video" href='admin/video' icon="fa-solid fa-video"></x-sidebar_item>
 
-
-                {{-- |  sidebar dengan dropdown    | --}}
-                {{-- <div class="sb-sidenav-menu-heading">Interface</div>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                    data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                    Layouts
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <a class="nav-link" href="/admin/services">
-                    <div class="sb-nav-link-icon">
-                        @if(Request::is("admin/services") || Request::is('admin/services/create'))
-                            <i class="fa-solid fa-computer" style="color: cornflowerblue"></i>
-                        @else
-                            <i class="fa-solid fa-computer"></i>
-                        @endif
-                    </div>
-                    services
-                </a>
+                <x-sidebar_item title="Runing text" href='admin/running_text' icon="fa-solid fa-sign-hanging"></x-sidebar_item>
 
                 {{-- ============================== --}}
                 {{-- |  sidebar dengan dropdown   | --}}

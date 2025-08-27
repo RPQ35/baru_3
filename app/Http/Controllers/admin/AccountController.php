@@ -37,23 +37,24 @@ class AccountController extends Controller
      * Store a newly created resource in storage.
      **/
     public function store(Request $request)
-    {
-        $request->validate([
-            'name' => ['required|min:3', new HtmlSpecialChars],
-            'email' => ['required|email|unique:User', new HtmlSpecialChars],
-            'password' => ['required|min:6', new HtmlSpecialChars],
-            'role' => 'required|exists:roles,name',
-        ]);
+{
+    $request->validate([
+        'name' => ['required', 'min:3', new HtmlSpecialChars],
+        'email' => ['required', 'email', 'unique:users,email', new HtmlSpecialChars],
+        'password' => ['required',  new HtmlSpecialChars],
+        'role' => ['required', 'exists:roles,name'],
+    ]);
 
-        $user = User::Create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-        ]);
-        $user->assignRole($request->input('role'));
+    $user = User::create([
+        'name' => $request->input('name'),
+        'email' => $request->input('email'),
+        'password' => bcrypt($request->input('password')),
+    ]);
 
-        return back();
-    }
+    $user->assignRole($request->input('role'));
+
+    return back()->with('success', 'Akun berhasil dibuat');
+}
 
     /**
      * Display the specified resource.

@@ -9,7 +9,7 @@
                       button="Create Account" />
 
         {{-- Data Table --}}
-        <x-table title="Daftar Akun">
+        <x-table title="List Account">
             <x-slot name="thead">
                 <tr>
                     <th>No</th>
@@ -19,6 +19,7 @@
                     <th>Aksi</th>
                 </tr>
             </x-slot>
+            
 
             <x-slot name="tbody">
                 @foreach ($data as $key => $acc)

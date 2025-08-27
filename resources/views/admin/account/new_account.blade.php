@@ -6,7 +6,7 @@
         <x-breadcrumb title="Create Account"
                       breadcrumb="account/create"
                       href="{{ route('index.account') }}"
-                      button="Kembali" />
+                      button="Back" />
 
         <div class="card shadow-sm rounded-3 p-4">
             <form action="{{ route('account.store') }}" method="POST">
@@ -61,7 +61,7 @@
                     @enderror
                 </div>
 
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>

@@ -20,16 +20,17 @@ class LocketController extends Controller
     {
 
         $lockets = Lockets::with('services')->get();
-
+        $services_list = Services::all();
         $data = [];
         foreach ($lockets as $locket) {
             $data[] = [
-                'name'=>$locket->name,
-                'service'=> $locket->services->toArray()
+                'id' => $locket->id,
+                'name' => $locket->name,
+                'service' => $locket->services->toArray()
             ];
         }
         // dd($data);
-        return view('admin.locket.index_locket', compact('data'));
+        return view('admin.locket.index_locket', compact('data', 'services_list'));
     }
 
     /**
@@ -80,16 +81,36 @@ class LocketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+
+
+        $request->validate([
+            'name' => ['required', new HtmlSpecialChars],
+            'services' => 'required|array',
+            'id' => 'required',
+        ]);
+
+        $locket = Lockets::findOrFail($request->id);
+        $locket->update([
+            'name' => $request->name,
+        ]);
+
+        $locket->services()->sync($request->services);
+
+        return back();
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $locket=Lockets::findOrFail($id);
+        $locket->services()->detach();
+        $locket->delete();
+        return back();
+
     }
 }

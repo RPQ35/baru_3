@@ -55,7 +55,7 @@
                                         @method('DELETE')
                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                             <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                            <button type="button" class="btn btn-secondary btn-sm"
+                                            <button type="button" funct="editmodal" class="btn btn-secondary btn-sm"
                                                 onclick="editmodal(this.value)" value="{{ $loop->index }}">Edit</button>
                                         </div>
                                     </form>
@@ -97,7 +97,7 @@
             var data_arr = @json($data);
             window.editmodal = function(val) {
 
-                var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+                var myModal = document.getElementById('myModal');
                 var edit_data = data_arr[val];
 
                 document.getElementById('inp').value = edit_data.name;
@@ -116,7 +116,6 @@
                     }
                 });
 
-                myModal.show();
             };
         </script>
 

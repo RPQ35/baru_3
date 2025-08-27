@@ -79,18 +79,30 @@ class ServicesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'services_name' => 'required|string|max:255',
+            'code' => 'required|string|max:50',
+            'logo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+        ]);
+
+        $service = Services::findOrFail($id);
+        $service->services_name = $request->services_name;
+        $service->code = $request->code;
+
+        if ($request->hasFile('logo')) {
+            $path = $request->file('logo')->store('logos', 'public');
+            $service->logo_path = $path;
+        }
+
+        $service->save();
+
+        return redirect()->route('services.index')
+            ->with('success', 'Service berhasil diupdate');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+
 
     /**
      * Remove the specified resource from storage.

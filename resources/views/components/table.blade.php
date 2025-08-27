@@ -25,6 +25,7 @@ structur nya --
             <thead>
                     {{ $thead }}
 
+
             </thead>
             <tfoot>
                     {{ $thead }}

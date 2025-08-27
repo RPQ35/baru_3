@@ -49,6 +49,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
             Route::get('/account', 'index')->name('index.account');
             Route::get('/account/create', 'create')->name('create.account');
             Route::post('/account/store', 'store')->name('account.store');
+            Route::delete('/account/{id}', 'destroy')->name('account.destroy');
         });
         Route::controller(LocketController::class)->group(function () {
             /** ouput var list

@@ -5,24 +5,29 @@
 @section('main')
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Services</h1>
-        <a href="{{ route('services.create') }}" class="btn btn-primary mb-3">+ Add Service</a>
+        <div class="container-fluid px-4">
+            <x-breadcrumb   title="services"
+                            breadcrumb="services/data"
+                            href="/admin/services/create"
+                            button="create services"></x-breadcrumb>
+
+            {{-- data table --}}
 
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Service Name</th>
-                    <th>Code</th>
-                    <th>Logo</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
+        <x-table class="table table-bordered">
+             <x-slot name="thead">
+                    <tr>
+                        <th>No</th>
+                        <th>Service Name</th>
+                        <th>Code</th>
+                        <th>Logo</th>
+                        <th>Action</th>
+                    </tr>
+                </x-slot>
+            <x-slot name="tbody">
                 @forelse($servi as $service)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
@@ -46,8 +51,8 @@
                         <td colspan="5" class="text-center">Belum ada services</td>
                     </tr>
                 @endforelse
-            </tbody>
-        </table>
+            </x-slot>
+        </x-table>
     </div>
 </main>
 @endsection

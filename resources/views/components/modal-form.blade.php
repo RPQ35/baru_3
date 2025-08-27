@@ -1,5 +1,5 @@
 @props([
-    'data',
+    'data'=>'',
     'route' => '',
     'title' => 'Edit Running Text',
     'enctype' => '',
@@ -26,15 +26,12 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="modalinp" class="form-label">{{ ltrim($title, 'Edit') }}</label>
-                        @if (isset($slot))
-                            {{ $slot }}
-                        @else
+
                             @if ($file == 'true')
                                 <input type="file" name="{{ $name }}">
                             @else
                                 <textarea name="{{ $name }}" id="modalinp" class="form-control" rows="3" required>{{ $data }}</textarea>
                             @endif
-                        @endif
                     </div>
                 </div>
 

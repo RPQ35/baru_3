@@ -9,8 +9,25 @@
     <meta name="author" content="" />
     <title>Login</title>
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="style.css">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <style>
+        .font {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            font-stretch: 100%;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/roboto/v48/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3iUBGEe.woff2) format('woff2');
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+
         /* Optional: Add a style to hide overflow for the running text container */
         .marquee-container {
             overflow: hidden;
@@ -29,8 +46,8 @@
     $countes = count(array_filter($que, fn($item) => $item['status'] === true));
     $backup_count = $countes;
     $row_count = count($que);
-    $delay=8000;
-    $cols=1;
+    $delay = 8000;
+    $cols = 1;
     $loketNumber = '2';
 
     // Loket number (can be dynamic later)
@@ -45,7 +62,7 @@
         'menuju' => asset('audio/menuju.mp3'),
         'loket' => asset('audio/loket.mp3'),
         'loket_no' => asset("audio/angka/{$loketNumber}.mp3"),
-        'end'=>asset('audio/end.mp3'),
+        'end' => asset('audio/end.mp3'),
     ];
 
     foreach (range('A', 'Z') as $letter) {
@@ -77,7 +94,7 @@
                                     {{-- card if the data is active | true called --}}
                                     @if ($item['status'])
                                         <x-card bgcolor="bg-warning" href="" title="Locket" size="12"
-                                            footer="false" text="text-black">
+                                            footer="false" text="text-black fs-3 fw-semibold font">
                                             <big>{{ $item['data'] }}</big>
                                         </x-card>
 
@@ -88,7 +105,7 @@
                                         {{-- normal card | not active  --}}
                                     @else
                                         <x-card bgcolor="bg-secondary" href="" title="Locket" size="12"
-                                            footer="false" text="text-black">
+                                            footer="false" text="text-black fs-3 fw-semibold font">
                                             <big>{{ $item['data'] }}</big>
                                         </x-card>
                                     @endif
@@ -99,7 +116,7 @@
                                     @if ($loop->iteration >= $row_count)
                                         <script>
                                             const refreshDelay = localStorage.getItem('refresh') === '0' ? 8000 : @json($delay) +
-                                                @json($sdelay) -1500;
+                                                @json($sdelay) - 1500;
 
                                             setTimeout(() => {
                                                 location.reload();

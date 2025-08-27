@@ -25,10 +25,9 @@
                     </div>
                     account
                 </a>
-                <x-sidebar_item title="Services" href='admin/services' icon="fa-solid fa-handshake"></x-sidebar_item>
 
                 <x-sidebar_item title="services" href='admin/services' icon="fa-solid fa-handshake"></x-sidebar_item>
-                
+
                 <x-sidebar_item title="Locket" href='admin/locket' icon="fa-solid fa-computer"></x-sidebar_item>
 
                 <x-sidebar_item title="Video" href='admin/video' icon="fa-solid fa-video"></x-sidebar_item>

@@ -15,17 +15,9 @@
                     Dashboard
                 </a>
 
-                <a class="nav-link" href="/admin/account">
-                    <div class="sb-nav-link-icon">
-                        @if (Request::is('admin/account') || Request::is('admin/account/create'))
-                            <i class="fa-solid fa-user"style=" color: cornflowerblue;"></i>
-                        @else
-                            <i class="fa-solid fa-user"></i>
-                        @endif
-                    </div>
-                    Account
-                </a>
-                <x-sidebar_item title="services" href='admin/services' icon="fa-solid fa-handshake"></x-sidebar_item>
+                <x-sidebar_item title="Account" href='admin/account' icon="fa-solid fa-user"></x-sidebar_item>
+
+                <x-sidebar_item title="Services" href='admin/services' icon="fa-solid fa-handshake"></x-sidebar_item>
 
                 <x-sidebar_item title="Locket" href='admin/locket' icon="fa-solid fa-computer"></x-sidebar_item>
 
@@ -112,6 +104,7 @@
                 </a> --}}
             </div>
         </div>
+        {{-- show username --}}
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
             {{ Auth::user()->name }}

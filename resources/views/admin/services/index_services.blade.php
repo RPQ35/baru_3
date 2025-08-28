@@ -7,7 +7,8 @@
         <div class="container-fluid px-4">
             <x-breadcrumb title="Services" breadcrumb="services/data" href="/admin/services/create" button="create services" />
 
-            {{-- Data Table --}}
+
+            {{-- _____________ data table _________________________ --}}
             <x-table class="table table-bordered" title="List of Services">
                 <x-slot name="thead">
                     <tr>
@@ -37,12 +38,13 @@
                                     @csrf
                                     @method('DELETE')
 
-                                    <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                    <div class="btn-group">
+                                        <button type="button" funct="editmodal" class="btn btn-secondary btn-sm"
+                                            value='["{{ $service->id }}","{{ $service->code }}","{{ $service->services_name }}"]'
+                                            onclick=" editModal(this)">Edit</button>
 
-                                    <button type="button" funct="editmodal" class="btn btn-secondary btn-sm"
-                                        value='["{{ $service->id }}","{{ $service->code }}","{{ $service->services_name }}"]'
-                                        onclick=" editModal(this)" >Edit</button>
-
+                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                    </div>
                                 </form>
 
                             </td>
@@ -57,7 +59,9 @@
             </x-table>
         </div>
 
-        {{-- Modal Edit --}}
+        {{-- __________________________________________________ --}}
+
+        {{-- _____________Modal for edit ______________________ --}}
 
         <x-modal-update title="Edit Services" action="{{ route('services.update') }}">
 
@@ -87,7 +91,6 @@
     <script>
         function editModal(datas) {
             datas = JSON.parse(datas.value);
-            // alert(datas[1]);
             document.getElementById('edit_id').value = datas['0'];
             document.getElementById('edit_code').value = datas['1'];
             document.getElementById('edit_services_name').value = datas['2'];

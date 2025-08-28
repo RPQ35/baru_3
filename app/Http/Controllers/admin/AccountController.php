@@ -76,8 +76,9 @@ class AccountController extends Controller
     /**
      * Update the specified resource in storage.
      */
-public function update(Request $request, string $id)
+public function update(Request $request)
 {
+    $id=$request->id;
     $request->validate([
         'name' => ['required', 'min:3', new HtmlSpecialChars],
         'email' => ['required', 'email', 'unique:users,email,' . $id, new HtmlSpecialChars],

@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Rules\HtmlSpecialChars;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Role;
 
 class AccountController extends Controller
 {
@@ -75,10 +76,29 @@ class AccountController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+public function update(Request $request, string $id)
+{
+    $request->validate([
+        'name' => ['required', 'min:3', new HtmlSpecialChars],
+        'email' => ['required', 'email', 'unique:users,email,' . $id, new HtmlSpecialChars],
+        'password' => ['nullable', new HtmlSpecialChars],
+        'role' => ['required', 'exists:roles,name'],
+    ]);
+
+    $user = User::findOrFail($id);
+
+    $user->update([
+        'name' => $request->input('name'),
+        'email' => $request->input('email'),
+        'password' => $request->filled('password') ? bcrypt($request->input('password')) : $user->password,
+    ]);
+
+    // Update role
+    $user->syncRoles([$request->input('role')]);
+
+    return back()->with('success', 'Akun berhasil diupdate');
+}
+
 
     /**
      * Remove the specified resource from storage.

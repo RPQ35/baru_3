@@ -50,6 +50,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
             Route::get('/account/create', 'create')->name('create.account');
             Route::post('/account/store', 'store')->name('account.store');
             Route::delete('/account/{id}', 'destroy')->name('account.destroy');
+            Route::put('/account/{id}', 'update')->name('account.update');
         });
         Route::controller(LocketController::class)->group(function () {
             /** ouput var list
@@ -69,7 +70,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         Route::get('/services', 'index')->name('services.index');
         Route::get('/services/create', 'create')->name('services.create');
         Route::post('/services/store', 'store')->name('services.store');
-        Route::post('/services/update/{id}', 'update')->name('services.update'); 
+        Route::post('/services/update/{id}', 'update')->name('services.update');
         Route::delete('/services/{id}', 'destroy')->name('services.destroy');
 
         });

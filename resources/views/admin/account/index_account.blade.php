@@ -19,7 +19,7 @@
                     <th>Aksi</th>
                 </tr>
             </x-slot>
-            
+
 
             <x-slot name="tbody">
                 @foreach ($data as $key => $acc)
@@ -30,6 +30,7 @@
                         <td>{{ $acc->roles->pluck('name')->join(', ') }}</td>
                         <td>
                             <form action="{{ route('account.destroy', $acc->id) }}" method="POST" class="d-inline">
+                                  <x-edit-account :acc="$acc" :roles="\Spatie\Permission\Models\Role::all()" />
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm"

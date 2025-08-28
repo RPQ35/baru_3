@@ -79,7 +79,7 @@ class ServicesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $request->validate([
             'services_name' => 'required|string|max:255',
@@ -87,7 +87,7 @@ class ServicesController extends Controller
             'logo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
         ]);
 
-        $service = Services::findOrFail($id);
+        $service = Services::findOrFail($request->id);
         $service->services_name = $request->services_name;
         $service->code = $request->code;
 

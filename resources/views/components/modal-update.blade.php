@@ -24,4 +24,15 @@
     </div>
 </div>
 
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Use the document body or a specific parent container
+        document.body.addEventListener('click', function(event) {
+            const clickedButton = event.target.closest('.btn[funct="editmodal"]');
+            if (clickedButton) {
+                var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+                myModal.show();
+            }
+        });
+    });
+</script>

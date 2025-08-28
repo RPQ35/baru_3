@@ -19,55 +19,58 @@
 
                 {{-- @dd($data) --}}
                 <x-slot name="tbody">
-                    @if (isset($data))
-                        @foreach ($data as $item)
-                            <tr>
-                                <td><big>{{ $item['name'] }}</big></td>
-                                <td>
+                    @forelse ($data as $item)
+                        <tr>
+                            <td><big>{{ $item['name'] }}</big></td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    @foreach ($item['service'] as $val)
+                                        @php
+                                            $loop->iteration == 1
+                                                ? ($color = 'btn-secondary')
+                                                : ($loop->iteration == 2
+                                                    ? ($color = 'btn-success')
+                                                    : ($loop->iteration == 3
+                                                        ? ($color = 'btn-warning')
+                                                        : ($loop->iteration == 4
+                                                            ? ($color = 'btn-info')
+                                                            : ($loop->iteration == 5
+                                                                ? ($color = 'btn-primary')
+                                                                : ''))));
+                                        @endphp
+                                        <button type="button"
+                                            class="btn {{ $color }}">{{ $val['services_name'] }}</button>
+                                    @endforeach
+                                </div>
+                            </td>
+                            <td>
+                                @php
+                                    $ids = $item['id'];
+                                @endphp
+                                {{-- @dd($ids) --}}
+                                <form action="{{ route('admin.destroy.locket', $ids) }}" method="POST"
+                                    onsubmit="return confirm('Yakin hapus?')">
+                                    @csrf
+                                    @method('DELETE')
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        @foreach ($item['service'] as $val)
-                                            @php
-                                                $loop->iteration == 1
-                                                    ? ($color = 'btn-secondary')
-                                                    : ($loop->iteration == 2
-                                                        ? ($color = 'btn-success')
-                                                        : ($loop->iteration == 3
-                                                            ? ($color = 'btn-warning')
-                                                            : ($loop->iteration == 4
-                                                                ? ($color = 'btn-info')
-                                                                : ($loop->iteration == 5
-                                                                    ? ($color = 'btn-primary')
-                                                                    : ''))));
-                                            @endphp
-                                            <button type="button"
-                                                class="btn {{ $color }}">{{ $val['services_name'] }}</button>
-                                        @endforeach
+                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                        <button type="button" funct="editmodal" class="btn btn-secondary btn-sm"
+                                            onclick="editmodal(this.value)" value="{{ $loop->index }}">Edit</button>
                                     </div>
-                                </td>
-                                <td>
-                                    @php
-                                        $ids = $item['id'];
-                                    @endphp
-                                    {{-- @dd($ids) --}}
-                                    <form action="{{ route('admin.destroy.locket', $ids) }}" method="POST"
-                                        onsubmit="return confirm('Yakin hapus?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                            <button type="button" class="btn btn-secondary btn-sm"
-                                                onclick="editmodal(this.value)" value="{{ $loop->index }}">Edit</button>
-                                        </div>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @endif
+                                </form>
+                            </td>
+                        </tr>
+
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Belum ada services</td>
+                        </tr>
+                    @endforelse
                 </x-slot>
             </x-table>
             {{-- =========== --}}
 
-            <x-modal_update title="Edit Locket" action="{{ route('admin.locket.update') }}">
+            <x-modal-update title="Edit Locket" action="{{ route('admin.locket.update') }}">
                 <div class="col-md-12">
                     <label for="inp" class="form-label">Edit Name</label>
                     <input type="text" class="form-control" id="inp" name="name" value="">
@@ -89,7 +92,7 @@
         </div>
         @endif
         @endforeach
-        </x-modal_update>
+        </x-modal-update>
 
 
 
@@ -97,7 +100,7 @@
             var data_arr = @json($data);
             window.editmodal = function(val) {
 
-                var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+                var myModal = document.getElementById('myModal');
                 var edit_data = data_arr[val];
 
                 document.getElementById('inp').value = edit_data.name;
@@ -116,7 +119,6 @@
                     }
                 });
 
-                myModal.show();
             };
         </script>
 

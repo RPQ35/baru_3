@@ -9,6 +9,7 @@ use App\Models\Services;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -22,13 +23,16 @@ class DashboardController extends Controller
         $Locket = Lockets::count();
         $Service = Services::count();
 
-
-        return view('dashboard', compact(
-            'TodayQue',
-            'WeekQue',
-            'Service',
-            'Locket',
-            'Account',
-        ));
+        if (Auth::user()->hasRole('loket')) {
+            return redirect('/lockets');
+        } else {
+            return view('dashboard', compact(
+                'TodayQue',
+                'WeekQue',
+                'Service',
+                'Locket',
+                'Account',
+            ));
+        }
     }
 }

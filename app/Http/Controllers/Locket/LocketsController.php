@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Locket;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lockets;
 use Illuminate\Http\Request;
 
 class LocketsController extends Controller
@@ -12,31 +13,25 @@ class LocketsController extends Controller
      */
     public function index()
     {
-        //
+        $lockets = Lockets::with('services')->get();
+        $data = [];
+        foreach ($lockets as $locket) {
+            $data[] = [
+                'id' => $locket->id,
+                'name' => $locket->name,
+                'service' => $locket->services->toArray()
+            ];
+        }
+// dd($data);
+        return view('locket.select_locket',compact('data'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * main page
      */
-    public function create()
+      public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return view('locket.main_locket');
     }
 
     /**

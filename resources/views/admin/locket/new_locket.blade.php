@@ -6,8 +6,8 @@
             <x-breadcrumb title="Locket" breadcrumb="locket/create" href="/admin/locket" button="back"></x-breadcrumb>
             {{-- form --}}
             @if (!$services_list->isEmpty())
-                <x-form method="POST" route="{{ route('admin.locket.store') }}">
-                    <x-form-input name="name"></x-form-input>
+                <x-form method="POST" action="{{ route('admin.locket.store') }}">
+                    <x-form-input name="name" type="text" title="Locket name" ></x-form-input>
 
                     @foreach ($services_list as $item)
                         @if ($loop->iteration % 2 == 1)

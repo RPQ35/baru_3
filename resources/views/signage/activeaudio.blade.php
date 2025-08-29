@@ -9,7 +9,7 @@ $audioSequence = array_merge(
         $library['loket'],
         $library['loket_no'],
     ],
-    [$library['end']],
+
 );
 $audioSequence = array_filter($audioSequence);
 

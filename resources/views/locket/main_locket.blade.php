@@ -1,36 +1,51 @@
+@if (session('locket'))
+@else
+    <script>
+        window.location.href = "/lockets/select";
+    </script>
+@endif
 @extends('layouts.body')
 @section('main')
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Dashboard</h1>
-            <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-            {{-- card --}}
-            {{-- <x-card-parent></x-card-parent> --}}
-            {{-- ============= --}}
+            <x-breadcrumb title="Locket" breadcrumb="locket/app" href="" button="false"></x-breadcrumb>
 
-            {{-- chart --}}
-            {{-- <x-chart-sb></x-chart-sb> --}}
-            {{-- ============ --}}
+            <div class="col-12 gap-3 d-grid" style="height:80vh;width:100%;">
+                <!-- a -->
+                <div class="row border border-5 border-black-subtle rounded col-12 h-60">
+                </div>
 
-            {{-- data table --}}
-            <x-table>
-                {{-- |==slot untuk thead table==| --}}
-                <x-slot name="thead">
-                </x-slot>
+                <!-- b & c -->
+                <div class=" row rounded   h-70 w-100">
 
-                {{-- |==slot untuk body table==| --}}
-                <x-slot name="tbody">
-                </x-slot>
-            </x-table>
-            {{-- =========== --}}
+                    <!-- b (This will be a full-width column on small screens) -->
+                    <div class="col-12 col-md-5 rounded border border-3 border-dark-subtle card">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            oncoming
+                        </div>
 
-            {{-- form --}}
-            {{-- <x-form>
-                <x-form-input></x-form-input>
-            </x-form> --}}
-            {{-- ========== --}}
+                        <div class="card-body">
+                            tes
+                        </div>
+
+
+                    </div>
+                    {{---------------------- divider --------------------}}
+                    <div class="col-md-1"></div>
+                    {{----------------------------------------------------}}
+
+                    <div class="col-12 col-md-6 rounded border border-3 border-dark-subtle card">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            outcome
+                        </div>
+
+                        <div class="card-body">
+                            tes
+                        </div>
+                </div>
+            </div>
         </div>
     </main>
 @endsection

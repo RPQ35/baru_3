@@ -17,7 +17,7 @@
                 </a>
 
                 @if (Auth::user()->hasRole('admin'))
-                
+
                     <x-sidebar_item title="Account" href='admin/account' icon="fa-solid fa-user"></x-sidebar_item>
 
                     <x-sidebar_item title="Services" href='admin/services'
@@ -31,7 +31,17 @@
                         icon="fa-solid fa-sign-hanging"></x-sidebar_item>
 
                 @elseif(Auth::user()->hasRole('loket'))
-                    <x-sidebar_item title="Locket" href='lockets/' icon="fa-solid fa-computer"></x-sidebar_item>
+                
+                <a class="nav-link" href="/lockets/select">
+                    <div class="sb-nav-link-icon">
+                        @if (Request::is('lockets/select')||Request::is('lockets/app'))
+                            <i class="fas fa-computer" style=" color: cornflowerblue;"></i>
+                        @else
+                            <i class="fas fa-computer"></i>
+                        @endif
+                    </div>
+                    Lockets
+                </a>
                 @endif
 
 

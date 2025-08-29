@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Locket;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lockets;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
 class LocketsController extends Controller
@@ -22,24 +23,33 @@ class LocketsController extends Controller
                 'service' => $locket->services->toArray()
             ];
         }
-// dd($data);
-        return view('locket.select_locket',compact('data'));
+        // dd($data);
+        return view('locket.select_locket', compact('data'));
     }
 
     /**
-     * main page
+     * proses
      */
-      public function show(string $id)
+    public function show(Request $request)
     {
-        return view('locket.main_locket');
+        // dd($request);
+
+        if (isset($request->select)) {
+            $tes=$request->select;
+            session(['locket'=>$tes]);
+            return redirect('/lockets/app');
+        } else {
+            session(['locket'=>false]);
+            return redirect('/lockets/select');
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
-        //
+        return view('locket.main_locket');
     }
 
     /**

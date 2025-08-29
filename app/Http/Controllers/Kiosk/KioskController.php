@@ -12,16 +12,13 @@ class KioskController extends Controller
      */
     public function index()
     {
-        //
+        return view('kiosk.index_kiosk');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.

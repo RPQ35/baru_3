@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Locket;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lockets;
+use App\Models\Queues;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
@@ -35,11 +36,11 @@ class LocketsController extends Controller
         // dd($request);
 
         if (isset($request->select)) {
-            $tes=$request->select;
-            session(['locket'=>$tes]);
+            $tes = $request->select;
+            session(['locket' => $tes]);
             return redirect('/lockets/app');
         } else {
-            session(['locket'=>false]);
+            session(['locket' => false]);
             return redirect('/lockets/select');
         }
     }
@@ -49,7 +50,33 @@ class LocketsController extends Controller
      */
     public function edit()
     {
-        return view('locket.main_locket');
+        $ids = session('locket');
+        $locket = Lockets::findOrFail(session('locket'));
+        $serviceIds = $locket->services->pluck('id');
+
+        $QueuesDone = Queues::whereIn('services_id', $serviceIds)
+            ->where('status', 'done')
+            ->get();
+
+        $QueuesComing = Queues::whereIn('services_id', $serviceIds)
+            ->where('status', '!=', 'done')
+            ->get();
+
+        $QueuesActive = Queues::whereIn('services_id', $serviceIds)
+            ->where('is_called', '1')
+            ->with([
+                'que_locket' => function ($query) use ($ids) {
+                    $query->where('locket_id', $ids);
+                }
+            ])
+            ->get();
+
+
+        return view('locket.main_locket', compact(
+            'QueuesDone',
+            'QueuesComing',
+            'QueuesActive',
+        ));
     }
 
     /**

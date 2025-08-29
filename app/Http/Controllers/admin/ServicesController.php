@@ -34,15 +34,17 @@ class ServicesController extends Controller
         $request->validate([
             'services_name' => ['required', 'unique:services,services_name', new HtmlSpecialChars],
             'code' => ['required', 'string', 'min:1', new HtmlSpecialChars],
-            'logo' => 'image|mimes:jpeg,jpg,png',
+            'logo' => 'nullable|image|mimes:jpeg,jpg,png',
         ]);
 
-        $logo_path = $request->file('logo')->store('logo', 'public');
+        if ($request->hasFile('logo')) {
+            $logo_path = $request->file('logo')->store('logo', 'public');
+        }
 
         Services::create([
             'services_name' => $request->input('services_name'),
             'code' => $request->input('code'),
-            'logo_path' => $logo_path,
+            'logo_path' => $logo_path ?: '',
         ]);
         return back();
     }

@@ -3,7 +3,8 @@
         <div class="sb-sidenav-menu">
             <div class="nav">
 
-                <div class="sb-sidenav-menu-heading">Core</div>
+                <div class="sb-sidenav-menu-heading">Page</div>
+
                 <a class="nav-link" href="/dashboard">
                     <div class="sb-nav-link-icon">
                         @if (Request::is('dashboard'))
@@ -15,26 +16,23 @@
                     Dashboard
                 </a>
 
-                <a class="nav-link" href="/admin/account">
-                    <div class="sb-nav-link-icon">
-                        @if (Request::is('admin/account') || Request::is('admin/account/create'))
-                            <i class="fa-solid fa-user"style=" color: cornflowerblue;"></i>
-                        @else
-                            <i class="fa-solid fa-user"></i>
-                        @endif
-                    </div>
-                    Account
-                </a>
-                <x-sidebar_item title="services" href='admin/services' icon="fa-solid fa-handshake"></x-sidebar_item>
+                @if (Auth::user()->hasRole('admin'))
+                
+                    <x-sidebar_item title="Account" href='admin/account' icon="fa-solid fa-user"></x-sidebar_item>
 
-                <x-sidebar_item title="Locket" href='admin/locket' icon="fa-solid fa-computer"></x-sidebar_item>
+                    <x-sidebar_item title="Services" href='admin/services'
+                        icon="fa-solid fa-handshake"></x-sidebar_item>
 
-                <x-sidebar_item title="Video" href='admin/video' icon="fa-solid fa-video"></x-sidebar_item>
+                    <x-sidebar_item title="Locket" href='admin/locket' icon="fa-solid fa-computer"></x-sidebar_item>
 
-                <x-sidebar_item title="Runing text" href='admin/running_text'
-                    icon="fa-solid fa-sign-hanging"></x-sidebar_item>
+                    <x-sidebar_item title="Video" href='admin/video' icon="fa-solid fa-video"></x-sidebar_item>
 
+                    <x-sidebar_item title="Runing text" href='admin/running_text'
+                        icon="fa-solid fa-sign-hanging"></x-sidebar_item>
 
+                @elseif(Auth::user()->hasRole('loket'))
+                    <x-sidebar_item title="Locket" href='lockets/' icon="fa-solid fa-computer"></x-sidebar_item>
+                @endif
 
 
 
@@ -112,6 +110,7 @@
                 </a> --}}
             </div>
         </div>
+        {{-- show username --}}
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
             {{ Auth::user()->name }}

@@ -3,7 +3,7 @@
 @section('main')
     <main>
         <div class="container-fluid px-4">
-            <x-breadcrumb title="Dashboard" breadcrumb="Dashboard/data" href="" button="false"></x-breadcrumb>
+            <x-breadcrumb title="Dashboard" breadcrumb="Dashboard" href="" button="false"></x-breadcrumb>
 
 
             {{-- card --}}

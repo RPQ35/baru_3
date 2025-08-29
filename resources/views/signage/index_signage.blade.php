@@ -88,6 +88,13 @@
                     @php $countes -= 1; @endphp
                     @if ($loop->iteration >= $row_count)
                         <script>
+                            
+                            if (!localStorage.getItem('refresh') === '0') {
+                                setTimeout(() => {
+                                    var end = new Audio([$library['end']]);
+                                    end.play();
+                                }, @json($delay));
+                            }
                             const refreshDelay = localStorage.getItem('refresh') === '0' ? 8000 : @json($delay) +
                                 @json($sdelay) - 1500;
 
@@ -109,18 +116,16 @@
         <div class="card shadow-lg border-0 rounded-lg mt-5" style="height: 90vh;">
             <div class="card-body">
                 {{-- =========== video display =================================== --}}
-                <video style="max-width: 100%; max-height: 90%;" id="myVideo"
-                        src="{{ $video }}" autoplay>
-                    </video>
+                <video style="max-width: 100%; max-height: 90%;" id="myVideo" src="{{ $video }}" autoplay>
+                </video>
                 {{-- ============================================================== --}}
                 {{-- =========== running text display ============================= --}}
                 <div class="col-xl-12 col-md-2">
                     <div class="card bg-white text-black mb-4">
 
                         <div class="card-body marquee-container">
-                            <big id="marquee-text"
-                                style="text-transform: capitalize; font-weight: bolder;">
-                                    {{ $text }} 
+                            <big id="marquee-text" style="text-transform: capitalize; font-weight: bolder;">
+                                {{ $text }}
                             </big>
                         </div>
 

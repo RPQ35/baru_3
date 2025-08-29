@@ -67,16 +67,11 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
             /** output var list
              *   index => $data
              */
-        Route::get('/services', 'index')->name('services.index');
-        Route::get('/services/create', 'create')->name('services.create');
-        Route::post('/services/store', 'store')->name('services.store');
-<<<<<<< HEAD
-        Route::post('/services/update/{id}', 'update')->name('services.update');
-=======
-        Route::post('/services/update', 'update')->name('services.update');
->>>>>>> 07944fd7427dd10a74878f8221c6e079cc954f6b
-        Route::delete('/services/{id}', 'destroy')->name('services.destroy');
-
+            Route::get('/services', 'index')->name('services.index');
+            Route::get('/services/create', 'create')->name('services.create');
+            Route::post('/services/store', 'store')->name('services.store');
+            Route::post('/services/update', 'update')->name('services.update');
+            Route::delete('/services/{id}', 'destroy')->name('services.destroy');
         });
         Route::controller(RunningTextController::class)->group(function () {
             /** output var list

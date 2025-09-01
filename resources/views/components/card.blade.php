@@ -5,10 +5,11 @@
     'footer'=>'true',
     'size'=>3,
     'text'=>"text-white",
+    'style'=>'',
 ])
 
-<div class="col-xl-{{ $size }} col-md-6">
-    <div class="card {{ $bgcolor }} {{ $text }} mb-4">
+<div class="col-xl-{{ $size }} col-md-6" >
+    <div class="card {{ $bgcolor }} {{ $text }} mb-4" >
         <div class="card-body">
             {{ $title }}
             <br>

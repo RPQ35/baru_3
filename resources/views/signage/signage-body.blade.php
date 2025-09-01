@@ -49,16 +49,14 @@
             <div class="container-fluid" style="height: 100vh">
                 <div class="row" style="height: 100vh;">
 
+                    {{-- audio library --}}
+                    @include('signage.AudioLibrary')
                     {{-- queues display card --}}
-                    @yield('que-card')
+                    @livewire('sigange-card')
 
-        {{-- ------------------------------------------------------------- --}}
-                    {{-- divider |space between display --}}
-                    <div class="col-lg-1">
-                        <div class=" mt-5" style="height: 90vh">
-                        </div>
-                    </div>
-        {{-- ------------------------------------------------------------- --}}
+                    {{-- ------------------------------------------------------------- --}}
+
+                    {{-- ------------------------------------------------------------- --}}
 
                     {{-- enterraiment display --}}
                     @yield('entertaiment')
@@ -70,7 +68,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
     <script src="{{ asset('js/script.js') }}"></script>
-    <script src="{{ asset('js/signage.js') }}"></script>
 </body>
 
 </html>

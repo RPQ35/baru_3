@@ -2,23 +2,35 @@
 @section('title', 'running text')
 @section('main')
 
-<main>
-    <div class="container-fluid px-4">
-        <h1 class="mt-4">Running Text</h1>
-        <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">Running Text</li>
-        </ol>
+    <main>
+        <div class="container-fluid px-4">
+            <x-breadcrumb title="Runing Text" breadcrumb="Runinng Text" href="" button="false" />
 
-        {{-- Running text tampil --}}
-       @if($data)
-    <div class="alert alert-secondary text-start">
-        {{ $data }}
-    </div>
-@endif
+            {{-- Running text tampil --}}
+            @if ($data)
+                <x-card size="12" footer="false" bgcolor="bg-white" text="text-black" title="">
+                    {{ $data }}
+                </x-card>
+            @endif
+            <button class="btn btn-primary " type="button"  funct="OpenModal">
+                Edit Running Text
+            </button>
+            <br>
+            <br>
+            <br>
 
-        {{-- Panggil component (popup modal) --}}
-        <x-modal-form route="{{ route('running_text.store') }}" :data="$data" />
+            {{-- Panggil component (popup modal) --}}
+            <x-NewModal potition="center">
+                <form action="{{ route('running_text.store') }}" method="post">
+                    @csrf
+                    <textarea name="text" id="modalinp" class="form-control" rows="3" required>{{ $data }}</textarea>
 
-    </div>
-</main>
+                    <x-slot name="footer">
+                    <x-modal-foot-button/>
+                </form>
+                </x-slot>
+                </x-NewModal>
+
+        </div>
+    </main>
 @endsection

@@ -18,14 +18,31 @@
 
             {{-- tampilan --}}
             @if ($video)
-                <div class="alert alert-secondary text-start w-75 h-60">
-                    <video src="{{ $video->file_path }}" controls class="w-75"></video>
-                </div>
+                <x-card size="8" footer="false" bgcolor="bg-white" text="text-black  align-items-center" title="">
+
+                    <video src="{{ $video->file_path }}" controls class="w-100 w-xl-75"></video>
+
+                </x-card>
             @endif
 
+            <button class="btn btn-primary btn-lg" funct="OpenModal">
+                Edit Video
+            </button>
+            <br>
+            <br>
+            <br>
+
             {{-- Panggil component (popup modal) --}}
-            <x-modal-form title="Edit Video" file="true" name="video" route="{{ route('video.store') }}"
-                enctype="multipart/form-data" :data="$video" />
+            <x-NewModal potition="center">
+                <form action="{{ route('video.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <x-form-input title="Update Video" name="video" type="file"></x-form-input>
+
+                    <x-slot name="footer">
+                        <x-modal-foot-button />
+                </form>
+                </x-slot>
+            </x-NewModal>
 
 
         </div>

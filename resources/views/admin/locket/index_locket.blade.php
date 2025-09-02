@@ -59,7 +59,7 @@
                                     @method('DELETE')
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
 
-                                        <button type="button" funct="editmodal" class="btn btn-secondary btn-sm"
+                                        <button type="button" funct="OpenModal" class="btn btn-secondary btn-sm"
                                             onclick="editmodal(this)" serv_value='{{ json_encode($item['service']) }}'
                                             value='["{{ $ids }}","{{ $item['name'] }}"]'>Edit</button>
 
@@ -70,51 +70,51 @@
                         </tr>
 
                     @empty
-                        <tr>
-                            <td colspan="5" class="text-center">Belum ada services</td>
-                        </tr>
+
                     @endforelse
                 </x-slot>
             </x-table>
             {{-- __________________________________________________ --}}
 
             {{-- _____________Modal for edit ______________________ --}}
-            <x-modal-update title="Edit Locket" action="{{ route('admin.locket.update') }}">
-                <input type="hidden" name="id" id="ids">
+            <x-NewModal title="Edit Locket" potition="top">
+                <form action="{{ route('admin.locket.update') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="id" id="ids">
 
-                <div class="col-md-12">
-                    <label for="inp" class="form-label">Edit Name</label>
-                    <input type="text" class="form-control" id="inp" name="name" value="">
-                </div>
+                    <x-form-input title="Edit Nama" name="name" type="text" ></x-form-input>
 
-                <br>
-                {{--  --}}
-                @foreach ($services_list as $item)
-                    {{-- divider checkbox (3 per row) --}}
-                    @if ($loop->iteration % 3 == 1)
-                        <div class="btn-group col-md-12" role="group" aria-label="Basic checkbox toggle button group">
-                    @endif
+                    <br>
+                    {{--  --}}
+                    @foreach ($services_list as $item)
+                        {{-- divider checkbox (3 per row) --}}
+                        @if ($loop->iteration % 3 == 1)
+                            <div class="btn-group col-md-12" role="group" aria-label="Basic checkbox toggle button group">
+                        @endif
 
-                    <input type="checkbox" class="btn-check checkbx " autocomplete="off" name="services[]"
-                        id  = "{{ $item->services_name }}" value="{{ $item->id }}">
+                        <input type="checkbox" class="btn-check checkbx " autocomplete="off" name="services[]"
+                            id  = "{{ $item->services_name }}" value="{{ $item->id }}">
 
-                    <label class="btn btn-outline-primary" for="{{ $item->services_name }}">
-                        {{ $item->services_name }}
-                    </label>
+                        <label class="btn btn-outline-primary" for="{{ $item->services_name }}">
+                            {{ $item->services_name }}
+                        </label>
 
 
-                    {{-- divider close tag |ignore weird @if position --}}
-                    @if ($loop->iteration % 3 == 0 || $loop->last)
-                        </div>
-                    @endif
+                        {{-- divider close tag |ignore weird @if position --}}
+                        @if ($loop->iteration % 3 == 0 || $loop->last)
+        </div>
+        @endif
+        @endforeach
 
-                @endforeach
-        </x-modal-update>
-
+        <x-slot name="footer">
+            <x-modal-foot-button />
+            </form>
+        </x-slot>
+        </x-NewModal>
         {{-- __________________________________________________ --}}
 
         <script>
-            function editmodal(val) {// transfer data & display it on modal
+            function editmodal(val) { // transfer data & display it on modal
 
                 // ========= data initialize ===============
                 var datas = JSON.parse(val.value);
@@ -122,7 +122,7 @@
 
                 // ========== form input=====================
                 document.getElementById('ids').value = datas[0];
-                document.getElementById('inp').value = datas[1];
+                document.getElementById('name').value = datas[1];
 
 
                 // ========= reset services checkbox ========

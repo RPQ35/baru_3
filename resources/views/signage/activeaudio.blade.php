@@ -1,3 +1,6 @@
+
+{{-- @include('signage.AudioLibrary') --}}
+
 @php
 $queueCode = strtolower($item['data']);
 $audioSequence = array_merge(
@@ -14,7 +17,7 @@ $audioSequence = array_merge(
 $audioSequence = array_filter($audioSequence);
 
 // $delayold = $delayval;
-$delay *= 1.64;
+
 
 @endphp
 
@@ -26,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function playNext() {
         if (index < files.length) {
             const audio = new Audio(files[index]);
+            console.log(index);
             index++;
             audio.addEventListener("ended", playNext);
             audio.play();

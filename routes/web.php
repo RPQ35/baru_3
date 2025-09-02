@@ -98,8 +98,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 //  =========================
 Route::middleware(['auth', 'role:loket'])->group(function () {
     Route::controller(LocketsController::class)->group(function () {
-        Route::get('/lockets', 'index')->name('lockets.index');
-        Route::get('/lockets/{a}','show')->name('lockets.main');
+        Route::get('/lockets/select', 'index')->name('lockets.index');
+        Route::post('/lockets','show')->name('lockets.main');
+        Route::get('/lockets/app','edit');
     });
 });
 

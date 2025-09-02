@@ -23,16 +23,14 @@ class DashboardController extends Controller
         $Locket = Lockets::count();
         $Service = Services::count();
 
-        if (Auth::user()->hasRole('loket')) {
-            return redirect('/lockets');
-        } else {
-            return view('dashboard', compact(
-                'TodayQue',
-                'WeekQue',
-                'Service',
-                'Locket',
-                'Account',
-            ));
-        }
+
+        return view('dashboard', compact(
+            'TodayQue',
+            'WeekQue',
+            'Service',
+            'Locket',
+            'Account',
+        ));
+
     }
 }

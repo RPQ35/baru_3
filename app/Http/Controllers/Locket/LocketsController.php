@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Locket;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lockets;
+use App\Models\Queues;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
 class LocketsController extends Controller
@@ -22,24 +24,59 @@ class LocketsController extends Controller
                 'service' => $locket->services->toArray()
             ];
         }
-// dd($data);
-        return view('locket.select_locket',compact('data'));
+        // dd($data);
+        return view('locket.select_locket', compact('data'));
     }
 
     /**
-     * main page
+     * proses
      */
-      public function show(string $id)
+    public function show(Request $request)
     {
-        return view('locket.main_locket');
+        // dd($request);
+
+        if (isset($request->select)) {
+            $tes = $request->select;
+            session(['locket' => $tes]);
+            return redirect('/lockets/app');
+        } else {
+            session(['locket' => false]);
+            return redirect('/lockets/select');
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
-        //
+        $ids = session('locket');
+        $locket = Lockets::findOrFail(session('locket'));
+        $serviceIds = $locket->services->pluck('id');
+
+        $QueuesDone = Queues::whereIn('services_id', $serviceIds)
+            ->where('status', 'done')
+            ->get();
+
+        $QueuesComing = Queues::whereIn('services_id', $serviceIds)
+            ->where('status', '!=', 'done')
+            ->get();
+
+        $QueuesActive = Queues::whereIn('services_id', $serviceIds)
+            ->where('is_called', '1')
+            ->with([
+                'que_locket' => function ($query) use ($ids) {
+                    $query->where('locket_id', $ids);
+                }
+            ])
+            ->get();
+
+
+        return view('locket.main_locket', compact(
+            'QueuesDone',
+            'QueuesComing',
+            'QueuesActive',
+        ));
     }
 
     /**

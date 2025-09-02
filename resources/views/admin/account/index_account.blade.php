@@ -32,7 +32,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <div class="btn-group">
-                                        <button type="button" funct="editmodal" class="btn btn-secondary btn-sm"
+                                        <button type="button" funct="OpenModal" class="btn btn-secondary btn-sm"
                                             value='["{{ $acc->id }}","{{ $acc->name }}","{{ $acc->email }}","{{ $acc->roles->pluck('name')->join(', ') }}"]'
                                             onclick="editmodal(this)">Edit</button>
                                         <button type="submit" class="btn btn-danger btn-sm">
@@ -48,19 +48,15 @@
 
             {{-- __________________________________________________ --}}
             {{-- _____________ modal edit _________________________ --}}
-            <x-modal-update title="Edit Account" action="{{ route('account.update') }}">
-                <input name="id" value="" id="ids" type="hidden">
-                {{-- Nama --}}
-                <div class="mb-3">
-                    <label for="name" class="form-label">Nama</label>
-                    <input type="text" id="name" name="name" class="form-control" value="" required>
-                </div>
+            <x-NewModal title="Edit Account">
+                <form action="{{ route('account.update') }}" method="post">
+                    @csrf
+                    <input name="id" value="" id="ids" type="hidden">
+                    {{-- Nama --}}
+                    <x-form-input title="Nama" name="name" type="text" />
 
-                {{-- Email --}}
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" value="" required>
-                </div>
+                    {{-- Email --}}
+                    <x-form-input title="email" name="email" type="email" />
 
                 {{-- Role --}}
                 <div class="mb-3">
@@ -75,14 +71,15 @@
                     </select>
                 </div>
 
-                {{-- Password (opsional) --}}
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password (opsional)</label>
-                    <input type="password" id="password" name="password" class="form-control">
-                    <small class="text-muted">Kosongkan jika tidak ingin mengganti</small>
-                </div>
+                    {{-- Password (opsional) --}}
+                    <x-form-input title="password" name="password" type="text" />
+                    <small>kosongkan jika tidak ingin mengganti</small>
 
-            </x-modal-update>
+                    <x-slot name="footer">
+                        <x-modal-foot-button></x-modal-foot-button>
+                    </form>
+                    </x-slot>
+            </x-NewModal>
 
             {{-- modal script --}}
             <script>

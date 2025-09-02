@@ -39,7 +39,7 @@
                                     @method('DELETE')
 
                                     <div class="btn-group">
-                                        <button type="button" funct="editmodal" class="btn btn-secondary btn-sm"
+                                        <button type="button" funct="OpenModal" class="btn btn-secondary btn-sm"
                                             value='["{{ $service->id }}","{{ $service->code }}","{{ $service->services_name }}"]'
                                             onclick=" editModal(this)">Edit</button>
 
@@ -60,27 +60,31 @@
 
         {{-- _____________Modal for edit ______________________ --}}
 
-        <x-modal-update title="Edit Services" action="{{ route('services.update') }}">
+        <x-NewModal title="Update Service" potition="center">
+            <form action="{{ route('services.update') }}" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="edit_id" name="id" value="" style=" ">
 
-            <input type="hidden" id="edit_id" name="id" value="">
+                <div class="mb-3">
+                    <label for="edit_services_name" class="form-label">Service Name</label>
+                    <input type="text" class="form-control" id="edit_services_name" name="services_name" value=""
+                        required>
+                </div>
 
-            <div class="mb-3">
-                <label for="edit_services_name" class="form-label">Service Name</label>
-                <input type="text" class="form-control" id="edit_services_name" name="services_name" value=""
-                    required>
-            </div>
+                <div class="mb-3">
+                    <label for="edit_code" class="form-label">Code</label>
+                    <input type="text" class="form-control" id="edit_code" value="" name="code" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="edit_code" class="form-label">Code</label>
-                <input type="text" class="form-control" id="edit_code" value="" name="code" required>
-            </div>
+                <div class="mb-3">
+                    <label for="edit_logo" class="form-label">Logo</label>
+                    <input type="file" class="form-control" id="edit_logo" name="logo">
+                </div>
 
-            <div class="mb-3">
-                <label for="edit_logo" class="form-label">Logo</label>
-                <input type="file" class="form-control" id="edit_logo" name="logo">
-            </div>
-
-        </x-modal-update>
+                <x-slot name='footer'>
+                   <x-modal-foot-button/>
+            </form>
+            </x-slot>
+        </x-NewModal>
 
     </main>
 

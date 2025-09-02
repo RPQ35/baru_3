@@ -24,7 +24,6 @@ class Queues extends Model
     {
         return $this->belongsTo(Services::class, 'services_id');
     }
-
     public function que_locket()
     {
         return $this->belongsToMany(Lockets::class, 'que_locket');

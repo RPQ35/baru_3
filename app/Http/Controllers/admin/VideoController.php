@@ -7,6 +7,7 @@ use App\Models\Video;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response as FacadesResponse;
+use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
@@ -15,14 +16,19 @@ class VideoController extends Controller
      */
     public function index()
     {
+        if (session('video')) {
+            Storage::disk('public')->delete(session('video'));
+            session(['video' => null]);
+        }
+        ;
 
         /**
          * having and showing only 1 data / file
          */
         $video = Video::first();
         if ($video) {
-            $video->file_path = explode('/', $video->file_path);
-            $video->file_path = url('/') . '/' . "video/" . $video->file_path[1];
+            $video->file_path = pathinfo($video->file_path, PATHINFO_BASENAME);
+            $video->file_path = url('/') . '/' . "video/" . $video->file_path;
             // dd($video->file_path);
         }
 
@@ -32,9 +38,20 @@ class VideoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if ($request->hasFile('video')) {
+            $request->validate([
+                'video' => 'mimetypes:video/mp4,video/quicktime,video/webm',
+            ]);
+            $path = $request->file('video')->store('temporary', 'public');
+            session(['video' => $path]);
+            $path=pathinfo($path, PATHINFO_BASENAME);
+            $path= url('/') . '/' . "admin/video/temp/" . $path;
+        } else {
+            session(['video' => null]);
+        }
+        return response()->json(['path' => $path]);
     }
 
     /**
@@ -42,24 +59,26 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->hasFile('video')) {
-            $request->validate([
-                'video' => 'mimetypes:video/mp4,video/quicktime,video/webm',
-            ]);
-            $path = $request->file('video')->store('videos', 'public');
+        if (session('video')) {
+
+           $path= pathinfo(session('video'), PATHINFO_BASENAME);
+            if (Storage::disk('public')->exists(session('video'))) {
+                // Move the file from 'x' to 'y' on the public disk
+                Storage::disk('public')->move('temporary/' . $path, 'videos/' . $path);
+            }
             $update = false;
 
             $check = Video::count();
             if ($check > 0) {
                 $update = Video::findOrFail(1);
                 if ($update) {
-                    $update->file_path = $path;
+                    $update->file_path = 'videos/'.$path;
                     $update->save();
                 }
             } else {
                 Video::create([
                     'title' => 'video file',
-                    'file_path' => $path,
+                    'file_path' => 'videos/'.$path,
                     'status' => 0,
                 ]);
             }
@@ -94,9 +113,21 @@ class VideoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($files)
     {
-        //
+        // Corrected path to include 'public'
+        $path = storage_path('app/public/temporary/' . $files);
+
+        if (!file_exists($path)) {
+            abort(404);
+        }
+
+        $headers = [
+            'Content-Type' => 'video/mp4',
+            'Content-Disposition' => 'inline; filename="' . $files . '"',
+        ];
+
+        return FacadesResponse::file($path, $headers);
     }
 
     /**

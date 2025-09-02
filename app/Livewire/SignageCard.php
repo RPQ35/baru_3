@@ -5,15 +5,17 @@ namespace App\Livewire;
 use App\Models\Queues;
 use Livewire\Component;
 
-class SigangeCard extends Component
+class SignageCard extends Component
 {
 
 
     public function render()
     {
-        $pollInterval = 8;
-        $Interval = $pollInterval;
-        // == set que data =======================================================================================
+        $pollInterval = 8; //->default interval
+        $Interval = $pollInterval; //->backup for adding up the interval
+
+// == set que data =======================================================================================
+
         $que = Queues::where('is_called', 1)
             ->latest('updated_at')
             ->limit(4)
@@ -88,7 +90,7 @@ class SigangeCard extends Component
                         'status' => true,
                         'time' => $timeStr,
                     ];
-                $pollInterval = $pollInterval + $Interval;
+                    $pollInterval = $pollInterval + $Interval;
                 }
             }
         }
@@ -97,13 +99,24 @@ class SigangeCard extends Component
         session(['que_data' => $ex_que]);
         $que = $ex_que;
 
-        $countes= count(array_filter($que, fn($item) => $item['status'] === true));;
-        $backup_count=$countes;
+// =======================================================================================================
+// == set count & delay & intervall data =================================================================
+        /**
+         * $countes is for count how many row is active and pass it on signage.js
+         */
+        $countes = count(array_filter($que, fn($item) => $item['status'] === true));
+        $backup_count = $countes; //->second data for count calculation
 
-        $delay =8000;
-        $pollInterval = $pollInterval.'s';
+        /**
+         * $delay is for delay of each audio from each card
+         */
+        $delay = 8000;
 
-        return view('livewire.sigange-card', compact(
+        $pollInterval = $pollInterval . 's';//-> finalize the interval time
+
+// =======================================================================================================
+
+        return view('livewire.signage-card', compact(
             'que',
             'pollInterval',
             'countes',

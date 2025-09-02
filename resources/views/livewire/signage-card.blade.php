@@ -32,8 +32,7 @@
 @endphp
 
 {{-- _________________________________________________________________________________________________________________ --}}
-
-
+{{-- ____________________________ main display card __________________________________________________________________ --}}
 
 <div wire:poll.{{ $pollInterval }} class="col-lg-7">
     <div class="card shadow-lg border-0 rounded-lg mt-5" style="height: 90vh">
@@ -43,12 +42,14 @@
                     {{-- =========== card if the data is active | is_called ========= --}}
 
                     {{-- --- queue display card ----------- --}}
-                    <x-card href="" title="Locket" size="5" text="text-black fs-3 fw-semibold font"
-                        bgcolor="bg-warning" footer="false">
+                    <x-card href="" title="Locket" size="5" text="text-black fs-3 fw-semibold font h-100"
+                        bgcolor="bg-warning" footer="false"
+                        body_class="d-flex flex-column justify-content-center text-center">
 
                         <big>
                             {{ $item['data'] }}
                         </big>
+
 
                     </x-card>
 
@@ -59,20 +60,24 @@
                 @else
                     {{-- =========== normal card | not active  ======================== --}}
 
-                    <x-card href="" title="Locket" size="5" text="text-black fs-3 fw-semibold font"
-                        bgcolor="bg-secondary h-80" footer="false">
+                    <x-card href="" title="Locket" size="5" text="text-black fs-1 fw-semibold font h-100 "
+                        bgcolor="bg-primary h-80" footer="false"
+                        body_class="d-flex flex-column justify-content-center text-center">
 
-                        <big>
-                            {{ $item['data'] }}
-                        </big>
+                        <div class="row d-flex justify-content-center">
+                            <big class="">
+                                {{ $item['data'] }}
+                            </big>
+
+                        </div>
 
                     </x-card>
 
                     {{-- ============================================================== --}}
                 @endif
                 @php
-                $delay *= 1.64;
-                    $countes -=1;
+                    $delay *= 1.64;
+                    $countes -= 1;
                 @endphp
             @empty
             @endforelse

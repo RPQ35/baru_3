@@ -36,10 +36,12 @@
             <x-NewModal potition="center">
                 <form action="{{ route('video.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <x-form-input title="Update Video" name="video" type="file"></x-form-input>
+
+                    <x-form-input title="Update Video" name="video" type="file"
+                        onchange="video_temp(this)"></x-form-input>
 
                     <x-slot name="footer">
-                        <x-modal-foot-button />
+                        <x-modal-foot-button disabled id="subm" />
                 </form>
                 </x-slot>
             </x-NewModal>
@@ -50,18 +52,41 @@
 @endsection
 
 <script>
-    // Wait for the document to be ready
     document.addEventListener('DOMContentLoaded', function() {
-        // Find the toast element
+
         var toastElement = document.querySelector('.toast');
-
-        // Check if the toast element exists (meaning the session('success') was set)
         if (toastElement) {
-            // Create a new Bootstrap Toast instance
             var toast = new bootstrap.Toast(toastElement);
-
-            // Show the toast
             toast.show();
         }
     });
+
+    function video_temp(obj) {
+        const file = obj.files[0];
+        const formData = new FormData();
+        formData.append('video', file);
+
+        fetch('/admin/video/upload', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // console.log(data.path);
+                document.getElementById('subm').disabled = false;
+
+                var videos = document.createElement('video');
+                videos.className = "w-100 w-xl-75";
+                videos.src = data.path;
+                videos.controls=true;
+
+                obj.replaceWith(videos);
+
+            })
+            .catch(error => console.error('Error:', error));
+    };
 </script>
+{{-- /video/temp/ --}}

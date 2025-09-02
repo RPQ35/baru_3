@@ -43,7 +43,7 @@
 
 @yield('code')
 
-<body class="bg-primary sb-nav-fixed">
+<body class="sb-nav-fixed">
     <div id="layoutAuthentication">
         <main>
             <div class="container-fluid" style="height: 100vh">
@@ -52,7 +52,7 @@
                     {{-- audio library --}}
                     @include('signage.AudioLibrary')
                     {{-- queues display card --}}
-                    @livewire('sigange-card')
+                    @livewire('signage-card')
 
                     {{-- ------------------------------------------------------------- --}}
 

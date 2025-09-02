@@ -51,9 +51,6 @@
 
                         </tr>
                     @empty
-                        <tr>
-                            <td colspan="5" class="text-center">Belum ada services</td>
-                        </tr>
                     @endforelse
                 </x-slot>
             </x-table>

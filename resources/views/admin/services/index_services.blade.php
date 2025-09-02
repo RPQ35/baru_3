@@ -62,6 +62,7 @@
 
         <x-NewModal title="Update Service" potition="center">
             <form action="{{ route('services.update') }}" method="post" enctype="multipart/form-data">
+                @csrf
                 <input type="hidden" id="edit_id" name="id" value="" style=" ">
 
                 <div class="mb-3">
@@ -77,11 +78,11 @@
 
                 <div class="mb-3">
                     <label for="edit_logo" class="form-label">Logo</label>
-                    <input type="file" class="form-control" id="edit_logo" name="logo">
+                    <input type="file" class="form-control" id="edit_logo" onchange="logo_temp(this)" name="logo">
                 </div>
 
                 <x-slot name='footer'>
-                   <x-modal-foot-button/>
+                    <x-modal-foot-button />
             </form>
             </x-slot>
         </x-NewModal>
@@ -96,5 +97,32 @@
             document.getElementById('edit_code').value = datas['1'];
             document.getElementById('edit_services_name').value = datas['2'];
         }
+
+
+        function logo_temp(obj) {
+            const file = obj.files[0];
+            const formData = new FormData();
+            formData.append('logo', file);
+
+            fetch('/admin/services/logo', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.url);
+
+                    var images = document.createElement('img');
+                    images.style = "max-height:100px;";
+                    images.src = data.url;
+
+                    obj.replaceWith(images);
+
+                })
+                .catch(error => console.error('Error:', error));
+        };
     </script>
 @endsection

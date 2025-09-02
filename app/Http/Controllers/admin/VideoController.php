@@ -51,7 +51,7 @@ class VideoController extends Controller
         } else {
             session(['video' => null]);
         }
-        return response()->json(['path' => $path]);
+        return response()->json(['path' => $path]); 
     }
 
     /**
@@ -63,7 +63,6 @@ class VideoController extends Controller
 
            $path= pathinfo(session('video'), PATHINFO_BASENAME);
             if (Storage::disk('public')->exists(session('video'))) {
-                // Move the file from 'x' to 'y' on the public disk
                 Storage::disk('public')->move('temporary/' . $path, 'videos/' . $path);
             }
             $update = false;

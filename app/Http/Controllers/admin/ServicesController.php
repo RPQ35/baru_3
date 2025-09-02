@@ -35,6 +35,7 @@ class ServicesController extends Controller
             'services_name' => ['required', 'unique:services,services_name', new HtmlSpecialChars],
             'code' => ['required', 'string', 'min:1', new HtmlSpecialChars],
             'logo' => 'nullable|image|mimes:jpeg,jpg,png',
+            'input_label'   => 'nullable|string|max:255',
         ]);
 
         if ($request->hasFile('logo')) {
@@ -45,6 +46,7 @@ class ServicesController extends Controller
             'services_name' => $request->input('services_name'),
             'code' => $request->input('code'),
             'logo_path' => $logo_path ?: '',
+            'input_label'   => $request->input('input_label'),
         ]);
         return back();
     }

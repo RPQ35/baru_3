@@ -67,12 +67,11 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
             /** output var list
              *   index => $data
              */
-        Route::get('/services', 'index')->name('services.index');
-        Route::get('/services/create', 'create')->name('services.create');
-        Route::post('/services/store', 'store')->name('services.store');
-        Route::post('/services/update', 'update')->name('services.update');
-        Route::delete('/services/{id}', 'destroy')->name('services.destroy');
-
+            Route::get('/services', 'index')->name('services.index');
+            Route::get('/services/create', 'create')->name('services.create');
+            Route::post('/services/store', 'store')->name('services.store');
+            Route::post('/services/update', 'update')->name('services.update');
+            Route::delete('/services/{id}', 'destroy')->name('services.destroy');
         });
         Route::controller(RunningTextController::class)->group(function () {
             /** output var list
@@ -99,7 +98,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:loket'])->group(function () {
     Route::controller(LocketsController::class)->group(function () {
         Route::get('/lockets', 'index')->name('lockets.index');
-        Route::get('/lockets/{a}','show')->name('lockets.main');
+        Route::get('/lockets/{a}', 'show')->name('lockets.main');
     });
 });
 
@@ -109,6 +108,7 @@ Route::middleware(['auth', 'role:loket'])->group(function () {
 //  =========================
 Route::controller(KioskController::class)->group(function () {
     Route::get('/kiosk', 'index')->name('kiosk.index');
+    Route::post('/kiosk/take-number', [KioskController::class, 'takeNumber'])->name('kiosk.takeNumber');
 });
 
 

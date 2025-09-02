@@ -21,6 +21,11 @@
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </x-form-input>
+            <x-form-input name="input_label" title="Input Label">
+             @error('input_label')
+            <small class="text-danger">{{ $message }}</small>
+            @enderror
+            </x-form-input>
 
             <x-form-input name="logo" title="Logo" type="file">
                 @error('logo')

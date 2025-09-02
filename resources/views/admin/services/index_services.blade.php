@@ -15,6 +15,7 @@
                         <th>No</th>
                         <th>Service Name</th>
                         <th>Code</th>
+                        <th>Input Label</th>
                         <th>Logo</th>
                         <th>Action</th>
                     </tr>
@@ -25,6 +26,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $service->services_name }}</td>
                             <td>{{ $service->code }}</td>
+                            <td>{{ $service->input_label }}</td>
                             <td>
                                 @if ($service->logo_path)
                                     <img src="{{ asset('storage/' . $service->logo_path) }}" alt="logo" width="50">
@@ -40,7 +42,7 @@
 
                                     <div class="btn-group">
                                         <button type="button" funct="editmodal" class="btn btn-secondary btn-sm"
-                                            value='["{{ $service->id }}","{{ $service->code }}","{{ $service->services_name }}"]'
+                                            value='["{{ $service->id }}","{{ $service->code }}","{{ $service->services_name }}","{{ $service->input_label }}"]'
                                             onclick=" editModal(this)">Edit</button>
 
                                         <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
@@ -51,9 +53,6 @@
 
                         </tr>
                     @empty
-                        <tr>
-                            <td colspan="5" class="text-center">Belum ada services</td>
-                        </tr>
                     @endforelse
                 </x-slot>
             </x-table>
@@ -79,6 +78,11 @@
             </div>
 
             <div class="mb-3">
+                <label for="edit_input_label" class="form-label">Input Label</label>
+                <input type="text" class="form-control" id="edit_input_label" name="input_label" value="">
+            </div>
+
+            <div class="mb-3">
                 <label for="edit_logo" class="form-label">Logo</label>
                 <input type="file" class="form-control" id="edit_logo" name="logo">
             </div>
@@ -94,6 +98,7 @@
             document.getElementById('edit_id').value = datas['0'];
             document.getElementById('edit_code').value = datas['1'];
             document.getElementById('edit_services_name').value = datas['2'];
+            document.getElementById('edit_input_label').value = datas['3'];
         }
     </script>
 @endsection

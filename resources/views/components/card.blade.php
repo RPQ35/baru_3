@@ -6,11 +6,13 @@
     'size'=>3,
     'text'=>"text-white",
     'style'=>'',
+    'body_class'=>'
+    ',
 ])
 
 <div class="col-xl-{{ $size }} col-md-6" >
-    <div class="card {{ $bgcolor }} {{ $text }} mb-4" >
-        <div class="card-body">
+    <div class="card {{ $bgcolor }} {{ $text }} mb-4 " >
+        <div class="card-body {{ $body_class }}">
             {{ $title }}
             <br>
             {{ $slot }}

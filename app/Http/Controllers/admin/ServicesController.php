@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Services;
 use App\Rules\HtmlSpecialChars;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ServicesController extends Controller
 {
@@ -14,6 +15,11 @@ class ServicesController extends Controller
      */
     public function index()
     {
+        if (session('temporary_path')) {
+            Storage::disk('public')->delete(session('temporary_path'));
+            session(['temporary_path' => null]);
+        }
+        session(['temporary_path' => null]);
         $servi = Services::all();
         return view('admin.services.index_services', compact('servi'));
     }
@@ -23,6 +29,11 @@ class ServicesController extends Controller
      */
     public function create()
     {
+        if (session('temporary_path')) {
+            Storage::disk('public')->delete(session('temporary_path'));
+            session(['temporary_path' => null]);
+        }
+        session(['temporary_path' => null]);
         return view('admin.services.new_services');
     }
 
@@ -34,19 +45,20 @@ class ServicesController extends Controller
         $request->validate([
             'services_name' => ['required', 'unique:services,services_name', new HtmlSpecialChars],
             'code' => ['required', 'string', 'min:1', new HtmlSpecialChars],
-            'logo' => 'nullable|image|mimes:jpeg,jpg,png',
-            'input_label'   => 'nullable|string|max:255',
         ]);
 
-        if ($request->hasFile('logo')) {
-            $logo_path = $request->file('logo')->store('logo', 'public');
+        if (session('temporary_path')) {
+            $logo_path = pathinfo(session('temporary_path'), PATHINFO_BASENAME);
+            'input_label'   => 'nullable|string|max:255',
+            if (Storage::disk('public')->exists(session('temporary_path'))) {
+                Storage::disk('public')->move('templogos/' . $logo_path, 'logo/' . $logo_path);
+            }
         }
 
         Services::create([
             'services_name' => $request->input('services_name'),
             'code' => $request->input('code'),
             'logo_path' => $logo_path ?: '',
-            'input_label'   => $request->input('input_label'),
         ]);
         return back();
     }
@@ -57,12 +69,15 @@ class ServicesController extends Controller
      */
     public function temp_logo(Request $request)
     {
-        if ($request->hasFile('file')) {
+        $request->validate([
+            'logo' => 'nullable|image|mimes:jpeg,jpg,png',
+        ]);
+        if ($request->hasFile('logo')) {
             // dd($request);
-            $path = $request->file('file')->store('temp-logos', 'public');
+            $path = $request->file('logo')->store('templogos', 'public');
 
 
-            session()->put('temporary_path', 'storage' . $path);
+            session(['temporary_path' => $path]);
             return response()->json([
                 'url' => asset('storage/' . $path)
             ]);
@@ -88,22 +103,23 @@ class ServicesController extends Controller
         $request->validate([
             'services_name' => 'required|string|max:255',
             'code' => 'required|string|max:50',
-            'logo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
         ]);
 
         $service = Services::findOrFail($request->id);
         $service->services_name = $request->services_name;
         $service->code = $request->code;
 
-        if ($request->hasFile('logo')) {
-            $path = $request->file('logo')->store('logos', 'public');
-            $service->logo_path = $path;
+        if (session('temporary_path')) {
+            $logo_path = pathinfo(session('temporary_path'), PATHINFO_BASENAME);
+            if (Storage::disk('public')->exists(session('temporary_path'))) {
+                Storage::disk('public')->move('templogos/' . $logo_path, 'logo/' . $logo_path);
+            }
+            $service->logo_path = 'logo/'.$logo_path;
         }
 
         $service->save();
 
-        return redirect()->route('services.index')
-            ->with('success', 'Service berhasil diupdate');
+        return back()->with('success', 'Service berhasil diupdate');
     }
 
 

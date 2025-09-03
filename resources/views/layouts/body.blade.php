@@ -9,8 +9,10 @@
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <title>@yield('title', 'My App')</title>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @yield('head')
 </head>
+
 
 <body>
 

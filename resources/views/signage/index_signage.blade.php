@@ -6,24 +6,19 @@
 @section('entertaiment')
     <div class="col-lg-5">
         <div class="card shadow-lg border-0 rounded-lg mt-5" style="height: 90vh;">
-            <div class="card-body">
+            <div class="card-body" style="position: relative">
                 {{-- =========== video display =================================== --}}
                 <video style="max-width: 100%; max-height: 90%;" id="myVideo" src="{{ $video }}" autoplay muted loop>
                 </video>
                 {{-- ============================================================== --}}
                 {{-- =========== running text display ============================= --}}
-                <div class="col-xl-12 col-md-2">
+                <div class="col-xl-12 col-md-6" style=" position: absolute; bottom: 0; left: 0;">
                     <div class="card bg-white text-black mb-4">
 
-                        <div class="card-body marquee-container">
-                            {{-- <big id="marquee-text" style="text-transform: capitalize; font-weight: bolder;">
-                                {{ $text }}
-                            </big> --}}
+                        <div class="card-body marquee-container ">
                             <marquee style="capitalize; font-weight: bolder;">
-                                <big>
-                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa dignissimos, sapiente
-                                    distinctio quidem est ducimus minima unde neque qui, amet exercitationem. Quaerat soluta
-                                    expedita tenetur, dolore vitae illum fugit quo!
+                                <big class="fs-3">
+                                    {{ $text }}
                                 </big>
                             </marquee>
                         </div>

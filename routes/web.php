@@ -67,11 +67,12 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
             /** output var list
              *   index => $data
              */
-        Route::get('/services', 'index')->name('services.index');
-        Route::get('/services/create', 'create')->name('services.create');
-        Route::post('/services/store', 'store')->name('services.store');
-        Route::post('/services/update', 'update')->name('services.update');
-        Route::delete('/services/{id}', 'destroy')->name('services.destroy');
+            Route::get('/services', 'index')->name('services.index');
+            Route::get('/services/create', 'create')->name('services.create');
+            Route::post('/services/store', 'store')->name('services.store');
+            Route::post('/services/logo','temp_logo');
+            Route::post('/services/update', 'update')->name('services.update');
+            Route::delete('/services/{id}', 'destroy')->name('services.destroy');
 
         });
         Route::controller(RunningTextController::class)->group(function () {
@@ -87,6 +88,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
              *          catatan : video->file_path tidak perlu di panggil dengan asset
              */
             Route::get('/video', 'index')->name('video.index');
+            Route::post('/video/upload', 'create');
+            Route::get('/video/temp/{files}', 'edit');
             Route::post('/video/store', 'store')->name('video.store');
         });
     });
@@ -99,8 +102,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:loket'])->group(function () {
     Route::controller(LocketsController::class)->group(function () {
         Route::get('/lockets/select', 'index')->name('lockets.index');
-        Route::post('/lockets','show')->name('lockets.main');
-        Route::get('/lockets/app','edit');
+        Route::post('/lockets', 'show')->name('lockets.main');
+        Route::get('/lockets/app', 'edit');
     });
 });
 

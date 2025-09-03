@@ -43,7 +43,7 @@
 
 @yield('code')
 
-<body class="bg-primary sb-nav-fixed">
+<body class="sb-nav-fixed">
     <div id="layoutAuthentication">
         <main>
             <div class="container-fluid" style="height: 100vh">
@@ -52,7 +52,7 @@
                     {{-- audio library --}}
                     @include('signage.AudioLibrary')
                     {{-- queues display card --}}
-                    @livewire('sigange-card')
+                    @livewire('signage-card')
 
                     {{-- ------------------------------------------------------------- --}}
 
@@ -67,7 +67,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
-    <script src="{{ asset('js/script.js') }}"></script>
+    {{-- <script src="{{ asset('js/script.js') }}"></script> --}}
 </body>
 
 </html>

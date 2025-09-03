@@ -84,9 +84,13 @@
                 <input type="hidden" name="services_id" id="serviceId">
                 <div id="serviceLogo" class="mb-3"></div>
                 <div class="mb-3">
-                    <label id="inputLabel" class="form-label"></label>
-                    <input type="text" name="vehicle_number" class="form-control" required>
-                </div>
+    <label id="inputLabel" class="form-label"></label>
+    <input type="text" name="vehicle_number" id="vehicleInput" class="form-control" required readonly>
+</div>
+
+<!-- Tempat keyboard -->
+<div id="keyboard" class="d-flex flex-wrap justify-content"></div>
+
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary">Ambil Nomor</button>
@@ -98,23 +102,25 @@
     </div>
 
     {{-- Modal Success --}}
-    @if(session('success'))
-    <div class="modal fade show" id="successModal" tabindex="-1" style="display:block; background:rgba(0,0,0,.5)">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content text-center">
-          <div class="modal-header bg-success text-white">
-            <h5 class="modal-title">Berhasil!</h5>
-          </div>
-          <div class="modal-body">
-            <h4>{{ session('success') }}</h4>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-success" onclick="closeSuccess()">OK</button>
-          </div>
-        </div>
+@if(session('success'))
+<div class="modal fade show" id="successModal" tabindex="-1" style="display:block; background:rgba(0,0,0,.5)">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">Berhasil!</h5>
+      </div>
+      <div class="modal-body">
+        <h4>{{ session('success') }}</h4>
+        <p class="text-muted">Halaman akan refresh otomatis dalam <span id="countdown">5</span> detik...</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="closeSuccess()">OK</button>
       </div>
     </div>
-    @endif
+  </div>
+</div>
+@endif
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -139,6 +145,30 @@
             modal.style.display = "none";
         }
     </script>
+    <script src="{{asset('js/keyboard.js')}}"></script>
+    <script>
+    // Tutup success modal
+    function closeSuccess() {
+        const modal = document.getElementById('successModal');
+        modal.style.display = "none";
+        location.reload(); // langsung refresh kalau klik OK
+    }
+
+    // Kalau ada success modal, set auto refresh
+    const successModal = document.getElementById('successModal');
+    if (successModal) {
+        let counter = 5; // detik
+        const countdown = document.getElementById('countdown');
+        const interval = setInterval(() => {
+            counter--;
+            countdown.textContent = counter;
+            if (counter <= 0) {
+                clearInterval(interval);
+                location.reload(); // refresh halaman
+            }
+        }, 1000);
+    }
+</script>
 
 </body>
 </html>

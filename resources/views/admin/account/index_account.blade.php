@@ -58,17 +58,18 @@
                     {{-- Email --}}
                     <x-form-input title="email" name="email" type="email" />
 
-                    {{-- Role --}}
-                    <div class="mb-3">
-                        <label for="role" class="form-label">Role</label>
-                        <select id="role" name="role" class="form-select" required>
-                            @foreach (\Spatie\Permission\Models\Role::all() as $role)
-                                <option value="{{ $role->name }}" class="role-opt">
-                                    {{ ucfirst($role->name) }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                {{-- Role --}}
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role</label>
+                    <select id="role" name="role" class="form-select" required>
+                        @foreach (\Spatie\Permission\Models\Role::all() as $role)
+                        {{-- digunakan untuk mengelola role & permission --}}
+                            <option value="{{ $role->name }}" class="role-opt">
+                                {{ ucfirst($role->name) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
                     {{-- Password (opsional) --}}
                     <x-form-input title="password" name="password" type="text" />

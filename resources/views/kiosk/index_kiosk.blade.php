@@ -84,9 +84,13 @@
                 <input type="hidden" name="services_id" id="serviceId">
                 <div id="serviceLogo" class="mb-3"></div>
                 <div class="mb-3">
-                    <label id="inputLabel" class="form-label"></label>
-                    <input type="text" name="vehicle_number" class="form-control" required>
-                </div>
+    <label id="inputLabel" class="form-label"></label>
+    <input type="text" name="vehicle_number" id="vehicleInput" class="form-control" required readonly>
+</div>
+
+<!-- Tempat keyboard -->
+<div id="keyboard" class="d-flex flex-wrap justify-content"></div>
+
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary">Ambil Nomor</button>
@@ -139,6 +143,7 @@
             modal.style.display = "none";
         }
     </script>
+    <script src="{{asset('js/keyboard.js')}}"></script>
 
 </body>
 </html>

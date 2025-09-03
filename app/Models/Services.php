@@ -12,6 +12,7 @@ class Services extends Model
     protected $fillable = [
         'services_name',
         'code',
+        'input_label',
         'logo_path',
     ];
     // app/Models/Service.php

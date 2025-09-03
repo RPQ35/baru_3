@@ -56,6 +56,7 @@ class ServicesController extends Controller
                 'min:1',
                 new HtmlSpecialChars
             ],
+            'input_label'   => 'nullable|string|max:255',
         ]);
 
         if (session('temporary_path')) {
@@ -70,7 +71,7 @@ class ServicesController extends Controller
         Services::create([
             'services_name' => $request->input('services_name'),
             'code' => $request->input('code'),
-            'logo_path' => 'logo/' . $logo_path ?: '',
+            'logo_path' => 'logo/'.$logo_path ?: '',
         ]);
         return back();
     }
@@ -136,7 +137,7 @@ class ServicesController extends Controller
             if (Storage::disk('public')->exists(session('temporary_path'))) {//->check file from session exist
                 Storage::disk('public')->move('templogos/' . $logo_path, 'logo/' . $logo_path);//move file to main folder
             }
-            $service->logo_path = 'logo/' . $logo_path;//->updating the file path
+            $service->logo_path = 'logo/'.$logo_path;
         }
 
         $service->save();

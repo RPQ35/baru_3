@@ -113,6 +113,7 @@ Route::middleware(['auth', 'role:loket'])->group(function () {
 //  =========================
 Route::controller(KioskController::class)->group(function () {
     Route::get('/kiosk', 'index')->name('kiosk.index');
+    Route::post('/kiosk/take-number', [KioskController::class, 'takeNumber'])->name('kiosk.takeNumber');
 });
 
 

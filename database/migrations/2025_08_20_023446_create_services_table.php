@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('services_name');
             $table->string('code');
+            $table->string('input_label')->nullable();
             $table->string('logo_path')->nullable()->default('-');
             $table->timestamps();
         });

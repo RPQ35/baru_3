@@ -45,6 +45,7 @@ class ServicesController extends Controller
         $request->validate([
             'services_name' => ['required', 'unique:services,services_name', new HtmlSpecialChars],
             'code' => ['required', 'string', 'min:1', new HtmlSpecialChars],
+            'input_label'   => 'nullable|string|max:255',
         ]);
 
         if (session('temporary_path')) {
@@ -57,7 +58,7 @@ class ServicesController extends Controller
         Services::create([
             'services_name' => $request->input('services_name'),
             'code' => $request->input('code'),
-            'logo_path' => 'logo/'.$logo_path ?: '',
+            'logo_path' => $logo_path ?: '',
         ]);
         return back();
     }
@@ -113,7 +114,7 @@ class ServicesController extends Controller
             if (Storage::disk('public')->exists(session('temporary_path'))) {
                 Storage::disk('public')->move('templogos/' . $logo_path, 'logo/' . $logo_path);
             }
-            $service->logo_path = 'logo/'.$logo_path;
+            $service->logo_path = 'logo/' . $logo_path;
         }
 
         $service->save();

@@ -17,7 +17,7 @@ class AccountController extends Controller
         $data = User::all();
 
         $page_count = User::count('name');
-        $page_count = strval($page_count ? ceil($page_count / 20) : 1);
+        // $page_count = strval($page_count ? ceil($page_count / 20) : 1);
 
 
         return view('admin.account.index_account', compact(
@@ -52,7 +52,7 @@ class AccountController extends Controller
         'password' => bcrypt($request->input('password')),
     ]);
 
-    $user->assignRole($request->input('role'));
+    $user->assignRole($request->input('role'));//->assing role
 
     return back()->with('success', 'Akun berhasil dibuat');
 }
@@ -78,7 +78,8 @@ class AccountController extends Controller
      */
 public function update(Request $request)
 {
-    $id=$request->id;
+    $id=$request->id;//->get id
+
     $request->validate([
         'name' => ['required', 'min:3', new HtmlSpecialChars],
         'email' => ['required', 'email', 'unique:users,email,' . $id, new HtmlSpecialChars],
@@ -92,6 +93,7 @@ public function update(Request $request)
         'name' => $request->input('name'),
         'email' => $request->input('email'),
         'password' => $request->filled('password') ? bcrypt($request->input('password')) : $user->password,
+        // ^ check if the password is not null and hash then updating data
     ]);
 
     // Update role

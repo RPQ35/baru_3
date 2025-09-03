@@ -33,11 +33,11 @@
             <br>
 
             {{-- Panggil component (popup modal) --}}
-            <x-NewModal potition="center">
+            <x-NewModal potition="center" title="Update Video">
                 <form action="{{ route('video.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                    <x-form-input title="Update Video" name="video" type="file"
+                    <x-form-input title="" name="video" type="file" div_Id="parents"
                         onchange="video_temp(this)"></x-form-input>
 
                     <x-slot name="footer">
@@ -64,6 +64,7 @@
     function video_temp(obj) {
         const file = obj.files[0];
         const formData = new FormData();
+        const parrents = document.getElementById('parents');
         formData.append('video', file);
 
         fetch('/admin/video/upload', {
@@ -78,15 +79,18 @@
                 // console.log(data.path);
                 document.getElementById('subm').disabled = false;
 
-                var videos = document.createElement('video');
-                videos.className = "w-100 w-xl-75";
-                videos.src = data.path;
-                videos.controls=true;
+                if (document.querySelector('.w-100[child="true"]')) {
+                    document.querySelector('.w-100[child="true"]').src = data.path;
+                } else {
+                    var videos = document.createElement('video');
+                    videos.className = "w-100 w-xl-75";
+                    videos.src = data.path;
+                    videos.controls = true;
+                    videos.setAttribute('child', 'true');
 
-                obj.replaceWith(videos);
-
+                    parrents.appendChild(videos);
+                }
             })
             .catch(error => console.error('Error:', error));
     };
 </script>
-{{-- /video/temp/ --}}

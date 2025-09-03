@@ -15,17 +15,20 @@ class SignageController extends Controller
      */
     public function index()
     {
-        // == set the data for video & running test ==========================================================
+        /**  queue card hadled by livewire
+         * app/livewire/SignageCard
+          */
 
+        // == set the data for video & running test ========
         $video = Video::first();
         if ($video) {
-            $video->file_path = explode('/', $video->file_path);
-            $video = url('/') . '/' . "video/" . $video->file_path[1];
+            $video->file_path =pathinfo($video->file_path, PATHINFO_BASENAME);//->get file name
+            $video = url('/') . '/' . "video/" . $video->file_path;//->customin file route
         }
 
         $text = Running_text::first();
         if ($text) {
-            $text = $text->texts;
+            $text = $text->texts;//->return only the needed data
         }
 
 

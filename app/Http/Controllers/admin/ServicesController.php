@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Services;
-use App\Rules\HtmlSpecialChars;
 use Illuminate\Http\Request;
+use App\Rules\HtmlSpecialChars;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 class ServicesController extends Controller
@@ -15,11 +15,12 @@ class ServicesController extends Controller
      */
     public function index()
     {
-        if (session('temporary_path')) {
+        if (session('temporary_path')) {//->delleting the session and temporary file
             Storage::disk('public')->delete(session('temporary_path'));
             session(['temporary_path' => null]);
         }
-        session(['temporary_path' => null]);
+        session(['temporary_path' => null]);//->delete session
+
         $servi = Services::all();
         return view('admin.services.index_services', compact('servi'));
     }
@@ -29,11 +30,11 @@ class ServicesController extends Controller
      */
     public function create()
     {
-        if (session('temporary_path')) {
+        if (session('temporary_path')) {//->delleting the session and temporary file
             Storage::disk('public')->delete(session('temporary_path'));
             session(['temporary_path' => null]);
         }
-        session(['temporary_path' => null]);
+        session(['temporary_path' => null]);//->delete the session
         return view('admin.services.new_services');
     }
 
@@ -43,21 +44,33 @@ class ServicesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'services_name' => ['required', 'unique:services,services_name', new HtmlSpecialChars],
-            'code' => ['required', 'string', 'min:1', new HtmlSpecialChars],
+            'services_name' => [
+                'required',
+                'unique:services,services_name',
+                new HtmlSpecialChars
+            ],
+
+            'code' => [
+                'required',
+                'string',
+                'min:1',
+                new HtmlSpecialChars
+            ],
         ]);
 
         if (session('temporary_path')) {
-            $logo_path = pathinfo(session('temporary_path'), PATHINFO_BASENAME);
-            if (Storage::disk('public')->exists(session('temporary_path'))) {
-                Storage::disk('public')->move('templogos/' . $logo_path, 'logo/' . $logo_path);
+
+            $logo_path = pathinfo(session('temporary_path'), PATHINFO_BASENAME);//->get the file name
+
+            if (Storage::disk('public')->exists(session('temporary_path'))) {//->check data in sesion is exist
+                Storage::disk('public')->move('templogos/' . $logo_path, 'logo/' . $logo_path);//->move the file to fix location
             }
         }
 
         Services::create([
             'services_name' => $request->input('services_name'),
             'code' => $request->input('code'),
-            'logo_path' => 'logo/'.$logo_path ?: '',
+            'logo_path' => 'logo/' . $logo_path ?: '',
         ]);
         return back();
     }
@@ -68,18 +81,25 @@ class ServicesController extends Controller
      */
     public function temp_logo(Request $request)
     {
+        if (session('temporary_path')) {//->delleting the session and temporary file
+            Storage::disk('public')->delete(session('temporary_path'));
+            session(['temporary_path' => null]);
+        }
+
         $request->validate([
             'logo' => 'nullable|image|mimes:jpeg,jpg,png',
         ]);
+
         if ($request->hasFile('logo')) {
-            // dd($request);
-            $path = $request->file('logo')->store('templogos', 'public');
 
+            $path = $request->file('logo')->store('templogos', 'public');//->save temporary file
 
-            session(['temporary_path' => $path]);
+            session(['temporary_path' => $path]);//->save to session for storing the data
+
             return response()->json([
-                'url' => asset('storage/' . $path)
+                'url' => asset('storage/' . $path)//->retrun file route for displaying
             ]);
+
         }
 
         return response()->json(['error' => 'No file uploaded'], 400);
@@ -104,16 +124,19 @@ class ServicesController extends Controller
             'code' => 'required|string|max:50',
         ]);
 
+        // ==== update the data ==========================
         $service = Services::findOrFail($request->id);
         $service->services_name = $request->services_name;
         $service->code = $request->code;
 
-        if (session('temporary_path')) {
-            $logo_path = pathinfo(session('temporary_path'), PATHINFO_BASENAME);
-            if (Storage::disk('public')->exists(session('temporary_path'))) {
-                Storage::disk('public')->move('templogos/' . $logo_path, 'logo/' . $logo_path);
+        // ==== update file logo ==========================
+        if (session('temporary_path')) {//->check if file already upload and saved in session
+            $logo_path = pathinfo(session('temporary_path'), PATHINFO_BASENAME);//->get file name
+
+            if (Storage::disk('public')->exists(session('temporary_path'))) {//->check file from session exist
+                Storage::disk('public')->move('templogos/' . $logo_path, 'logo/' . $logo_path);//move file to main folder
             }
-            $service->logo_path = 'logo/'.$logo_path;
+            $service->logo_path = 'logo/' . $logo_path;//->updating the file path
         }
 
         $service->save();

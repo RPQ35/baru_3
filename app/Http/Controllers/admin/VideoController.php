@@ -16,42 +16,47 @@ class VideoController extends Controller
      */
     public function index()
     {
-        if (session('video')) {
+        if (session('video')) { //->dellete file session and temporary file in storage
             Storage::disk('public')->delete(session('video'));
             session(['video' => null]);
-        }
-        ;
+        };
 
         /**
          * having and showing only 1 data / file
          */
         $video = Video::first();
         if ($video) {
-            $video->file_path = pathinfo($video->file_path, PATHINFO_BASENAME);
-            $video->file_path = url('/') . '/' . "video/" . $video->file_path;
-            // dd($video->file_path);
+            //==== custom route that will be handle by show() ====
+            $video->file_path = pathinfo($video->file_path, PATHINFO_BASENAME); //->get file name
+            $video->file_path = url('/') . '/' . "video/" . $video->file_path; //->give new route or path
         }
 
         return view('admin.video.index_video', compact('video'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Storing temporary video file
      */
     public function create(Request $request)
     {
+
+        // ===== validate the file ======
         if ($request->hasFile('video')) {
             $request->validate([
                 'video' => 'mimetypes:video/mp4,video/quicktime,video/webm',
             ]);
+
+            // ===== storing file and route to session ======
             $path = $request->file('video')->store('temporary', 'public');
             session(['video' => $path]);
-            $path=pathinfo($path, PATHINFO_BASENAME);
-            $path= url('/') . '/' . "admin/video/temp/" . $path;
+
+            // ===== custom route | custom path ======
+            $path = pathinfo($path, PATHINFO_BASENAME);
+            $path = url('/') . '/' . "admin/video/temp/" . $path;
         } else {
-            session(['video' => null]);
+            session(['video' => null]); //->null-ing if data is empty
         }
-        return response()->json(['path' => $path]); 
+        return response()->json(['path' => $path]);
     }
 
     /**
@@ -59,25 +64,34 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
+        if (session('video')) { //->dellete file session and temporary file in storage
+            Storage::disk('public')->delete(session('video'));
+            session(['video' => null]);
+        };
+
         if (session('video')) {
 
-           $path= pathinfo(session('video'), PATHINFO_BASENAME);
-            if (Storage::disk('public')->exists(session('video'))) {
-                Storage::disk('public')->move('temporary/' . $path, 'videos/' . $path);
+            $path = pathinfo(session('video'), PATHINFO_BASENAME); //->get file name
+            if (Storage::disk('public')->exists(session('video'))) { //->check file from session exist
+                Storage::disk('public')->move('temporary/' . $path, 'videos/' . $path); //->move the file to main storage
             }
-            $update = false;
+
+            $update = false; //->declare |prevent eror
 
             $check = Video::count();
-            if ($check > 0) {
+            if ($check > 0) { //->check is there already have a data
+
+                //==== update db ======
                 $update = Video::findOrFail(1);
                 if ($update) {
-                    $update->file_path = 'videos/'.$path;
+                    $update->file_path = 'videos/' . $path;
                     $update->save();
                 }
             } else {
+                //==== create / store db ======
                 Video::create([
                     'title' => 'video file',
-                    'file_path' => 'videos/'.$path,
+                    'file_path' => 'videos/' . $path,
                     'status' => 0,
                 ]);
             }
@@ -90,7 +104,7 @@ class VideoController extends Controller
 
     /**
      * Display the specified resource.
-     * custom route for video
+     * custom route for video main
      */
     public function show($filename)
     {
@@ -110,7 +124,8 @@ class VideoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * custom route for temporary file
+     * displaying video or file
      */
     public function edit($files)
     {
@@ -145,26 +160,3 @@ class VideoController extends Controller
         //
     }
 }
-
-/**
- * ignore - just experiment
- */
-
-// $x = 15;
-// $x = intval(ceil($x / 5));
-// $y = [];
-// $mx = 5;
-// $d = 2;
-// // dd($x);
-// for ($i = 0; $i < $x; $i++) {
-//     if (count($y) < $mx) {
-//         if ($x == 1) {$y[]=1;
-//         } else {
-//             count($y) == 2 ? $d += 1 : '';
-//             count($y) == 2 ? $y[] = $x : '';
-//             count($y) > 2 ? $y[] = $x + $d : (0 == $x - $d ? '' : $y[] = $x - $d);
-//             count($y) > 2 ? $d += 1 : (0 == $x - 1 ? $d = 0 : $d -= 1);
-//         }
-//     }
-// }
-// dd($y);

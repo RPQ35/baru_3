@@ -22,7 +22,7 @@
                     @enderror
                 </x-form-input>
 
-                <x-form-input name="logo" title="Logo" type="file" onchange="logo_temp(this)">
+                <x-form-input name="logo" title="Logo" type="file" onchange="logo_temp(this)" div_Id="parrents">
                     @error('logo')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -32,31 +32,7 @@
             </x-form>
         </div>
     </main>
-    <script>
-        function logo_temp(obj) {
-            const file = obj.files[0];
-            const formData = new FormData();
-            formData.append('logo', file);
 
-            fetch('/admin/services/logo', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data.url);
+       <script src="{{ asset('js/logo_upload.js') }}"></script>
 
-                    var images = document.createElement('img');
-                    images.style="max-height:100px;";
-                    images.src = data.url;
-
-                    obj.replaceWith(images);
-
-                })
-                .catch(error => console.error('Error:', error));
-        };
-    </script>
 @endsection

@@ -85,7 +85,7 @@ class SignageCard extends Component
                     }
                 } else {//make new data
                     $ex_que[] = [
-                        'title' => 'apalah',
+                        'title' => 'apalah', 
                         'data' => $quenum,
                         'status' => true,
                         'time' => $timeStr,

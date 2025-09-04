@@ -143,6 +143,7 @@
         function closeSuccess() {
             const modal = document.getElementById('successModal');
             modal.style.display = "none";
+            window.location.href='/kiosk';
         }
     </script>
     <script src="{{asset('js/keyboard.js')}}"></script>

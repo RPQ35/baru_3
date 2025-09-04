@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Locket;
 use App\Http\Controllers\Controller;
 use App\Models\Lockets;
 use App\Models\Queues;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Validated;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class LocketsController extends Controller
@@ -50,48 +52,59 @@ class LocketsController extends Controller
      */
     public function edit()
     {
-        $ids = session('locket');
-        $locket = Lockets::findOrFail(session('locket'));
-        $serviceIds = $locket->services->pluck('id');
-
-        $QueuesDone = Queues::whereIn('services_id', $serviceIds)
-            ->where('status', 'done')
-            ->get();
-
-        $QueuesComing = Queues::whereIn('services_id', $serviceIds)
-            ->where('status', '!=', 'done')
-            ->get();
-
-        $QueuesActive = Queues::whereIn('services_id', $serviceIds)
-            ->where('is_called', '1')
-            ->with([
-                'que_locket' => function ($query) use ($ids) {
-                    $query->where('locket_id', $ids);
-                }
-            ])
-            ->get();
-
-
-        return view('locket.main_locket', compact(
-            'QueuesDone',
-            'QueuesComing',
-            'QueuesActive',
-        ));
+        try {
+            $locket = Lockets::findOrFail(session('locket'));
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('logout');
+        }
+        return view('locket.main_locket');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function oncoming(Request $request)
     {
-        //
-    }
+        //id declare value
+        $que_id = $request->val;
+        $locket_id = session('locket');
+        $serviceIds = Lockets::findOrFail($locket_id)->services->pluck('id');
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        if (isset($request->BtnValue)) {
+            if ($request->BtnValue == 'call') {
+
+                /**
+                 * un active the un-used
+                 */
+                $queuesInActive = Queues::whereIn('services_id', $serviceIds)
+                    ->where('is_called', 1)
+                    ->whereDate('updated_at', Carbon::today())
+                    ->whereHas('queues_lockets', function ($query) use ($locket_id) {
+                        $query->where('locket_id', $locket_id);
+                    })
+                    ->first();
+
+                if ($queuesInActive) {
+                    // Update the single model instance
+                    $queuesInActive->update(['is_called' => 0]);
+
+                    // Detach the locket_id from the single model instance
+                    $queuesInActive->queues_lockets()->sync($locket_id);
+                }
+
+
+
+                // 1. Find and update the Queues record.
+                $calling = Queues::findOrFail($que_id);
+                $calling->is_called = true;
+                $calling->save();
+
+                // 2. Find the Locket record.
+                $locket = Lockets::findOrFail($locket_id);
+                $locket->queus_lockets()->attach($que_id);
+            }
+            return response()->json(['res' => 'succes']);
+        }
+        return response()->json(['error' => 'No file uploaded'], 400);
     }
 }

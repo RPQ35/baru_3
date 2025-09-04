@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('que_locket', function (Blueprint $table) {
+        Schema::create('queues_locket', function (Blueprint $table) {
             // Foreign key for the `queues` table
             $table->foreignId('queues_id')->constrained()->cascadeOnDelete();
 
@@ -18,7 +18,6 @@ return new class extends Migration {
             $table->foreignId('locket_id')->constrained()->cascadeOnDelete();
 
             // Make the combination of the two foreign keys unique
-            $table->unique(['queues_id', 'locket_id']);
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('que_locket');
+        Schema::dropIfExists('queues_locket');
     }
 };

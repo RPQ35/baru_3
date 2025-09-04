@@ -22,9 +22,8 @@ class Lockets extends Model
     {
         return $this->hasMany(LocketServices::class, 'locket_id');
     }
-    public function queues()
+    public function queus_lockets()
     {
-        return $this->belongsToMany(Queues::class, 'que_locket');
+        return $this->belongsToMany(Queues::class, 'queues_locket', 'locket_id', 'queues_id');
     }
 }
-

@@ -34,7 +34,7 @@
 {{-- _________________________________________________________________________________________________________________ --}}
 {{-- ____________________________ main display card __________________________________________________________________ --}}
 
-<div wire:poll.{{ $pollInterval }} class="col-lg-7">
+<div wire:poll.{{ $pollInterval }} class="col-lg-7" >
     <div class="card shadow-lg border-0 rounded-lg mt-5" style="height: 90vh">
         <div class="card-body row grid justify-content-center align-middle" style="padding-top: 40px; gap: 5rem;">
             @forelse ($que as $item)
@@ -42,7 +42,7 @@
                     {{-- =========== card if the data is active | is_called ========= --}}
 
                     {{-- --- queue display card ----------- --}}
-                    <x-card href="" title="Locket" size="5" text="text-black fs-3 fw-semibold font h-100"
+                    <x-card href="" title="Locket" size="5" text="text-black fs-3 fw-semibold font "
                         bgcolor="bg-warning" footer="false"
                         body_class="d-flex flex-column justify-content-center text-center">
 
@@ -60,7 +60,7 @@
                 @else
                     {{-- =========== normal card | not active  ======================== --}}
 
-                    <x-card href="" title="Locket" size="5" text="text-black fs-1 fw-semibold font h-100 "
+                    <x-card href="" title="Locket" size="5" text="text-black fs-1 fw-semibold font  "
                         bgcolor="bg-primary h-80" footer="false"
                         body_class="d-flex flex-column justify-content-center text-center">
 

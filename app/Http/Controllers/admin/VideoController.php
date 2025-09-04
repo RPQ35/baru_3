@@ -40,6 +40,11 @@ class VideoController extends Controller
     public function create(Request $request)
     {
 
+        if (session('video')) { //->dellete file session and temporary file in storage
+            Storage::disk('public')->delete(session('video'));
+            session(['video' => null]);
+        };
+
         // ===== validate the file ======
         if ($request->hasFile('video')) {
             $request->validate([
@@ -64,10 +69,7 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        if (session('video')) { //->dellete file session and temporary file in storage
-            Storage::disk('public')->delete(session('video'));
-            session(['video' => null]);
-        };
+        
 
         if (session('video')) {
 

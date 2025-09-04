@@ -36,6 +36,7 @@ structur nya --
                     {{ $tbody }}
 
             </tbody>
+            
         </table>
     </div>
 </div>

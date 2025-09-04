@@ -137,6 +137,7 @@
         function closeSuccess() {
             const modal = document.getElementById('successModal');
             modal.style.display = "none";
+            window.location.href='/kiosk';
         }
     </script>
 

@@ -71,6 +71,7 @@ class ServicesController extends Controller
         Services::create([
             'services_name' => $request->input('services_name'),
             'code' => $request->input('code'),
+            'input_label'=>$request->input_label,
             'logo_path' => 'logo/'.$logo_path ?: '',
         ]);
         return back();

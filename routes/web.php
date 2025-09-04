@@ -103,7 +103,8 @@ Route::middleware(['auth', 'role:loket'])->group(function () {
     Route::controller(LocketsController::class)->group(function () {
         Route::get('/lockets/select', 'index')->name('lockets.index');
         Route::post('/lockets', 'show')->name('lockets.main');
-        Route::get('/lockets/app', 'edit');
+        Route::get('/lockets/app', 'edit')->name('locket.app');
+        Route::post('/lockets/app/oncoming','oncoming');
     });
 });
 

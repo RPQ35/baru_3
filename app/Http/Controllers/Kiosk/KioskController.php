@@ -60,7 +60,7 @@ class KioskController extends Controller
 
 
         // Redirect balik ke kiosk dengan pesan sukses
-        return redirect()->route('kiosk.index')
+        return back()
             ->with('success', 'Nomor antrian Anda: ' . $queue->queues_number);
     }
 }

@@ -41,7 +41,7 @@
                                     @method('DELETE')
 
                                     <div class="btn-group">
-                                        <button type="button" funct="editmodal" class="btn btn-secondary btn-sm"
+                                        <button type="button" funct="OpenModal" class="btn btn-secondary btn-sm"
                                             value='["{{ $service->id }}","{{ $service->code }}","{{ $service->services_name }}","{{ $service->input_label }}"]'
                                             onclick=" editModal(this)">Edit</button>
 

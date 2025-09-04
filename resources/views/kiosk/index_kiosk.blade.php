@@ -85,11 +85,11 @@
                 <div id="serviceLogo" class="mb-3"></div>
                 <div class="mb-3">
     <label id="inputLabel" class="form-label"></label>
-    <input type="text" name="vehicle_number" id="vehicleInput" class="form-control" required readonly>
+    <input type="text" name="vehicle_number" id="vehicleInput" class="form-control" required >
 </div>
 
 <!-- Tempat keyboard -->
-<div id="keyboard" class="d-flex flex-wrap justify-content"></div>
+<div id="keyboard" class="d-flex flex-column align-items-center"></div>
 
             </div>
             <div class="modal-footer">

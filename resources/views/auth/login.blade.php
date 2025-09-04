@@ -80,7 +80,7 @@
     <div class="login-card">
         <div class="login-header">
             <h3>Login</h3>
-            <p>Silakan masuk untuk melanjutkan</p>
+            <p>Please sign in to continue</p>
         </div>
 
         <form action="{{ route('login') }}" method="POST">

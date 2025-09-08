@@ -13,6 +13,6 @@
             </div>
         </div>
     @empty
-    @dd($QueuesActive)
+
     @endforelse
 </div>

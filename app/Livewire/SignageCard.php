@@ -14,7 +14,7 @@ class SignageCard extends Component
         $pollInterval = 8; //->default interval
         $Interval = $pollInterval; //->backup for adding up the interval
 
-// == set que data =======================================================================================
+        // == set que data =======================================================================================
 
         $que = Queues::where('is_called', 1)
             ->latest('updated_at')
@@ -35,7 +35,7 @@ class SignageCard extends Component
         // Step 2: loop through current queue items
         $array_l = count($ex_que);
         foreach ($que as $a) {
-            if ($array_l >= 3) {//set max data of que
+            if ($array_l >= 3) { //set max data of que
                 $quenum = $a->queues_number;
                 $timeStr = $a->updated_at->format('Y-m-d H:i:s');
                 // ensure string comparison
@@ -45,7 +45,7 @@ class SignageCard extends Component
 
                 if ($index !== false) {
                     // Found same data → check if time is different
-                    if ($ex_que[$index]['time'] !== $timeStr) {//change same data(old) into new one
+                    if ($ex_que[$index]['time'] !== $timeStr) { //change same data(old) into new one
                         array_splice($ex_que, $index, 1);
                         $ex_que[] = [
                             'title' => 'apalah',
@@ -83,9 +83,9 @@ class SignageCard extends Component
                         ];
                         $pollInterval = $pollInterval + $Interval;
                     }
-                } else {//make new data
+                } else { //make new data
                     $ex_que[] = [
-                        'title' => 'apalah', 
+                        'title' => 'apalah',
                         'data' => $quenum,
                         'status' => true,
                         'time' => $timeStr,
@@ -99,8 +99,8 @@ class SignageCard extends Component
         session(['que_data' => $ex_que]);
         $que = $ex_que;
 
-// =======================================================================================================
-// == set count & delay & intervall data =================================================================
+        // =======================================================================================================
+        // == set count & delay & intervall data =================================================================
         /**
          * $countes is for count how many row is active and pass it on signage.js
          */
@@ -112,9 +112,9 @@ class SignageCard extends Component
          */
         $delay = 8000;
 
-        $pollInterval = $pollInterval . 's';//-> finalize the interval time
+        $pollInterval = $pollInterval . 's'; //-> finalize the interval time
 
-// =======================================================================================================
+        // =======================================================================================================
 
         return view('livewire.signage-card', compact(
             'que',

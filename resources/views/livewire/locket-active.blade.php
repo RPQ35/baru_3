@@ -31,12 +31,13 @@
                                 name="button">end</button>
 
                         </div>
-                        
+
                     </form>
                 </div>
             </div>
         </div>
     @empty
+    @dd($QueuesActive)
     @endforelse
 
 

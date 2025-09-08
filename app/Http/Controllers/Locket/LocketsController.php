@@ -137,18 +137,13 @@ class LocketsController extends Controller
                 $ReCall = Queues::findOrFail($que_id);
                 $ReCall->update(['is_called' => 0]);
                 $ReCall->update(['is_called' => 1]);
+
             } elseif ($request->button == 'next') { //button option
                 /**
                  * un active the un-used
                  */
 
-                $queuesInActive = Queues::whereIn('services_id', $serviceIds)
-                    ->where('is_called', 1)
-                    ->whereDate('updated_at', Carbon::today())
-                    ->whereHas('queues_lockets', function ($query) use ($locket_id) {
-                        $query->where('locket_id', $locket_id);
-                    })
-                    ->first();
+                $queuesInActive = Queues::findOrFail($que_id);
 
                 if ($queuesInActive) {
                     // Update the single model instance

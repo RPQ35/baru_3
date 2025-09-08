@@ -84,12 +84,12 @@
                 <input type="hidden" name="services_id" id="serviceId">
                 <div id="serviceLogo" class="mb-3"></div>
                 <div class="mb-3">
-    <label id="inputLabel" class="form-label"></label>
-    <input type="text" name="vehicle_number" id="vehicleInput" class="form-control" required >
-</div>
+            <label id="inputLabel" class="form-label"></label>
+                <input type="text" name="vehicle_number" id="vehicleInput" class="form-control" required >
+            </div>
 
-<!-- Tempat keyboard -->
-<div id="keyboard" class="d-flex flex-column align-items-center"></div>
+            <!-- Tempat keyboard -->
+            <div id="keyboard" class="d-flex flex-column align-items-center"></div>
 
             </div>
             <div class="modal-footer">
@@ -169,6 +169,36 @@
             }
         }, 1000);
     }
+    document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector('#inputModal form');
+    const input = document.getElementById('vehicleInput');
+
+    form.addEventListener('submit', function(e) {
+        const value = input.value.trim();
+
+        // Cek kosong
+        if (!value) {
+            e.preventDefault();
+            alert("Nomor kendaraan wajib diisi!");
+            return;
+        }
+
+        // Cek tag HTML/script
+        if (/[<>]/.test(value)) {
+        e.preventDefault();
+        alert("Nomor kendaraan tidak boleh tag html maupun script");
+        return;
+    }
+
+
+        // Cek link / URL
+        if (/https?:\/\//i.test(value)) {
+            e.preventDefault();
+            alert("Nomor kendaraan tidak boleh berupa link/URL!");
+            return;
+             }
+    });
+});
 </script>
 
 </body>

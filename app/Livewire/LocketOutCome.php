@@ -16,6 +16,7 @@ class LocketOutCome extends Component
         $serviceIds = $locket->services->pluck('id');
 
         $QueuesDone = Queues::whereIn('services_id', $serviceIds)
+            ->where('status', ['end', 'cancled'])
             ->where('is_called', 0)
             ->with([
                 'queues_lockets' => function ($query) use ($ids) {

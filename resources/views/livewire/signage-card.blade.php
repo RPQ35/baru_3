@@ -42,8 +42,8 @@
                     {{-- =========== card if the data is active | is_called ========= --}}
 
                     {{-- --- queue display card ----------- --}}
-                    <x-card href="" title="Locket" size="5" text="text-black fs-3 fw-semibold font "
-                        bgcolor="bg-warning" footer="false"
+                    <x-card href="" title="Locket" size="5" text="text-black fs-1 fw-semibold font "
+                        bgcolor="bg-warning h-80" footer="false"
                         body_class="d-flex flex-column justify-content-center text-center">
 
                         <big>

@@ -18,7 +18,7 @@ class LocketOncoming extends Component
         $serviceIds = $locket->services->pluck('id');
 
         $QueuesComing = Queues::whereIn('services_id', $serviceIds)
-        ->where('status', '!=', 'done')
+        ->where('status','!=',['end','cancled'])
         ->where('is_called',0)
         ->whereDate('updated_at',Carbon::today())
         ->get();

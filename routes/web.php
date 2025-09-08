@@ -70,10 +70,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
             Route::get('/services', 'index')->name('services.index');
             Route::get('/services/create', 'create')->name('services.create');
             Route::post('/services/store', 'store')->name('services.store');
-            Route::post('/services/logo','temp_logo');
+            Route::post('/services/logo', 'temp_logo');
             Route::post('/services/update', 'update')->name('services.update');
             Route::delete('/services/{id}', 'destroy')->name('services.destroy');
-
         });
         Route::controller(RunningTextController::class)->group(function () {
             /** output var list
@@ -104,7 +103,9 @@ Route::middleware(['auth', 'role:loket'])->group(function () {
         Route::get('/lockets/select', 'index')->name('lockets.index');
         Route::post('/lockets', 'show')->name('lockets.main');
         Route::get('/lockets/app', 'edit')->name('locket.app');
-        Route::post('/lockets/app/oncoming','oncoming');
+        Route::post('/lockets/app/oncoming', 'oncoming');
+        Route::post('/lockets/app/active', 'active')->name('locket.active');
+        Route::post('/lockets/app/status', 'status')->name('locket.status');
     });
 });
 

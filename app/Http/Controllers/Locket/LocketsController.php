@@ -137,16 +137,14 @@ class LocketsController extends Controller
                 $ReCall = Queues::findOrFail($que_id);
                 $ReCall->update(['is_called' => 0]);
                 $ReCall->update(['is_called' => 1]);
-            }
-
-            if ($request->button == 'next') { //button option
+            } elseif ($request->button == 'next') { //button option
                 /**
                  * un active the un-used
                  */
+
                 $queuesInActive = Queues::whereIn('services_id', $serviceIds)
                     ->where('is_called', 1)
                     ->whereDate('updated_at', Carbon::today())
-                    ->where('status', '!=', 'end')
                     ->whereHas('queues_lockets', function ($query) use ($locket_id) {
                         $query->where('locket_id', $locket_id);
                     })
@@ -168,17 +166,16 @@ class LocketsController extends Controller
                     ->first();
 
                 if ($queuesActived) { //update found row
-                    $queuesActived->is_called = 1;
+                    $queuesActived->status == 'end'?$queuesActived->is_called=0:$queuesActived->is_called=1;
                     $queuesActived->status = $UpdateLibraray[$queuesActived->status];
                     $queuesActived->save();
+
                 } else {
                     if ($queuesInActive) { //if the active is the last , straight end que
                         $queuesInActive->update(['status' => 'end', 'is_called' => 0]);
                     }
                 }
-            }
-
-            if ($request->button == 'skip') { //button option
+            } elseif ($request->button == 'skip') { //button option
                 $update = Queues::findOrFail($que_id);
                 if ($update) {
                     $skip = [

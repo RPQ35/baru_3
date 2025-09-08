@@ -1,4 +1,18 @@
 const keyboardContainer = document.getElementById("keyboard");
+
+// Keyboard cuma setengah layar bawah
+keyboardContainer.style.position = "fixed";
+keyboardContainer.style.bottom = "0";
+keyboardContainer.style.left = "0";
+keyboardContainer.style.width = "100vw";
+keyboardContainer.style.height = "30vh";
+keyboardContainer.style.background = "#f8f9fa";
+keyboardContainer.style.display = "flex";
+keyboardContainer.style.flexDirection = "column";
+keyboardContainer.style.padding = "10px";
+keyboardContainer.style.boxShadow = "0 -3px 10px rgba(0,0,0,0.2)";
+
+// Keyboard Rows
 const keyRows = [
     "1234567890",
     "QWERTYUIOP",
@@ -6,16 +20,24 @@ const keyRows = [
     "ZXCVBNM"
 ];
 
-// Loop per row
 keyRows.forEach(row => {
     const rowDiv = document.createElement("div");
-    rowDiv.className = "d-flex justify-content-center mb-2";
+    rowDiv.style.display = "flex";
+    rowDiv.style.flex = "1";
 
     [...row].forEach(char => {
         const btn = document.createElement("button");
         btn.type = "button";
-        btn.className = "btn btn-outline-secondary mx-1 key";
         btn.textContent = char;
+
+        // Style tombol
+        btn.style.flex = "1";
+        btn.style.margin = "3px";
+        btn.style.fontSize = "1.5rem";
+        btn.style.borderRadius = "8px";
+        btn.style.border = "1px solid #6c757d";
+        btn.style.background = "#fff";
+
         btn.onclick = () => {
             const input = document.getElementById("vehicleInput");
             input.value += char;
@@ -26,15 +48,22 @@ keyRows.forEach(row => {
     keyboardContainer.appendChild(rowDiv);
 });
 
-// Baris terakhir untuk spasi & backspace
+// Baris terakhir (space & backspace)
 const controlRow = document.createElement("div");
-controlRow.className = "d-flex justify-content-center mt-2";
+controlRow.style.display = "flex";
+controlRow.style.flex = "1";
 
 const spaceBtn = document.createElement("button");
 spaceBtn.type = "button";
-spaceBtn.className = "btn btn-outline-secondary mx-1";
-spaceBtn.style.minWidth = "150px"; // bikin space agak panjang
 spaceBtn.textContent = "Space";
+
+spaceBtn.style.flex = "3";
+spaceBtn.style.margin = "3px";
+spaceBtn.style.fontSize = "1.5rem";
+spaceBtn.style.borderRadius = "8px";
+spaceBtn.style.border = "1px solid #6c757d";
+spaceBtn.style.background = "#fff";
+
 spaceBtn.onclick = () => {
     const input = document.getElementById("vehicleInput");
     input.value += " ";
@@ -43,12 +72,19 @@ controlRow.appendChild(spaceBtn);
 
 const backspaceBtn = document.createElement("button");
 backspaceBtn.type = "button";
-backspaceBtn.className = "btn btn-outline-danger mx-1";
 backspaceBtn.textContent = "⌫";
+
+backspaceBtn.style.flex = "1";
+backspaceBtn.style.margin = "3px";
+backspaceBtn.style.fontSize = "1.5rem";
+backspaceBtn.style.borderRadius = "8px";
+backspaceBtn.style.border = "1px solid #dc3545";
+backspaceBtn.style.background = "#fff";
+backspaceBtn.style.color = "#dc3545";
+
 backspaceBtn.onclick = () => {
     const input = document.getElementById("vehicleInput");
     input.value = input.value.slice(0, -1);
-    // memotong string dari awal sampai karakter terakhir (hapus 1 karakter terakhir).
 };
 controlRow.appendChild(backspaceBtn);
 

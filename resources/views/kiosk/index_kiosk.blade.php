@@ -88,8 +88,8 @@
                 <input type="text" name="vehicle_number" id="vehicleInput" class="form-control" required >
             </div>
 
-            <!-- Tempat keyboard -->
-            <div id="keyboard" class="d-flex flex-column align-items-center"></div>
+<!-- Tempat keyboard -->
+<div id="keyboard" class="vh-40vw-100 d-flex flex-column"></div>
 
             </div>
             <div class="modal-footer">

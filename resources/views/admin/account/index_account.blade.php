@@ -14,7 +14,7 @@
                         <th>Nama</th>
                         <th>Email</th>
                         <th>Role</th>
-                        <th>Aksi</th>
+                        <th>Action</th>
                     </tr>
                 </x-slot>
 

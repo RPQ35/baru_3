@@ -127,78 +127,92 @@ class LocketsController extends Controller
             'end' => 'end',
         ];
 
-        //id declare value
         $que_id = $request->val;
         $locket_id = session('locket');
-        $serviceIds = Lockets::findOrFail($locket_id)->services->pluck('id');
 
-        if (isset($request->button)) {
-            if ($request->button == 'recall') {
-                $ReCall = Queues::findOrFail($que_id);
-                $ReCall->update(['is_called' => 0]);
-                $ReCall->update(['is_called' => 1]);
-            } elseif ($request->button == 'next') { //button option
-                /**
-                 * un active the un-used
-                 */
+        if (!isset($request->button)) {
+            return redirect()->route('locket.app');
+        }
 
-                $queuesInActive = Queues::findOrFail($que_id);
+        $queuesInActive = Queues::findOrFail($que_id);
 
-                if ($queuesInActive) {
-                    // Update the single model instance
-                    $queuesInActive->is_called = 0;
-                    $queuesInActive->save();
-                    // Detach the locket_id from the single model instance
-                    $queuesInActive->queues_lockets()->sync($locket_id);
-                }
+        // Check for the existence of services before proceeding
+        $locket = Lockets::findOrFail($locket_id);
+        $serviceIds = $locket->services->pluck('id');
 
-                //search next que
+        switch ($request->button) {
+            case 'recall':
+                // Directly set is_called to 1, no need for redundant update calls.
+                $queuesInActive->update(['is_called' => 0]);
+                $queuesInActive->update(['is_called' => 1]);
+                break;
+
+            case 'next':
+                // Deactivate the current queue and unsync it from the locket
+                $queuesInActive->update(['is_called' => 0]);
+                $queuesInActive->queues_lockets()->sync([]);
+
+                // Find the next available queue
                 $queuesActived = Queues::whereIn('services_id', $serviceIds)
                     ->where('id', '!=', $que_id)
                     ->where('is_called', 0)
                     ->where('status', '!=', 'end')
                     ->first();
 
-                if ($queuesActived) { //update found row
-                    $queuesActived->status == 'end' ? $queuesActived->is_called = 0 : $queuesActived->is_called = 1;
+                if ($queuesActived) {
+                    // Update the status and activate the found queue
                     $queuesActived->status = $UpdateLibraray[$queuesActived->status];
+                    $queuesActived->is_called = 1; // It's being called now
                     $queuesActived->save();
+
+                    // Sync the newly active queue to the current locket
                     $queuesActived->queues_lockets()->sync($locket_id);
                 } else {
-                    if ($queuesInActive) { //if the active is the last , straight end que
-                        $queuesInActive->update(['status' => 'end', 'is_called' => 0]);
-                    }
+                    // If no next queue is found, mark the current one as "end"
+                    $queuesInActive->update(['status' => 'end', 'is_called' => 0]);
                 }
-            } elseif ($request->button == 'skip') { //button option
-                $update = Queues::findOrFail($que_id);
-                if ($update) {
-                    $skip = [
-                        'new' => 'new',
-                        'proggres' => 'new',
-                        'stage' => 'proggres',
-                        'end' => 'stage',
-                    ];
-                    $update->is_called = 0;
-                    $update->status = $skip[$update->status];
-                    $update->save();
-                }
+                break;
+
+            case 'skip':
+                $skip = [
+                    'new' => 'new',
+                    'proggres' => 'new',
+                    'stage' => 'proggres',
+                    'end' => 'stage',
+                ];
+
+                // Deactivate the current queue and update its status
+                $queuesInActive->is_called = 0;
+                $queuesInActive->status = $skip[$queuesInActive->status];
+                $queuesInActive->save();
+
+                // Unsync the skipped queue from the locket
+                $queuesInActive->queues_lockets()->sync([]);
+
+                // Find the next available queue (logic is same as 'next' button)
                 $queuesActived = Queues::whereIn('services_id', $serviceIds)
                     ->where('id', '!=', $que_id)
                     ->where('is_called', 0)
                     ->where('status', '!=', 'end')
                     ->first();
 
-                if ($queuesActived) { //update found row
-                    $queuesActived->status == 'end' ? $queuesActived->is_called = 0 : $queuesActived->is_called = 1;
+                if ($queuesActived) {
+                    // Activate the found queue and update its status
                     $queuesActived->status = $UpdateLibraray[$queuesActived->status];
+                    $queuesActived->is_called = 1;
                     $queuesActived->save();
+
+                    // Sync the newly active queue to the locket
+                    $queuesActived->queues_lockets()->sync($locket_id);
                 } else {
-                    if ($update) {
-                        $update->update(['is_called' => 1]);
-                    }
+                    // If no next queue is found, re-activate the current queue
+                    $queuesInActive->update(['is_called' => 1]);
+                    // Sync it back to the locket as it remains the active one
+                    $queuesInActive->queues_lockets()->sync($locket_id);
                 }
-            }
+                break;
         }
+
         return redirect()->route('locket.app');
     }
 

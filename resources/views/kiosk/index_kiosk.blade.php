@@ -41,6 +41,12 @@
             max-height: 60px;
             object-fit: contain;
             margin-bottom: 10px;
+            /* width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px; */
+
         }
     </style>
 </head>
@@ -76,10 +82,10 @@
         <div class="modal-content">
           <form method="POST" action="{{ route('kiosk.takeNumber') }}">
             @csrf
-            <div class="modal-header">
-              <h5 class="modal-title" id="modalTitle"></h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
+        <div class="modal-header position-relative">
+            <h5 class="modal-title position-absolute top-50 start-50 translate-middle" id="modalTitle"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
             <div class="modal-body text-center">
                 <input type="hidden" name="services_id" id="serviceId">
                 <div id="serviceLogo" class="mb-3"></div>
@@ -88,8 +94,8 @@
                 <input type="text" name="vehicle_number" id="vehicleInput" class="form-control" required >
             </div>
 
-<!-- Tempat keyboard -->
-<div id="keyboard" class="vh-40vw-100 d-flex flex-column"></div>
+            <!-- Tempat keyboard -->
+        <div id="keyboard" class="vh-40vw-100 d-flex flex-column"></div>
 
             </div>
             <div class="modal-footer">

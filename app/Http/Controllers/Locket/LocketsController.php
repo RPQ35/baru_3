@@ -163,6 +163,7 @@ class LocketsController extends Controller
                     $queuesActived->status == 'end' ? $queuesActived->is_called = 0 : $queuesActived->is_called = 1;
                     $queuesActived->status = $UpdateLibraray[$queuesActived->status];
                     $queuesActived->save();
+                    $queuesActived->queues_lockets()->sync($locket_id);
                 } else {
                     if ($queuesInActive) { //if the active is the last , straight end que
                         $queuesInActive->update(['status' => 'end', 'is_called' => 0]);

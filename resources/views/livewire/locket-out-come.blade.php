@@ -7,9 +7,8 @@
                     {{ $item->queues_number }}
                 </big>
                 <form action="{{ route('locket.status') }}" method="post">
-                    <input type="hidden" value="{{ $item->id }}" name="val">
-                    <input type="hidden" name="difer" value="ya">
                     @csrf
+                    <input type="hidden" value="{{ $item->id }}" name="val">
                     <div class="btn-group d-flex flex-row flex-fill ">
                         <button class="btn btn-sm btn-success flex-fill" type="submit" value="proggres"
                             name="button">proggres</button>
@@ -19,6 +18,7 @@
                             name="button">end</button>
 
                     </div>
+                    <input type="hidden" name="difer" value="ya">
                 </form>
             </div>
         </div>

@@ -137,7 +137,6 @@ class LocketsController extends Controller
                 $ReCall = Queues::findOrFail($que_id);
                 $ReCall->update(['is_called' => 0]);
                 $ReCall->update(['is_called' => 1]);
-
             } elseif ($request->button == 'next') { //button option
                 /**
                  * un active the un-used
@@ -161,10 +160,9 @@ class LocketsController extends Controller
                     ->first();
 
                 if ($queuesActived) { //update found row
-                    $queuesActived->status == 'end'?$queuesActived->is_called=0:$queuesActived->is_called=1;
+                    $queuesActived->status == 'end' ? $queuesActived->is_called = 0 : $queuesActived->is_called = 1;
                     $queuesActived->status = $UpdateLibraray[$queuesActived->status];
                     $queuesActived->save();
-
                 } else {
                     if ($queuesInActive) { //if the active is the last , straight end que
                         $queuesInActive->update(['status' => 'end', 'is_called' => 0]);
@@ -190,7 +188,7 @@ class LocketsController extends Controller
                     ->first();
 
                 if ($queuesActived) { //update found row
-                    $queuesActived->is_called = 1;
+                    $queuesActived->status == 'end' ? $queuesActived->is_called = 0 : $queuesActived->is_called = 1;
                     $queuesActived->status = $UpdateLibraray[$queuesActived->status];
                     $queuesActived->save();
                 } else {
@@ -212,107 +210,42 @@ class LocketsController extends Controller
             'end' => 'end',
         ];
 
-        //id declare value
-        $que_id = $request->val;
-        $locket_id = session('locket');
-        $serviceIds = Lockets::findOrFail($locket_id)->services->pluck('id');
-        $difer = false;
+        $ids = session('locket');
+        $locket = Lockets::findOrFail(session('locket'));
+        $serviceIds = $locket->services->pluck('id');
 
-        if (isset($request->difer)) {
-            $difer = true;
-            $queuesInActive = Queues::whereIn('services_id', $serviceIds)
-                ->where('is_called', 1)
+        if ((isset($request->button)) && (isset($request->val))) {
+            $difer = isset($request->difer) ? 1 : 0;
+            $ReqStatus = $request->button;
+            $que_id = $request->val;
+
+
+
+
+            $query = Queues::whereIn('services_id', $serviceIds)
+                ->where('is_called', $difer)
                 ->whereDate('updated_at', Carbon::today())
-                ->where('status', '!=', 'end')
-                ->whereHas('queues_lockets', function ($query) use ($locket_id) {
-                    $query->where('locket_id', $locket_id);
-                })
-                ->first();
+                ->where('status', '!=', 'end');
 
-            if ($queuesInActive) {
-                // Update the single model instance
-                $queuesInActive->is_called = 0;
-                $queuesInActive->save();
-                // Detach the locket_id from the single model instance
-                $queuesInActive->queues_lockets()->sync($locket_id);
+            if ($difer) {
+                $query->whereHas('queues_lockets', function ($query) use ($ids) {
+                    $query->where('locket_id', $ids);
+                });
             }
-        }
+            $OtherQue = $query->first(); // Correct assignment here
 
-        if ($request->button == 'proggres') { //button option
+            if ($OtherQue) {
+                $OtherQue->status = !$difer ? $UpdateLibraray[$OtherQue->status] :  $OtherQue->status;
+                $OtherQue->is_called = $OtherQue->status == 'end' ? 0 : !$difer;
+                $OtherQue->save();
+                $OtherQue->queues_lockets()->sync($ids);
+            }
+
             $update = Queues::findOrFail($que_id);
-
-            if ($update) {
-                $update->status = 'proggres';
-                $update->is_called = 0;
-                $update->save();
-            }
-
-            $queuesActived = Queues::whereIn('services_id', $serviceIds)
-                ->where('id', '!=', $que_id)
-                ->where('is_called', 0)
-                ->where('status', '!=', 'end')
-                ->first();
-
-            if ($queuesActived && !$difer) { //update found row
-                $queuesActived->is_called = 1;
-                $queuesActived->status = $UpdateLibraray[$queuesActived->status];
-                $queuesActived->save();
-            } else {
-                if ($update) {
-                    $update->update(['is_called' => 1]);
-                }
-            }
-        }
-
-        if ($request->button == 'stage') { //button option
-            $update = Queues::findOrFail($que_id);
-
-            if ($update) {
-                $update->status = 'stage';
-                $update->is_called = 0;
-                $update->save();
-            }
-
-            $queuesActived = Queues::whereIn('services_id', $serviceIds)
-                ->where('id', '!=', $que_id)
-                ->where('is_called', 0)
-                ->where('status', '!=', 'end')
-                ->first();
-
-            if ($queuesActived && !$difer) { //update found row
-                $queuesActived->is_called = 1;
-                $queuesActived->status = $UpdateLibraray[$queuesActived->status];
-                $queuesActived->save();
-            } else {
-                if ($update) {
-                    $update->update(['is_called' => 1]);
-                }
-            }
-        }
-
-        if ($request->button == 'end') { //button option
-            $update = Queues::findOrFail($que_id);
-            if ($update) {
-                $update->status = 'end';
-                $update->is_called = 0;
-                $update->save();
-            }
-
-            $queuesActived = Queues::whereIn('services_id', $serviceIds)
-                ->where('id', '!=', $que_id)
-                ->where('is_called', 0)
-                ->where('status', '!=', 'end')
-                ->first();
-
-            if ($queuesActived && !$difer) { //update found row
-                $queuesActived->is_called = 1;
-                $queuesActived->status = $UpdateLibraray[$queuesActived->status];
-                $queuesActived->save();
-            } else {
-                if ($update) {
-                    $update->update(['is_called' => 1]);
-                }
-            }
+            $update->status = $ReqStatus;
+            $update->is_called = $ReqStatus == "end" ? 0 : $difer;
+            $update->save();
+            $update->queues_lockets()->sync($ids);
         }
 
         return redirect()->route('locket.app');

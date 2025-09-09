@@ -18,15 +18,14 @@ class LocketActive extends Component
 
 
         $QueuesActive = Queues::whereIn('services_id', $serviceIds)
-            ->where('is_called', '1')
-            ->whereDate('updated_at',Carbon::today())
-            ->with([
-                'queues_lockets' => function ($query) use ($ids) {
-                    $query->where('locket_id', $ids);
-                }
-            ])
+            ->where('is_called', 1)
+            ->whereDate('updated_at', Carbon::today())
+            ->whereHas('queues_lockets', function ($query) use ($ids) {
+                $query->where('locket_id', $ids);
+            })
             ->get();
 
-        return view('livewire.locket-active' ,compact('QueuesActive'));
+
+        return view('livewire.locket-active', compact('QueuesActive'));
     }
 }

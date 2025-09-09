@@ -155,6 +155,8 @@ class LocketsController extends Controller
                 // Find the next available queue
                 $queuesActived = Queues::whereIn('services_id', $serviceIds)
                     ->where('id', '!=', $que_id)
+                    ->whereDate('created_at', now()->today())
+                    ->orderBy('updated_at', 'asc')
                     ->where('is_called', 0)
                     ->where('status', '!=', 'end')
                     ->first();
@@ -193,6 +195,8 @@ class LocketsController extends Controller
                 $queuesActived = Queues::whereIn('services_id', $serviceIds)
                     ->where('id', '!=', $que_id)
                     ->where('is_called', 0)
+                    ->whereDate('created_at', now()->today())
+                    ->orderBy('updated_at', 'asc')
                     ->where('status', '!=', 'end')
                     ->first();
 
@@ -239,7 +243,8 @@ class LocketsController extends Controller
 
             $query = Queues::whereIn('services_id', $serviceIds)
                 ->where('is_called', $difer)
-                ->whereDate('updated_at', Carbon::today())
+                ->whereDate('created_at', now()->today())
+                ->orderBy('updated_at', 'asc')
                 ->where('status', '!=', 'end');
 
             if ($difer) {

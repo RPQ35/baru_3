@@ -63,7 +63,7 @@
                     <label for="role" class="form-label">Role</label>
                     <select id="role" name="role" class="form-select" required>
                         @foreach (\Spatie\Permission\Models\Role::all() as $role)
-                        {{-- digunakan untuk mengelola role & permission --}}
+                        {{-- used to manage roles & permissions --}}
                             <option value="{{ $role->name }}" class="role-opt">
                                 {{ ucfirst($role->name) }}
                             </option>

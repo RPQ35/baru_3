@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiosk</title>
+   <title>@yield('kiosk')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -74,61 +74,11 @@
         </div>
     </div>
 
-    {{-- Modal Input --}}
-    <div class="modal fade" id="inputModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <form method="POST" action="{{ route('kiosk.takeNumber') }}">
-            @csrf
-        <div class="modal-header position-relative">
-            <h5 class="modal-title position-absolute top-50 start-50 translate-middle" id="modalTitle"></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-            <div class="modal-body text-center">
-                <input type="hidden" name="services_id" id="serviceId">
-                <div id="serviceLogo" class="mb-3"></div>
-                <div class="mb-3">
-            <label id="inputLabel" class="form-label"></label>
-                <input type="text" name="vehicle_number" id="vehicleInput" class="form-control" required >
-            </div>
-
-            <!-- Tempat keyboard -->
-        <div id="keyboard" class="vh-40vw-100 d-flex flex-column"></div>
-
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Ambil Nomor</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    {{-- Modal Success --}}
-@if(session('success'))
-<div class="modal fade show" id="successModal" tabindex="-1" style="display:block; background:rgba(0,0,0,.5)">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content text-center">
-      <div class="modal-header bg-success text-white">
-        <h5 class="modal-title">Berhasil!</h5>
-      </div>
-      <div class="modal-body">
-        <h4>{{ session('success') }}</h4>
-        <p class="text-muted">Halaman akan refresh otomatis dalam <span id="countdown">5</span> detik...</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" onclick="closeSuccess()">OK</button>
-      </div>
-    </div>
-  </div>
-</div>
-@endif
-
-
+    <x-input-modal :action="route('kiosk.takeNumber')" />
+    <x-success-modal :message="session('success')" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Modal input isi otomatis
+    // Modal input isi otomatis
         const inputModal = document.getElementById('inputModal');
         inputModal.addEventListener('show.bs.modal', event => {
             const button = event.relatedTarget;
@@ -142,68 +92,11 @@
             inputModal.querySelector('#inputLabel').textContent = serviceLabel;
             inputModal.querySelector('#serviceLogo').innerHTML = `<img src="${serviceLogo}" alt="logo" style="max-height:80px">`;
         });
-
-        // Tutup success modal
-        function closeSuccess() {
-            const modal = document.getElementById('successModal');
-            modal.style.display = "none";
-            window.location.href='/kiosk';
-        }
-    </script>
+        </script>
     <script src="{{asset('js/keyboard.js')}}"></script>
-    <script>
-    // Tutup success modal
-    function closeSuccess() {
-        const modal = document.getElementById('successModal');
-        modal.style.display = "none";
-        location.reload(); // langsung refresh kalau klik OK
-    }
-
-    // Kalau ada success modal, set auto refresh
-    const successModal = document.getElementById('successModal');
-    if (successModal) {
-        let counter = 5; // detik
-        const countdown = document.getElementById('countdown');
-        const interval = setInterval(() => {
-            counter--;
-            countdown.textContent = counter;
-            if (counter <= 0) {
-                clearInterval(interval);
-                location.reload(); // refresh halaman
-            }
-        }, 1000);
-    }
-    document.addEventListener("DOMContentLoaded", function() {
-    const form = document.querySelector('#inputModal form');
-    const input = document.getElementById('vehicleInput');
-
-    form.addEventListener('submit', function(e) {
-        const value = input.value.trim();
-
-        // Cek kosong
-        if (!value) {
-            e.preventDefault();
-            alert("Nomor kendaraan wajib diisi!");
-            return;
-        }
-
-        // Cek tag HTML/script
-        if (/[<>]/.test(value)) {
-        e.preventDefault();
-        alert("Nomor kendaraan tidak boleh tag html maupun script");
-        return;
-    }
+    <script src="{{ asset('js/scriptkios.js') }}"></script>
 
 
-        // Cek link / URL
-        if (/https?:\/\//i.test(value)) {
-            e.preventDefault();
-            alert("Nomor kendaraan tidak boleh berupa link/URL!");
-            return;
-             }
-    });
-});
-</script>
 
 </body>
 </html>

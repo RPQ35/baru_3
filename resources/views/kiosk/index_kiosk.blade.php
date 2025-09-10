@@ -37,15 +37,13 @@
             transform: scale(1.05);
         }
         .oval-button img {
-            max-width: 60px;
-            max-height: 60px;
+            /* max-width: 60px; */
+            /* max-height: 60px; */
+            width: 8rem;
+            height: 3.5rem;
             object-fit: contain;
-            margin-bottom: 10px;
-            /* width: 60px;
-            height: 60px;
-            object-fit: cover;
             border-radius: 8px;
-            margin-bottom: 10px; */
+            margin-bottom: 10px;
 
         }
     </style>

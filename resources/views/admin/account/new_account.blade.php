@@ -39,7 +39,7 @@
                     <select id="role" name="role" class="form-select @error('role') is-invalid @enderror" required>
                         <option value="" disabled selected>Pilih role</option>
                         @foreach (\Spatie\Permission\Models\Role::all() as $role)
-                         {{-- digunakan untuk mengelola role & permission --}}
+                         {{-- used to manage roles & permissions --}}
                             <option value="{{ $role->name }}" {{ old('role') == $role->name ? 'selected' : '' }}>
                                 {{ ucfirst($role->name) }}
                             </option>

@@ -5,48 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>@yield('kiosk')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(#0096FF 0%, #89CFF0 25%, #F0FFFF 150%);
-        }
-        .oval-button {
-            padding: 20px 40px;
-            background-color: #2d3e50;
-            color: white;
-            font-weight: bold;
-            border-radius: 50px;
-            border: 2px solid #999;
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-width: 220px;
-            min-height: 110px;
-            font-size: 18px;
-            transition: 0.2s;
-        }
-        .oval-button:hover {
-            background-color: #1c2833;
-            transform: scale(1.05);
-        }
-        .oval-button img {
-            /* max-width: 60px; */
-            /* max-height: 60px; */
-            width: 8rem;
-            height: 3.5rem;
-            object-fit: contain;
-            border-radius: 8px;
-            margin-bottom: 10px;
-
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/kiosk.css') }}">
 </head>
 <body>
 
@@ -76,6 +35,60 @@
 
     <x-input-modal :action="route('kiosk.takeNumber')" />
     <x-success-modal :message="session('success')" />
+      <script src="{{asset('js/keyboard.js')}}"></script>
+      <script>
+    // Tutup success modal
+    function closeSuccess() {
+        const modal = document.getElementById('successModal');
+        modal.style.display = "none";
+        location.reload(); // langsung refresh kalau klik OK
+    }
+
+    // Kalau ada success modal, set auto refresh
+    const successModal = document.getElementById('successModal');
+    if (successModal) {
+        let counter = 5; // detik
+        const countdown = document.getElementById('countdown');
+        const interval = setInterval(() => {
+            counter--;
+            countdown.textContent = counter;
+            if (counter <= 0) {
+                clearInterval(interval);
+                location.reload(); // refresh halaman
+            }
+        }, 1000);
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector('#inputModal form');
+    const input = document.getElementById('vehicleInput');
+
+    form.addEventListener('submit', function(e) {
+        const value = input.value.trim();
+
+        // Cek kosong
+        if (!value) {
+            e.preventDefault();
+            alert("Nomor kendaraan wajib diisi!");
+            return;
+        }
+
+        // Cek tag HTML/script
+        if (/[<script>]/.test(value)) {
+        e.preventDefault();
+        alert("Nomor kendaraan tidak boleh tag html maupun script");
+        return;
+    }
+
+
+        // Cek link / URL
+        if (/https?:\/\//i.test(value)) {
+            e.preventDefault();
+            alert("Nomor kendaraan tidak boleh berupa link/URL!");
+            return;
+             }
+    });
+});
+</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     // Modal input isi otomatis

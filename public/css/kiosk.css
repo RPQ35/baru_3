@@ -1,0 +1,43 @@
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(#0096FF 0%, #89CFF0 25%, #F0FFFF 150%);
+}
+
+.oval-button {
+    padding: 20px 40px;
+    background-color: #2d3e50;
+    color: white;
+    font-weight: bold;
+    border-radius: 50px;
+    border: 2px solid #999;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 220px;
+    min-height: 110px;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.oval-button:hover {
+    background-color: #1c2833;
+    transform: scale(1.05);
+}
+
+.oval-button img {
+    /* max-width: 60px; */
+    /* max-height: 60px; */
+    width: 8rem;
+    height: 3.5rem;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 10px;
+
+}

@@ -30,18 +30,20 @@
                     <x-sidebar_item title="Runing text" href='admin/running_text'
                         icon="fa-solid fa-sign-hanging"></x-sidebar_item>
 
+                    <x-sidebar_item title="config" href='admin/config'
+                        icon="fa-solid fa-wrench"></x-sidebar_item>
+
                 @elseif(Auth::user()->hasRole('loket'))
-                
-                <a class="nav-link" href="/lockets/select">
-                    <div class="sb-nav-link-icon">
-                        @if (Request::is('lockets/select')||Request::is('lockets/app'))
-                            <i class="fas fa-computer" style=" color: cornflowerblue;"></i>
-                        @else
-                            <i class="fas fa-computer"></i>
-                        @endif
-                    </div>
-                    Lockets
-                </a>
+                    <a class="nav-link" href="/lockets/select">
+                        <div class="sb-nav-link-icon">
+                            @if (Request::is('lockets/select') || Request::is('lockets/app'))
+                                <i class="fas fa-computer" style=" color: cornflowerblue;"></i>
+                            @else
+                                <i class="fas fa-computer"></i>
+                            @endif
+                        </div>
+                        Lockets
+                    </a>
                 @endif
 
 

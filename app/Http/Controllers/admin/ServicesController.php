@@ -71,7 +71,7 @@ class ServicesController extends Controller
         Services::create([
             'services_name' => $request->input('services_name'),
             'code' => $request->input('code'),
-            'logo_path' => 'logo/'.$logo_path ?: '',
+            'logo_path' => 'logo/' . $logo_path ?: '',
         ]);
         return back();
     }
@@ -120,8 +120,20 @@ class ServicesController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'services_name' => 'required|string|max:255',
-            'code' => 'required|string|max:50',
+            'services_name' => [
+                'required',
+                'unique:services,services_name',
+                new HtmlSpecialChars
+            ],
+
+            'code' => [
+                'required',
+                'string',
+                'min:1',
+                'max:50',
+                'unique:services,code',
+                new HtmlSpecialChars
+            ],
             'input_label' => 'nullable|string|max:255',
         ]);
 

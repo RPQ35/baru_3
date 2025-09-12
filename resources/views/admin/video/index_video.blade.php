@@ -1,7 +1,8 @@
 @extends('layouts.body')
+@section('head')
+@endsection
 @section('main')
     <main>
-
         @if (session('success'))
             <x-toast>
                 @if (session('success') == 'success')
@@ -14,34 +15,57 @@
         <div class="container-fluid px-4">
 
 
-            <x-breadcrumb title="video" breadcrumb="video" href="" button="false"></x-breadcrumb>
+            <x-breadcrumb title="video" breadcrumb="video" href="/admin/video/create" button="tambah video +"></x-breadcrumb>
 
             {{-- tampilan --}}
-            @if ($video)
-                <x-card size="8" footer="false" bgcolor="bg-white" text="text-black  align-items-center" title="">
+            @forelse ($videos as $video)
+                <x-card size="12" footer="false" bgcolor="bg-white" text="text-black  align-items-center" title="">
+                    <div class="d-flex flex-row col-12  justify-content-between" style="max-width: 100%">
+                        <div class="d-flex flex-row ">
+                            <video src="{{ $video->file_path }}" onclick="tester(this)" class="col-5 col-xl-2"></video>
 
-                    <video src="{{ $video->file_path }}" controls class="w-100 w-xl-75"></video>
+                            <div class="d-flex flex-row col-6 justify-content-between">
+                                <h4 style="margin-left: 15px">
+                                    {{ $video->title }}
+                                </h4>
 
+                                <div class="d-flex flex-row">
+                                    <x-switch condition="{{ $video->status }}" onchange="status(this)"
+                                        value="{{ $video->id }}" name="{{ $video->title }}" />
+                                </div>
+                                <div class="col-5 d-flex flex-row justify-content-end ">
+                                    <i class="invisible fa-solid fa-minimize " onclick="minimize(this)"></i>
+                                    {{-- this <i> is auto generate a <svg> --}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button class="btn btn-primary btn-lg " funct="OpenModal" onclick="otwUpdate(this)"
+                                data-value="{{ $video->title }}" value="{{ $video->id }}">
+                                Edit Video
+                            </button>
+                        </div>
+                    </div>
                 </x-card>
-            @endif
+            @empty
+            @endforelse
 
-            <button class="btn btn-primary btn-lg" funct="OpenModal">
-                Edit Video
-            </button>
-            <br>
-            <br>
-            <br>
+
 
             {{-- Panggil component (popup modal) --}}
             <x-NewModal potition="center" title="Update Video">
-                <form action="{{ route('video.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('video.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="id" id="ids">
+
+                    <x-form-input title="Title" name="title" />
 
                     <x-form-input title="" name="video" type="file" div_Id="parents"
                         onchange="video_temp(this)"></x-form-input>
 
                     <x-slot name="footer">
-                        <x-modal-foot-button disabled id="subm" />
+                        <x-modal-foot-button id="subm" />
                 </form>
                 </x-slot>
             </x-NewModal>
@@ -51,23 +75,40 @@
     </main>
 @endsection
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
 
+
+
+<script>
+    function otwUpdate(ids) {
+        document.getElementById('ids').value = ids.value;
+        document.getElementById('title').value = ids.getAttribute('data-value');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
         var toastElement = document.querySelector('.toast');
         if (toastElement) {
             var toast = new bootstrap.Toast(toastElement);
             toast.show();
         }
     });
+</script>
 
-    function video_temp(obj) {
-        const file = obj.files[0];
+<script>
+    function status(objec) {
         const formData = new FormData();
-        const parrents = document.getElementById('parents');
-        formData.append('video', file);
+        var status = 0;
+        var ids = objec.value;
 
-        fetch('/admin/video/upload', {
+        if (objec.checked) {
+            status = 1;
+        } else {
+            status = 0;
+        }
+
+        formData.append('id', ids);
+        formData.append('status', status);
+
+        fetch('/admin/video/status', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -75,22 +116,10 @@
                 }
             })
             .then(response => response.json())
-            .then(data => {
-                // console.log(data.path);
-                document.getElementById('subm').disabled = false;
-
-                if (document.querySelector('.w-100[child="true"]')) {
-                    document.querySelector('.w-100[child="true"]').src = data.path;
-                } else {
-                    var videos = document.createElement('video');
-                    videos.className = "w-100 w-xl-75";
-                    videos.src = data.path;
-                    videos.controls = true;
-                    videos.setAttribute('child', 'true');
-
-                    parrents.appendChild(videos);
-                }
-            })
+            .then(data => {})
             .catch(error => console.error('Error:', error));
-    };
+    }
 </script>
+
+<script src="{{ asset('js/videocard.js') }}"></script>
+<script src="{{ asset('js/tempVideo.js') }}"></script>

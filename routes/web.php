@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\LocketController;
 use App\Http\Controllers\admin\RunningTextController;
 use App\Http\Controllers\admin\ServicesController;
 use App\Http\Controllers\admin\VideoController;
+use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\Kiosk\KioskController;
 use App\Http\Controllers\Locket\LocketsController;
 use App\Http\Controllers\ProfileController;
@@ -87,9 +88,18 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
              *          catatan : video->file_path tidak perlu di panggil dengan asset
              */
             Route::get('/video', 'index')->name('video.index');
-            Route::post('/video/upload', 'create');
-            Route::get('/video/temp/{files}', 'edit');
+            Route::get('/video/create', function () {
+                return view('admin.video.new-vdeo');
+            });
+            Route::post('/video/status', 'status');
+            Route::post('/video/update', 'update')->name('video.update');
+            Route::post('/video/upload', 'create'); //store temporary file
+            Route::get('/video/temp/{files}', 'edit'); //get temporary file for display
             Route::post('/video/store', 'store')->name('video.store');
+        });
+        Route::controller(ConfigurationController::class)->group(function () {
+            Route::get('/config', 'index')->name('config');
+            Route::post('/config/swicth', 'update');
         });
     });
 });

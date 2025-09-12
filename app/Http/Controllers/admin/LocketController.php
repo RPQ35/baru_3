@@ -49,8 +49,8 @@ class LocketController extends Controller
     {
         // dd($request);
         $request->validate([
-            'name' => ['required', new HtmlSpecialChars],
-            // 'services' => 'required',
+            'name' => ['required', 'unique:lockets,name', new HtmlSpecialChars],
+            'services' => 'required',
         ]);
 
         $newlocket = Lockets::create([
@@ -86,7 +86,7 @@ class LocketController extends Controller
 
 
         $request->validate([
-            'name' => ['required', new HtmlSpecialChars],
+            'name' => ['required', 'unique:lockets,name', new HtmlSpecialChars],
             'services' => 'required|array',
             'id' => 'required',
         ]);
@@ -99,7 +99,6 @@ class LocketController extends Controller
         $locket->services()->sync($request->services);
 
         return back();
-
     }
 
     /**
@@ -107,10 +106,9 @@ class LocketController extends Controller
      */
     public function destroy($id)
     {
-        $locket=Lockets::findOrFail($id);
+        $locket = Lockets::findOrFail($id);
         $locket->services()->detach();
         $locket->delete();
         return back();
-
     }
 }

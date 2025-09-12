@@ -24,7 +24,7 @@ class SignageCard extends Component
         // Get existing session data or empty array
         $ex_que = session('que_data', []);
 
-        // $ex_que = []; //->to reset session data
+        $ex_que = []; //->to reset session data
 
         // Step 1: reset all statuses to false before checking new data
         foreach ($ex_que as &$item) {

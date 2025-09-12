@@ -7,7 +7,11 @@
             {{-- form --}}
             @if (!$services_list->isEmpty())
                 <x-form method="POST" action="{{ route('admin.locket.store') }}">
-                    <x-form-input name="name" type="text" title="Locket name" ></x-form-input>
+                    <x-form-input name="name" type="text" title="Locket name">
+                        @error('name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </x-form-input>
 
                     @foreach ($services_list as $item)
                         @if ($loop->iteration % 2 == 1)
@@ -19,9 +23,9 @@
                         <label class="btn btn-outline-primary"
                             for="{{ $item->services_name }}">{{ $item->services_name }}</label>
                         @if ($loop->iteration % 2 == 0 || $loop->last)
-                            </div>
-                        @endif
-                    @endforeach
+        </div>
+        @endif
+        @endforeach
 
 
         </x-form>

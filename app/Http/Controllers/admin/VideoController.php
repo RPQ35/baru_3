@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Video;
+use App\Rules\HtmlSpecialChars;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response as FacadesResponse;
@@ -24,19 +25,30 @@ class VideoController extends Controller
         /**
          * having and showing only 1 data / file
          */
-        $video = Video::first();
-        if ($video) {
-            //==== custom route that will be handle by show() ====
-            $video->file_path = pathinfo($video->file_path, PATHINFO_BASENAME); //->get file name
-            $video->file_path = url('/') . '/' . "video/" . $video->file_path; //->give new route or path
+        $videos = Video::all();
+        if ($videos) {
+            foreach ($videos as &$video) {
+                //==== custom route that will be handle by show() ====
+                $video->file_path = pathinfo($video->file_path, PATHINFO_BASENAME); //->get file name
+                $video->file_path = url('/') . '/' . "video/" . $video->file_path; //->give new route or path
+            }
         }
 
-        return view('admin.video.index_video', compact('video'));
+        return view('admin.video.index_video', compact('videos'));
     }
 
     /**
      * Storing temporary video file
      */
+
+    public function status(Request $request)
+    {
+        $query = Video::findOrFail($request->id);
+        $query->update(['status' => $request->status]);
+
+        return response()->json();
+    }
+
     public function create(Request $request)
     {
 
@@ -69,8 +81,6 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        
-
         if (session('video')) {
 
             $path = pathinfo(session('video'), PATHINFO_BASENAME); //->get file name
@@ -78,25 +88,16 @@ class VideoController extends Controller
                 Storage::disk('public')->move('temporary/' . $path, 'videos/' . $path); //->move the file to main storage
             }
 
-            $update = false; //->declare |prevent eror
+            $request->validate([
+                'title' => ['string', new HtmlSpecialChars()]
+            ]);
+            //==== create / store db ======
+            Video::create([
+                'title' => $request->title,
+                'file_path' => 'videos/' . $path,
+                'status' => 0,
+            ]);
 
-            $check = Video::count();
-            if ($check > 0) { //->check is there already have a data
-
-                //==== update db ======
-                $update = Video::findOrFail(1);
-                if ($update) {
-                    $update->file_path = 'videos/' . $path;
-                    $update->save();
-                }
-            } else {
-                //==== create / store db ======
-                Video::create([
-                    'title' => 'video file',
-                    'file_path' => 'videos/' . $path,
-                    'status' => 0,
-                ]);
-            }
             return back()->with('success', 'success');
         } else {
             session()->put('success', 'failed to upload');
@@ -149,9 +150,24 @@ class VideoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $path = false;
+        if (session('video')) {
+            $path = pathinfo(session('video'), PATHINFO_BASENAME); //->get file name
+            if (Storage::disk('public')->exists(session('video'))) { //->check file from session exist
+                Storage::disk('public')->move('temporary/' . $path, 'videos/' . $path); //->move the file to main storage
+            }
+        }
+        //==== update db ======
+        $update = Video::findOrFail($request->id);
+        if ($update) {
+            $path ? $update->file_path = 'videos/' . $path : '';
+            $update->title = $request->title;
+            $update->save();
+        }
+
+        return back()->with('success', 'success');
     }
 
     /**

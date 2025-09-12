@@ -12,7 +12,7 @@
             @csrf
             {{ $slot }}
             <div class="col-6">
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="submit" class="btn btn-primary" id="subm">Add</button>
                 <button type="reset" class="btn btn-danger">Reset</button>
             </div>
 

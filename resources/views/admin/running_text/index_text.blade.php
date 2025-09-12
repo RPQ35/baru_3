@@ -41,27 +41,34 @@
     </style>
 @endsection
 @section('main')
-
+    {{-- @dd($data) --}}
     <main>
         <div class="container-fluid px-4">
-            <x-breadcrumb title="Runing Text" breadcrumb="Runinng Text" href="" button="false" />
+            <x-breadcrumb title="Runing Text" breadcrumb="Runinng Text" href="/admin/running_text/create"
+                button="tambah teks +" />
 
             {{-- Running text tampil --}}
-            @if ($data)
+            @forelse ($data as $texts)
                 <x-card size="12" footer="false" bgcolor="bg-white" text="text-black" title="">
-                    {{ $data }}
+                    {{ $texts->texts }}
+                    <x-slot name="foot">
+                        <x-switch condition="{{ $texts->status }}" name="{{ $texts->id }}adad" onchange="status(this)"
+                            value="{{ $texts->id }}" />
+                        <button class="btn btn-primary " type="button" funct="OpenModal" value="{{ $texts->texts }}"
+                            onclick="transfer(this)" data-value="{{ $texts->id }}">
+                            Edit Running Text
+                        </button>
+                    </x-slot>
                 </x-card>
-            @endif
-            <button class="btn btn-primary " type="button" funct="OpenModal">
-                Edit Running Text
-            </button>
-            <br>
-            <br>
-            <br>
+            @empty
+            @endforelse
+
+
+
 
             {{-- Panggil component (popup modal) --}}
             <x-NewModal potition="center">
-                <form action="{{ route('running_text.store') }}" method="post">
+                <form action="{{ route('running_text.update') }}" method="post">
                     @csrf
                     {{-- The marquee content inside the modal --}}
 
@@ -74,7 +81,8 @@
                         </div>
                     </div>
                     <span class="fs-6 bolder" style="capitalize; font-weight: bolder;">Input Text </span>
-                    <textarea name="text" id="text-input" class="form-control" rows="3" required onchange="test(this)">{{ $data }}</textarea>
+                    <textarea name="text" id="text-input" class="form-control" rows="3" required onchange="test(this)"></textarea>
+                    <input type="hidden" name="id" id="ids">
 
                     <x-slot name="footer">
                         <x-modal-foot-button />
@@ -138,3 +146,36 @@
         });
     </script>
 @endsection
+<script>
+    function status(objec) {
+        const formData = new FormData();
+        var status = 0;
+        var ids = objec.value;
+
+        if (objec.checked) {
+            status = 1;
+        } else {
+            status = 0;
+        }
+
+        formData.append('id', ids);
+        formData.append('status', status);
+
+        fetch('/admin/running_text/status', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                }
+            })
+            .then(response => response.json())
+            .then(data => {})
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+<script>
+    function transfer(val) {
+        document.getElementById('ids').value = val.getAttribute('data-value');
+        document.getElementById('text-input').innerHTML = val.value;
+    }
+</script>

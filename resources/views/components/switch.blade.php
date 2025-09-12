@@ -21,7 +21,7 @@
 @php
    echo '<script>
     const mySwitch'.$name.' = document.querySelector(\'input[funct="switch'.$name.'"]\');
-    const statusMessage'.$name.' = document.querySelector("p[name='.$name.']");
+    const statusMessage'.$name.' = document.querySelector("p[name=\''.$name.'\']");
 
     mySwitch'.$name.'.addEventListener("change", function() {
         if (mySwitch'.$name.'.checked) {

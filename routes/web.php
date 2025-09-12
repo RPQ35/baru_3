@@ -80,13 +80,12 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
              *   index => $data (isinya cuman column texts)
              */
             Route::get('/running_text', 'index')->name('runningtext.index');
+            Route::get('/running_text/create', 'create');
             Route::post('/running_text/store', 'store')->name('running_text.store');
+            Route::post('/running_text/update', 'update')->name('running_text.update');
+            Route::post('/running_text/status', 'status');
         });
         Route::controller(VideoController::class)->group(function () {
-            /** output var lsit
-             *   index => $video
-             *          catatan : video->file_path tidak perlu di panggil dengan asset
-             */
             Route::get('/video', 'index')->name('video.index');
             Route::get('/video/create', function () {
                 return view('admin.video.new-vdeo');

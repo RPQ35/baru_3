@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Running_text;
+use App\Rules\HtmlSpecialChars;
 use Illuminate\Http\Request;
 
 class RunningTextController extends Controller
@@ -13,13 +14,7 @@ class RunningTextController extends Controller
      */
     public function index()
     {
-        $running_text = Running_text::all()->first();
-        if (!$running_text) {
-            $running_text = ' ';
-        } else {
-            $running_text = $running_text->texts;
-        }
-        $data = $running_text;
+        $data = Running_text::all();
         return view('admin.running_text.index_text', compact('data'));
     }
 
@@ -28,33 +23,38 @@ class RunningTextController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.running_text.new-text');
     }
+
+
+    public function status(Request $request)
+    {
+        $query = Running_text::findOrFail($request->id);
+        $query->update(['status' => $request->status]);
+
+        return response()->json();
+    }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+
         $request->validate([
-            'text' => 'required',
+            'text' => ['required', 'string', new HtmlSpecialChars()]
         ]);
-        $hasData = Running_text::whereNotNull('texts')
-            ->where('texts', '!=', '')
-            ->exists();
 
-        if ($hasData) {
-            $update = Running_text::findOrFail(1);
-            $update->texts = $request->text;
-            $update->save();
-        } else {
-            Running_text::create([
-                'texts' => $request->text,
-                'status' => '0',
-            ]);
+        $a = Running_text::create([
+            'texts' => $request->text,
+            'status' => '0',
+        ]);
+
+        if ($a) {
+            return back()->with('succes', true);
         }
-
-        return back();
+        return back()->with('succes', 0);
     }
 
     /**
@@ -76,9 +76,20 @@ class RunningTextController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'text' => 'required',
+            'id' => 'required',
+        ]);
+        $hasData = Running_text::findOrFail($request->id);
+
+        if ($hasData) {
+            $update = Running_text::findOrFail($request->id);
+            $update->texts = $request->text;
+            $update->save();
+        }
+        return back();
     }
 
     /**

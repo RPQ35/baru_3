@@ -17,9 +17,9 @@
 
                         <div class="card-body marquee-container ">
                             <marquee style="capitalize; font-weight: bolder;">
-                                <big class="fs-3">
+                                <big class="fs-3 d-flex flex-row">
                                     @forelse ($text as $item)
-                                        {{ $item }}
+                                        <p class="mx-5">{{ $item }}</p>|
                                     @empty
                                         welcome
                                     @endforelse
@@ -38,7 +38,8 @@
     </div>
 
 
-    <script>//video auto display and loop
+    <script>
+        //video auto display and loop
         // Array of video sources
         const videoPlaylist = @json($video);
 
